@@ -683,7 +683,7 @@ export const projects: Project[] = [
     },
     image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670151/reflectify_s5eifl.png",
     tags: ["Full Stack", "Web Development", "Data Analytics", "Education"],
-    link: "/projects/reflectify",
+    // link: "/projects/reflectify",
     liveLink: "https://reflectify.live/",
     githubLink: "https://github.com/HarshDodiya1/Reflectify",
     featured: false,
