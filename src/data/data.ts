@@ -184,7 +184,7 @@ export const mainGalleryImages: galleryImage[] = [
     caption: "Just a normal day in Australia",
   },
   {
-    url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670236/dir6_kbuveo.jpg",
+    url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670216/dir8_cslsdn.jpg",
     date: {
       month: "November",
       year: 2024,
