@@ -73,24 +73,20 @@ const HomePage = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative mt-32 mb-8 flex items-center overflow-hidden">
-        {/* <Suspense fallback={<div className="absolute inset-0 bg-black"></div>}>
-          <LazyParticlesBackground />
-        </Suspense> */}
-
-        <div className="max-w-[1800px] mx-auto px-8 md:px-12 lg:px-16 py-24 z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="relative mt-20 sm:mt-24 md:mt-28 lg:mt-32 mb-8 flex items-center overflow-hidden">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 py-12 sm:py-16 md:py-20 lg:py-24 z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <div>
-              <div className="mb-8 flex flex-col">
+              <div className="mb-6 sm:mb-8 flex flex-col">
                 <AnimatedText
                   text="Kandarp Gajjar"
-                  className="text-6xl font-bold mb-4"
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 sm:mb-4"
                   delayMultiplier={0.02}
                 />
 
                 <AnimatedText
                   text="AI/ML & Full-Stack Developer"
-                  className="text-2xl font-bold mb-6 text-primary/80"
+                  className="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 text-primary/80"
                   delayMultiplier={0.02}
                 />
 
@@ -98,7 +94,7 @@ const HomePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.8 }}
-                  className="text-xl mb-10"
+                  className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 lg:mb-10"
                 >
                   Computer Engineering student specializing in Machine Learning,
                   Natural Language Processing, and Web Development. Passionate
@@ -110,10 +106,17 @@ const HomePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.9 }}
-                  className="flex flex-col items-center sm:flex-row gap-4 "
+                  className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4"
                 >
-                  <Button asChild size="lg" className="rounded-full">
-                    <Link to="/projects">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="w-full sm:w-auto rounded-full"
+                  >
+                    <Link
+                      to="/projects"
+                      className="flex items-center justify-center"
+                    >
                       View Projects
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -123,12 +126,13 @@ const HomePage = () => {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="rounded-full"
+                    className="w-full sm:w-auto mt-3 sm:mt-0 rounded-full"
                   >
                     <Link
                       to="https://drive.google.com/file/d/1pzHUDvUTq3bWBnwSoHo5F_1At9rhIuqs/view?usp=sharing"
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="flex items-center justify-center"
                     >
                       My Resume
                     </Link>
@@ -138,7 +142,7 @@ const HomePage = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.4, delay: 0.9 }}
-                    className="ml-4 flex gap-4"
+                    className="mt-5 sm:mt-0 sm:ml-4 flex gap-4"
                   >
                     <a
                       href="https://linkedin.com/in/kandarpgajjar"
@@ -146,7 +150,7 @@ const HomePage = () => {
                       rel="noopener noreferrer"
                       className="transition-colors"
                     >
-                      <Linkedin className="h-8 w-8" />
+                      <Linkedin className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
                     </a>
                     <a
                       href="https://github.com/slantie"
@@ -154,7 +158,7 @@ const HomePage = () => {
                       rel="noopener noreferrer"
                       className="transition-colors"
                     >
-                      <Github className="h-8 w-8" />
+                      <Github className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
                     </a>
                     <a
                       href="https://www.instagram.com/whoisslantie/"
@@ -162,7 +166,7 @@ const HomePage = () => {
                       rel="noopener noreferrer"
                       className="transition-colors"
                     >
-                      <Instagram className="h-8 w-8" />
+                      <Instagram className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
                     </a>
                   </motion.div>
                 </motion.div>
@@ -172,39 +176,45 @@ const HomePage = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 1.0 }}
-                className="mt-12 relative"
+                className="mt-8 sm:mt-10 md:mt-12 relative"
               >
                 <div className="relative z-10">
-                  <div className="grid grid-cols-3 gap-6 text-center">
-                    <div className="p-4 backdrop-blur-sm rounded-lg">
-                      <h3 className="font-display text-4xl font-bold mb-2 text-primary/80">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 text-center">
+                    <div className="p-2 sm:p-3 md:p-4 backdrop-blur-sm rounded-lg">
+                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 text-primary/80">
                         7+
                       </h3>
-                      <p className="text-lg">Hackathons</p>
+                      <p className="text-sm sm:text-base md:text-lg">
+                        Hackathons
+                      </p>
                     </div>
-                    <div className="p-4 backdrop-blur-sm rounded-lg">
-                      <h3 className="font-display text-4xl font-bold mb-2 text-primary/80">
+                    <div className="p-2 sm:p-3 md:p-4 backdrop-blur-sm rounded-lg">
+                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 text-primary/80">
                         10+
                       </h3>
-                      <p className="texl-lg">Projects</p>
+                      <p className="text-sm sm:text-base md:text-lg">
+                        Projects
+                      </p>
                     </div>
-                    <div className="p-4 backdrop-blur-sm rounded-lg">
-                      <h3 className="font-display text-4xl font-bold mb-2 text-primary/80">
+                    <div className="p-2 sm:p-3 md:p-4 backdrop-blur-sm rounded-lg">
+                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 text-primary/80">
                         1
                       </h3>
-                      <p className="texl-lg">Research Publication</p>
+                      <p className="text-sm sm:text-base md:text-lg">
+                        Research Publication
+                      </p>
                     </div>
                   </div>
                 </div>
               </motion.div>
             </div>
 
-            {/* Hero Image with 16:9 ratio and hover effect */}
+            {/* Hero Image with 16:9 ratio and hover effect - show on tablet and above */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="hidden lg:block"
+              className="hidden sm:block lg:block mx-auto max-w-md lg:max-w-none"
             >
               <div
                 className="relative overflow-hidden rounded-xl shadow-2xl"
@@ -223,18 +233,18 @@ const HomePage = () => {
       </section>
 
       {/* Featured Projects Section */}
-      <section className="py-24">
-        <div className="max-w-[1800px] mx-auto px-8 md:px-12 lg:px-16">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4">
               Featured Projects
             </h2>
-            <p className="max-w-2xl mx-auto text-lg">
+            <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
               A selection of my award-winning projects and innovative solutions
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {featuredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -246,7 +256,7 @@ const HomePage = () => {
                 className="h-full"
               >
                 <Card className="overflow-hidden h-full flex flex-col border-black-800 shadow-xl rounded-xl">
-                  <div className="h-72 overflow-hidden relative group">
+                  <div className="h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden relative group">
                     {/* Simple overlay */}
                     <div className="absolute inset-0 bg-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
 
@@ -259,65 +269,55 @@ const HomePage = () => {
 
                     {/* Simple icon indicator */}
                     <div className="absolute top-4 right-4 z-20">
-                      <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <ArrowRight className="h-5 w-5" />
+                      <span className="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-black/60 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
                       </span>
                     </div>
                   </div>
 
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-2xl">{project.title}</CardTitle>
-                    <CardDescription className="text-base">
+                    <CardTitle className="text-xl sm:text-2xl">
+                      {project.title}
+                    </CardTitle>
+                    <CardDescription className="text-sm sm:text-base">
                       {project.description}
                     </CardDescription>
                   </CardHeader>
 
                   <CardContent className="flex-grow pb-2">
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.slice(0, 4).map((tag, i) => (
+                    <div className="hidden sm:flex flex-wrap gap-1 sm:gap-2">
+                      {project.tags.slice(0, 3).map((tag, i) => (
                         <Badge
                           key={i}
                           variant="secondary"
-                          className="bg-primary/70 hover:bg-primary/20 transition-colors"
+                          className="bg-primary/70 hover:bg-primary/20 transition-colors text-xs sm:text-sm"
                         >
                           {tag}
                         </Badge>
                       ))}
-                      {project.tags.length > 4 && (
-                        <Badge variant="outline" className="text-white/70">
-                          +{project.tags.length - 4}
+                      {project.tags.length > 3 && (
+                        <Badge
+                          variant="secondary"
+                          className="bg-primary/70 hover:bg-primary/20 transition-colors text-xs sm:text-sm"
+                        >
+                          +{project.tags.length - 3}
                         </Badge>
                       )}
                     </div>
                   </CardContent>
-
-                  <CardFooter className="pt-2">
-                    <Button
-                      asChild
-                      variant="ghost"
-                      className="w-full hover:bg-primary/70 hover:text-white transition-colors group"
-                    >
-                      <Link
-                        to={project.link}
-                        className="flex items-center justify-between w-full"
-                      >
-                        <span>View Project</span>
-                        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </Link>
-                    </Button>
-                  </CardFooter>
+                  <CardFooter></CardFooter>
                 </Card>
               </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-8 sm:mt-12 md:mt-16">
             <Button
               asChild
               size="lg"
-              className="bg-primary hover:bg-primary/90 rounded-full px-8"
+              className="bg-primary hover:bg-primary/90 rounded-full px-4 sm:px-6 md:px-8"
             >
-              <Link to="/projects">
+              <Link to="/projects" className="flex items-center justify-center">
                 View All Projects
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -327,10 +327,12 @@ const HomePage = () => {
       </section>
 
       {/* Gallery Section */}
-      <section className="py-24">
-        <div className="max-w-[1300px] mx-auto px-8 md:px-12 lg:px-16">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold">Highlights</h2>
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24">
+        <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+              Highlights
+            </h2>
           </div>
 
           <div className="relative rounded-xl">
@@ -350,8 +352,8 @@ const HomePage = () => {
                         className="w-full h-full object-cover rounded-xl"
                       />
                     </div>
-                    <div className="text-center mt-4">
-                      <p className="text-lg md:text-xl text-primary/70 font-semibold">
+                    <div className="text-center mt-2 sm:mt-4">
+                      <p className="text-base sm:text-lg md:text-xl text-primary/70 font-semibold">
                         {image.caption}
                       </p>
                     </div>
@@ -360,15 +362,15 @@ const HomePage = () => {
               </div>
               <Button
                 onClick={prevImage}
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition"
+                className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-black/50 text-white p-1 sm:p-2 rounded-full hover:bg-black/70 transition"
               >
-                <ChevronLeft className="h-6 w-6" />
+                <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
               </Button>
               <Button
                 onClick={nextImage}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition"
+                className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-black/50 text-white p-1 sm:p-2 rounded-full hover:bg-black/70 transition"
               >
-                <ChevronRight className="h-6 w-6" />
+                <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
               </Button>
             </div>
           </div>
@@ -376,32 +378,19 @@ const HomePage = () => {
       </section>
 
       {/* Contact CTA Section */}
-      <section className="py-72 flex items-center justify-center">
-        <div className="max-w-[1400px] mx-auto px-8 md:px-12 lg:px-16">
+      <section className="py-24 sm:py-36 md:py-48 lg:py-72 flex items-center justify-center">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
           <div className="flex flex-col lg:flex-row items-center text-center">
-            {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="mb-8 lg:mb-0 lg:mr-12"
-        >
-          <img
-            src="./me3.jpg"
-            alt="Kandarp Gajjar"
-            className="w-60 h-60 rounded-full object-cover shadow-lg"
-          />
-        </motion.div> */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6">
                 Let's Work Together
               </h2>
-              <p className="max-w-2xl mx-auto lg:mx-0 text-lg mb-10">
+              <p className="max-w-2xl mx-auto lg:mx-0 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 md:mb-10">
                 Interested in collaborating on a project or have a job
                 opportunity? I'm always open to discussing new ideas and
                 opportunities.
@@ -409,11 +398,14 @@ const HomePage = () => {
               <Button
                 asChild
                 size="lg"
-                className="bg-primary hover:bg-primary/90 rounded-full px-8 py-6 text-lg"
+                className="bg-primary hover:bg-primary/90 rounded-full px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 text-base sm:text-lg"
               >
-                <Link to="/contact">
+                <Link
+                  to="/contact"
+                  className="flex items-center justify-center"
+                >
                   Get In Touch
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Link>
               </Button>
             </motion.div>

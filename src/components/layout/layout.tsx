@@ -2,6 +2,7 @@
 import { ReactNode, lazy, Suspense } from "react";
 import Navigation from "../ui/navigation";
 import { motion } from "framer-motion";
+import { Link } from "lucide-react";
 
 // Lazy load the particles background
 const LazyParticlesBackground = lazy(() => import("@/components/ui/particles-background"));
@@ -29,7 +30,7 @@ const Layout = ({ children }: LayoutProps) => {
       </motion.main>
       <footer className="pb-8 bg-background/80 backdrop-blur-md shadow-md">
         <div className="container mx-auto px-6 text-right">
-          <p className="text-muted-foreground font-mono">
+          <p className="text-muted-foreground font-mono sm:text-[17px] text-sm">
             slantie's Portfolio {new Date().getFullYear()}
           </p>
         </div>
