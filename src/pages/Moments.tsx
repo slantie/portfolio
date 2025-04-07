@@ -181,85 +181,89 @@ const MomentsPage = () => {
     );
   };
 
-// Fullscreen Modal Component
-const FullscreenModal = () => {
-  if (!selectedImage) return null;
+  // Fullscreen Modal Component
+  const FullscreenModal = () => {
+    if (!selectedImage) return null;
 
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 md:p-8 cursor-pointer"
-        onClick={() => setSelectedImage(null)}
-      >
-        {/* Custom cursor for the modal */}
-        {/* <CustomCursor /> */}
-        
-        {/* Close button */}
-        <Button
-          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors cursor-pointer"
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 md:p-8 cursor-pointer"
           onClick={() => setSelectedImage(null)}
         >
-          <X className="h-6 w-6" />
-        </Button>
-
-        <div className="flex flex-col">
-          {/* Image container */}
-          <div
-            className="relative max-w-full max-h-full overflow-auto cursor-pointer bg-white rounded-2xl"
-            onClick={(e) => e.stopPropagation()}
+          {/* Close button */}
+          <Button
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
           >
-            <motion.img
-              src={selectedImage.url}
-              alt={selectedImage.caption}
-              className="max-w-full max-h-[90vh] object-contain mx-auto cursor-pointer rounded-2xl"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            />
+            <X className="h-5 w-5 sm:h-6 sm:w-6" />
+          </Button>
+
+          <div className="flex flex-col max-w-[95vw] sm:max-w-[90vw] md:max-w-[85vw]">
+            {/* Image container */}
+            <div
+              className="relative max-w-full max-h-[80vh] sm:max-h-[85vh] overflow-auto cursor-pointer bg-white rounded-lg sm:rounded-xl md:rounded-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.img
+                src={selectedImage.url}
+                alt={selectedImage.caption}
+                className="max-w-full max-h-[70vh] sm:max-h-[75vh] md:max-h-[80vh] object-contain mx-auto cursor-pointer rounded-lg sm:rounded-xl md:rounded-2xl"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+            {/* Caption */}
+            <div className="p-2 sm:p-3 md:p-4 text-white">
+              <p className="font-medium text-base sm:text-lg text-center cursor-pointer">
+                {selectedImage.caption}
+              </p>
+            </div>
           </div>
-          {/* Caption */}
-          <div className="p-4 text-white">
-            <p className="font-medium text-lg text-center cursor-pointer">{selectedImage.caption}</p>
-          </div>
-        </div>
-      </motion.div>
-    </AnimatePresence>
-  );
-};
+        </motion.div>
+      </AnimatePresence>
+    );
+  };
 
   return (
     <Layout>
-      <section className="relative mt-52">
-        <div className="max-w-[1920px] mx-auto px-6 md:px-8 lg:px-12">
+      <section className="relative pt-28 sm:pt-36 md:pt-44 lg:pt-52">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <motion.div
             ref={containerRef}
             style={{ opacity, scale }}
-            className="mb-16 text-center"
+            className="mb-10 sm:mb-12 md:mb-16 text-center"
           >
             <AnimatedText
               text="Memorable Moments"
-              className="text-5xl md:text-5xl font-bold mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
               delayMultiplier={0.02}
             />
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            <p className="text-muted-foreground max-w-xs sm:max-w-lg md:max-w-2xl mx-auto text-sm sm:text-base md:text-lg">
               A visual journey through memorable events, achievements, and
               milestones in my professional and academic life.
             </p>
           </motion.div>
 
           {sortedYears.map((year) => (
-            <div key={year} className="mb-16">
-              <div className="flex items-center mb-8">
-                <div className="h-px bg-border flex-grow mr-6"></div>
-                <h2 className="text-4xl font-bold">{year}</h2>
-                <div className="h-px bg-border flex-grow ml-6"></div>
+            <div key={year} className="mb-10 sm:mb-12 md:mb-16">
+              <div className="flex items-center mb-6 sm:mb-8">
+                <div className="h-px bg-border flex-grow mr-4 sm:mr-6"></div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                  {year}
+                </h2>
+                <div className="h-px bg-border flex-grow ml-4 sm:ml-6"></div>
               </div>
 
               {/* Masonry layout */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
                 {distributeImages(imagesByYear[year]).map(
                   (column, columnIndex) => (
                     <div
