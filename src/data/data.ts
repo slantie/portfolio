@@ -889,6 +889,19 @@ export const achievements: Achievement[] = [
     },
     image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670199/ssip-conclave_aaik0r.jpg",
     tags: ["Hackathon", "Regional Winner", "Innovation"]
+  },
+  {
+    id: "pfds-nptel",
+    type: "certificate",
+    title: "NPTEL Certification in Python for Data Science",
+    organization: "NPTEL - IIT Madras",
+    description: "Secured position in top the 5% with a score of 83% in the NPTEL course on Python for Data Science. Elite + Silver Medalist.",
+    date: {
+      month: "April",
+      year: 2025
+    },
+    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744037916/pfds-nptel_jrskwx.jpg",
+    tags: ["Data Science", "Top 5%", "Elite + Silver Medalist"]
   }
 ];
 
