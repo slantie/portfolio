@@ -72,7 +72,7 @@ const FullscreenModal = ({
         >
           <Button
             size="sm"
-            className="bg-primary hover:bg-primary/90 text-white rounded-full px-2 py-1 sm:px-4 sm:py-2 shadow-lg flex items-center gap-1 sm:gap-2 cursor-pointer"
+            className="bg-primary hover:bg-primary/90 text-white py-2 px-3 rounded-full shadow-lg flex items-center cursor-pointer"
             onClick={(e) => {
               e.stopPropagation(); // Prevent modal close
 
