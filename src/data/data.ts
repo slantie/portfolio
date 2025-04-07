@@ -719,7 +719,7 @@ export const projects: Project[] = [
     image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670147/ipr_rujvlz.jpg",
     tags: ["Web Development", "Frontend", "Analytics", "Education"],
     link: "https://www.linkedin.com/posts/mmpsrpc_mmpsrpc-ksv-svkm-activity-7275004782707146753-Mvb9",
-    liveLink: "https://quiz-ipr.vercel.app/",
+    // liveLink: "https://quiz-ipr.vercel.app/",
     githubLink: "https://github.com/HarshDodiya1/IPR-Online-Quiz-Platform",
     featured: false,
     category: "web-development",
