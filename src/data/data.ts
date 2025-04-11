@@ -217,7 +217,7 @@ export const mainGalleryImages: galleryImage[] = [
   },
   {
     url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670211/reflectify-dev_afcemh.jpg",
-    date:{
+    date: {
       month: "January",
       year: 2025,
     },
@@ -229,7 +229,8 @@ export const mainGalleryImages: galleryImage[] = [
       month: "December",
       year: 2024,
     },
-    caption: "SIH 2024 Appreciation by Shri Vallabhbhai M. Patel sir, Hon. Chairman, SVKM",
+    caption:
+      "SIH 2024 Appreciation by Shri Vallabhbhai M. Patel sir, Hon. Chairman, SVKM",
   },
   {
     url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670228/iit4_nziehu.jpg",
@@ -237,7 +238,8 @@ export const mainGalleryImages: galleryImage[] = [
       month: "December",
       year: 2024,
     },
-    caption: "SIH 2024 Appreciation by Shri Gargi Rajapara ma'am, Principal, LDRP-ITR",
+    caption:
+      "SIH 2024 Appreciation by Shri Gargi Rajapara ma'am, Principal, LDRP-ITR",
   },
   {
     url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670234/iit7_pgubsp.jpg",
@@ -333,7 +335,8 @@ export const mainGalleryImages: galleryImage[] = [
       month: "December",
       year: 2024,
     },
-    caption: "MMPSRPC Website Appreciation by Shri Gargi Rajapara ma'am, Principal, LDRP-ITR",
+    caption:
+      "MMPSRPC Website Appreciation by Shri Gargi Rajapara ma'am, Principal, LDRP-ITR",
   },
   {
     url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670218/xen1_zxfg9n.jpg",
@@ -358,8 +361,8 @@ export const mainGalleryImages: galleryImage[] = [
       year: 2024,
     },
     caption: "CodeHunt Event Volunteer - Xenesis 2024",
-  }
-]
+  },
+];
 
 export const projects: Project[] = [
   {
@@ -379,7 +382,8 @@ export const projects: Project[] = [
       month: "December",
       year: 2023,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670168/sih_2023_hlzjb2.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670168/sih_2023_hlzjb2.jpg",
     tags: ["AI/ML", "Chatbot", "Grievance Management", "Python"],
     featured: true,
     category: ["ai-ml", "hackathon"],
@@ -414,7 +418,8 @@ export const projects: Project[] = [
       month: "December",
       year: 2023,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670165/ssip_2023_y8cexe.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670165/ssip_2023_y8cexe.jpg",
     tags: ["Frontend Development", "UI/UX", "Data Visualization"],
     link: "https://www.linkedin.com/posts/ldrp-itr-gandhinagar-4a7974286_vibrantgujarathackathon-ssip-ksv-activity-7140264165956399104-xweF",
     featured: true,
@@ -449,7 +454,8 @@ export const projects: Project[] = [
       month: "July",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670151/robofest_el9i1w.png",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670151/robofest_el9i1w.png",
     tags: ["IoT", "Raspberry Pi", "Machine Learning", "Waste Management"],
     // link: "/projects/greenvend",
     // githubLink: "https://github.com/kandarpgajjar/greenvend",
@@ -475,7 +481,8 @@ export const projects: Project[] = [
       month: "August",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670148/isro_hack_a9bcop.png",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670148/isro_hack_a9bcop.png",
     tags: ["Data Science", "Space Technology", "GIS", "Machine Learning"],
     // link: "/projects/spectral-classification",
     githubLink: "https://github.com/slantie/isro-hackathon",
@@ -510,7 +517,8 @@ export const projects: Project[] = [
       month: "October",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670149/mmpsrpc_website_xossub.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670149/mmpsrpc_website_xossub.jpg",
     tags: ["Web Development", "React", "UI/UX", "Frontend"],
     link: "https://www.linkedin.com/posts/mmpsrpc_innovation-teamwork-mmpsrpc-activity-7275821572966211584-lA0f",
     liveLink: "https://www.mmpsrpc.in/",
@@ -539,7 +547,8 @@ export const projects: Project[] = [
       month: "December",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670150/pirfire_atavpn.png",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670150/pirfire_atavpn.png",
     tags: ["AI/ML", "NLP", "Research", "Information Retrieval"],
     // link: "/projects/personalized-info-retrieval",
     // githubLink: "https://github.com/kandarpgajjar/personalized-info-retrieval",
@@ -573,7 +582,8 @@ export const projects: Project[] = [
       year: 2024,
     },
     isOngoing: true,
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670147/ecosmart_wniqbx.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670147/ecosmart_wniqbx.jpg",
     tags: ["IoT", "AI/ML", "Waste Management", "Sustainability"],
     // link: "/projects/ecosmart-dustbin",
     // githubLink: "https://github.com/kandarpgajjar/ecosmart-dustbin",
@@ -609,7 +619,8 @@ export const projects: Project[] = [
       month: "October",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670149/gst_yogbm3.png",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670149/gst_yogbm3.png",
     tags: ["Data Analytics", "Machine Learning", "Finance", "Tax"],
     // link: "/projects/gst-analytics",
     githubLink: "https://github.com/slantie/GSTN_589-Team-Coding-Brigades",
@@ -644,7 +655,8 @@ export const projects: Project[] = [
       month: "December",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670155/sih_2024_stage_d23nda.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670155/sih_2024_stage_d23nda.jpg",
     tags: ["AI/ML", "Computer Vision", "Deepfake Detection", "Cybersecurity"],
     link: "https://www.linkedin.com/posts/mmpsrpc_smartindiahackathon2024-teamcodingbrigades-activity-7273613599355420672-j7Un",
     githubLink: "https://github.com/ridh21/VidVigilante",
@@ -681,7 +693,8 @@ export const projects: Project[] = [
       month: "February",
       year: 2025,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670151/reflectify_s5eifl.png",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670151/reflectify_s5eifl.png",
     tags: ["Full Stack", "Web Development", "Data Analytics", "Education"],
     // link: "/projects/reflectify",
     liveLink: "https://reflectify.live/",
@@ -716,7 +729,8 @@ export const projects: Project[] = [
       month: "November",
       year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670147/ipr_rujvlz.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670147/ipr_rujvlz.jpg",
     tags: ["Web Development", "Frontend", "Analytics", "Education"],
     link: "https://www.linkedin.com/posts/mmpsrpc_mmpsrpc-ksv-svkm-activity-7275004782707146753-Mvb9",
     // liveLink: "https://quiz-ipr.vercel.app/",
@@ -735,174 +749,221 @@ export const achievements: Achievement[] = [
     type: "certificate",
     title: "AWS Cloud Practitioner Certification",
     organization: "Amazon Web Services",
-    description: "Earned the AWS Cloud Practitioner certification, demonstrating foundational knowledge of AWS cloud services, architecture, security, and pricing models.",
+    description:
+      "Earned the AWS Cloud Practitioner certification, demonstrating foundational knowledge of AWS cloud services, architecture, security, and pricing models.",
     date: {
       month: "January",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670188/aws_md37xm.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670188/aws_md37xm.jpg",
     link: "https://aws.amazon.com/certification/certified-cloud-practitioner/",
-    tags: ["AWS", "Cloud Computing", "Certification"]
+    tags: ["AWS", "Cloud Computing", "Certification"],
   },
   {
     id: "bip-curtin",
     type: "certificate",
     title: "Business Innovation Program - Curtin University",
     organization: "Curtin University",
-    description: "Completed the Business Innovation Program offered by Curtin University, focusing on entrepreneurship and innovative business solutions.",
+    description:
+      "Completed the Business Innovation Program offered by Curtin University, focusing on entrepreneurship and innovative business solutions.",
     date: {
       month: "November",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670191/bip-curtin_u1l5so.jpg",
-    tags: ["Business Innovation", "Entrepreneurship", "International Program"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670191/bip-curtin_u1l5so.jpg",
+    tags: ["Business Innovation", "Entrepreneurship", "International Program"],
   },
   {
     id: "bip-director",
     type: "felicitation",
     title: "Business Innovation Program - Director's Recognition",
     organization: "Curtin University & KSV",
-    description: "Received special recognition from the program director for outstanding contributions and innovative ideas during the Business Innovation Program.",
+    description:
+      "Received special recognition from the program director for outstanding contributions and innovative ideas during the Business Innovation Program.",
     date: {
       month: "November",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670195/bip-dir_fpheih.jpg",
-    tags: ["Leadership", "Innovation", "Recognition"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670195/bip-dir_fpheih.jpg",
+    tags: ["Leadership", "Innovation", "Recognition"],
   },
   {
     id: "bip-global-certificate",
     type: "certificate",
     title: "Global Business Innovation Certificate",
     organization: "Curtin University",
-    description: "Awarded the Global Business Innovation Certificate for successfully completing the international business innovation program and demonstrating cross-cultural business acumen.",
+    description:
+      "Awarded the Global Business Innovation Certificate for successfully completing the international business innovation program and demonstrating cross-cultural business acumen.",
     date: {
       month: "November",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670190/bip-global-cert43_kmowrb.jpg",
-    tags: ["Global Business", "Innovation", "International Certification"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670190/bip-global-cert43_kmowrb.jpg",
+    tags: ["Global Business", "Innovation", "International Certification"],
   },
   {
     id: "digicom",
     type: "recognition",
     title: "Digital Committee Member",
     organization: "Xenesis 2024",
-    description: "Served as the Digital Committee Member for Xenesis, the flagship technical festival, managing socials, website development, online registration systems, and digital marketing campaigns.",
+    description:
+      "Served as the Digital Committee Member for Xenesis, the flagship technical festival, managing socials, website development, online registration systems, and digital marketing campaigns.",
     date: {
       month: "February",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670199/digicom_lfhfbf.jpg",
-    tags: ["Web Development", "Digital Marketing", "Event Management", "Social Media"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670199/digicom_lfhfbf.jpg",
+    tags: [
+      "Web Development",
+      "Digital Marketing",
+      "Event Management",
+      "Social Media",
+    ],
   },
   {
     id: "code-hunt",
     type: "award",
     title: "Code Hunt Competition Winner",
     organization: "Xenesis 2024",
-    description: "Secured first place in the Code Hunt competition, demonstrating exceptional problem-solving skills and algorithmic thinking under time constraints.",
+    description:
+      "Secured first place in the Code Hunt competition, demonstrating exceptional problem-solving skills and algorithmic thinking under time constraints.",
     date: {
       month: "February",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670196/code-hunt_nzbpj5.jpg",
-    tags: ["Competitive Programming", "Algorithms", "Problem Solving"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670196/code-hunt_nzbpj5.jpg",
+    tags: ["Competitive Programming", "Algorithms", "Problem Solving"],
   },
   {
     id: "ipr-project",
     type: "recognition",
     title: "Institute for Plasma Research Project",
     organization: "Institute for Plasma Research",
-    description: "Recognized for developing an innovative online quiz platform with multilingual support for the Institute for Plasma Research, enhancing their educational outreach.",
+    description:
+      "Recognized for developing an innovative online quiz platform with multilingual support for the Institute for Plasma Research, enhancing their educational outreach.",
     date: {
       month: "November",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670205/ipr-final_njpfwf.jpg",
-    tags: ["Web Development", "Educational Technology", "Government Project"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670205/ipr-final_njpfwf.jpg",
+    tags: ["Web Development", "Educational Technology", "Government Project"],
   },
   {
     id: "isro-hackathon",
     type: "certificate",
     title: "Bharatiya Antariksh Hackathon Participant",
     organization: "ISRO & Ministry of Education",
-    description: "Participated in the Bharatiya Antariksh Hackathon organized by ISRO, developing solutions for lunar hyperspectral data classification from the Chandrayaan-2 mission.",
+    description:
+      "Participated in the Bharatiya Antariksh Hackathon organized by ISRO, developing solutions for lunar hyperspectral data classification from the Chandrayaan-2 mission.",
     date: {
       month: "August",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670196/isro-hack_mc4hdj.png",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670196/isro-hack_mc4hdj.png",
     link: "https://www.isro.gov.in/",
-    tags: ["Space Technology", "Data Science", "Machine Learning"]
+    tags: ["Space Technology", "Data Science", "Machine Learning"],
   },
   {
     id: "poster-competition",
     type: "award",
     title: "State Level Poster Presentation Award",
     organization: "Gujarat Technical University",
-    description: "Awarded for an innovative technical poster presentation on AI applications in healthcare at the state-level competition organized by GTU.",
+    description:
+      "Awarded for an innovative technical poster presentation on AI applications in healthcare at the state-level competition organized by GTU.",
     date: {
       month: "Febuary",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670198/poster_zlpwow.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670198/poster_zlpwow.jpg",
     link: "https://gtu.ac.in/",
-    tags: ["Research", "AI/ML", "Healthcare", "Poster Presentation"]
+    tags: ["Research", "AI/ML", "Healthcare", "Poster Presentation"],
   },
   {
     id: "sih-2024-finalist",
     type: "felicitation",
     title: "Smart India Hackathon 2024 Finalist",
     organization: "Ministry of Education, Government of India",
-    description: "Recognized as a finalist at Smart India Hackathon 2024 held at IIT Guwahati for developing VidVigilante, an innovative deepfake detection solution for NTRO.",
+    description:
+      "Recognized as a finalist at Smart India Hackathon 2024 held at IIT Guwahati for developing VidVigilante, an innovative deepfake detection solution for NTRO.",
     date: {
       month: "December",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670205/sih-final_l2gaqr.jpg",
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670205/sih-final_l2gaqr.jpg",
     link: "https://www.sih.gov.in/",
-    tags: ["Hackathon", "AI/ML", "Cybersecurity", "National Level"]
+    tags: ["Hackathon", "AI/ML", "Cybersecurity", "National Level"],
   },
   {
     id: "sih-mmpsrpc",
     type: "recognition",
     title: "MMPSRPC Recognition for SIH 2024",
     organization: "M. M. Patel Students Research Project Cell",
-    description: "Received special recognition from MMPSRPC for representing the institute at Smart India Hackathon 2024 and advancing to the finals with the VidVigilante project.",
+    description:
+      "Received special recognition from MMPSRPC for representing the institute at Smart India Hackathon 2024 and advancing to the finals with the VidVigilante project.",
     date: {
       month: "October",
-      year: 2024
+      year: 2024,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670202/sih-mmpsrpc_w6zkpv.jpg",
-    tags: ["Research Excellence", "Institute Recognition", "Innovation"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670202/sih-mmpsrpc_w6zkpv.jpg",
+    tags: ["Research Excellence", "Institute Recognition", "Innovation"],
   },
   {
     id: "ssip-regional",
     type: "award",
     title: "SSIP 2023 Winner",
     organization: "Student Startup & Innovation Policy, Gujarat",
-    description: "Secured first place in the regional round of the Student Startup & Innovation Policy hackathon with the One Nation One Challan project.",
+    description:
+      "Secured first place in the regional round of the Student Startup & Innovation Policy hackathon with the One Nation One Challan project.",
     date: {
       month: "November",
-      year: 2023
+      year: 2023,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670199/ssip-conclave_aaik0r.jpg",
-    tags: ["Hackathon", "Regional Winner", "Innovation"]
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670199/ssip-conclave_aaik0r.jpg",
+    tags: ["Hackathon", "Regional Winner", "Innovation"],
   },
   {
     id: "pfds-nptel",
     type: "certificate",
     title: "NPTEL Certification in Python for Data Science",
     organization: "NPTEL - IIT Madras",
-    description: "Secured position in top the 5% with a score of 83% in the NPTEL course on Python for Data Science. Elite + Silver Medalist.",
+    description:
+      "Secured position in top the 5% with a score of 83% in the NPTEL course on Python for Data Science. Elite + Silver Medalist.",
     date: {
       month: "April",
-      year: 2025
+      year: 2025,
     },
-    image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744037916/pfds-nptel_jrskwx.jpg",
-    tags: ["Data Science", "Top 5%", "Elite + Silver Medalist"]
-  }
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1744037916/pfds-nptel_jrskwx.jpg",
+    tags: ["Data Science", "Top 5%", "Elite + Silver Medalist"],
+  },
+  {
+    id: "tcs-codevita",
+    type: "certificate",
+    title: "TCS CodeVita Season 12 - Rank 3300",
+    organization: "Tata Consultancy Services",
+    description:
+      "Ranked 3300 in the world in TCS CodeVita Season 12, a prestigious coding competition.",
+    date: {
+      month: "April",
+      year: 2025,
+    },
+    image:
+      "https://res.cloudinary.com/dfkccowgw/image/upload/v1744377976/tcs-codevita_m3ucck.jpg",
+    link: "https://codevita.tcsapps.com/",
+    tags: ["TCS", "CodeVita", "Competitive Coding"],
+  },
 ];
 
 // Get all projects
@@ -1008,16 +1069,18 @@ export const getSortedAchievements = (): Achievement[] => {
     if (a.date.year !== b.date.year) {
       return b.date.year - a.date.year;
     }
-    
+
     // If years are the same, compare months
     return monthToNumber(b.date.month) - monthToNumber(a.date.month);
   });
 };
 
 // Get achievements by type, sorted by date
-export const getSortedAchievementsByType = (type: AchievementType): Achievement[] => {
+export const getSortedAchievementsByType = (
+  type: AchievementType
+): Achievement[] => {
   return achievements
-    .filter(achievement => achievement.type === type)
+    .filter((achievement) => achievement.type === type)
     .sort((a, b) => {
       if (a.date.year !== b.date.year) {
         return b.date.year - a.date.year;
@@ -1029,7 +1092,7 @@ export const getSortedAchievementsByType = (type: AchievementType): Achievement[
 // Get achievements from a specific year, sorted by month
 export const getSortedAchievementsByYear = (year: number): Achievement[] => {
   return achievements
-    .filter(achievement => achievement.date.year === year)
+    .filter((achievement) => achievement.date.year === year)
     .sort((a, b) => monthToNumber(b.date.month) - monthToNumber(a.date.month));
 };
 
