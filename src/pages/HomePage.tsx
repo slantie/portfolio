@@ -46,7 +46,7 @@ const featuredProjects = projects.filter((project) => project.featured);
 
 // Hero image
 const heroImage =
-  "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670158/me2_cdehns.jpg";
+  "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825823/me2_cdehns_ulo0rz.avif";
 
 const HomePage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

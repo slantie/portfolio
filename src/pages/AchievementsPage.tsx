@@ -382,9 +382,6 @@ const AchievementsPage = () => {
   return (
     <Layout>
       <section className="pt-28 sm:pt-36 md:pt-44 lg:pt-52 relative">
-        <Suspense fallback={<div className="absolute inset-0 z-0"></div>}>
-          <LazyParticlesBackground />
-        </Suspense>
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative z-10">
           <motion.div
             ref={containerRef}

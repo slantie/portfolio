@@ -73,21 +73,21 @@ const AboutPage = () => {
   const certifications = [
     {
       image:
-        "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670188/gate_jgcdje.png",
+        "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825774/gate_jgcdje_bahmdi.avif",
       title: "GATE Qualified - CSE 2025",
       issuer: "GATE",
       period: "Febuary 2025",
     },
     {
       image:
-        "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670188/aws_md37xm.jpg",
+        "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825772/aws_md37xm_qjffnv.avif",
       title: "AWS Certified Cloud Practitioner",
       issuer: "Amazon Web Services",
       period: "Jan 2024 - Jan 2026",
     },
     {
       image:
-        "https://res.cloudinary.com/dfkccowgw/image/upload/v1743670190/bip-global-cert43_kmowrb.jpg",
+        "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825773/bip-global-cert43_kmowrb_np7hpx.avif",
       title: "Letter of Recommendation",
       issuer: "GlobalCert Pte. Ltd., Singapore",
       period: "October 2024",
