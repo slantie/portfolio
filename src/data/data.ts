@@ -176,7 +176,7 @@ export const mainGalleryImages: galleryImage[] = [
     caption: "St. Mary's Cathedral - Stunning Glass Work",
   },
   {
-    url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744829587/iit6_jokt4l_ftjkoi.avif",
+    url: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744829589/dir6_kbuveo_iocogd.avif",
     date: {
       month: "November",
       year: 2024,
