@@ -42,7 +42,7 @@ const AboutPage = () => {
             title: "Machine Learning Intern",
             company:
                 "National Technical Research Organization (NTRO), Delhi, India",
-            period: "Aug 2024 - Present",
+            period: "Aug 2025 - Oct 2025",
             description: "",
         },
         {
@@ -105,6 +105,7 @@ const AboutPage = () => {
             title: "Personalized Information Retrieval",
             period: "Jun 2024 - Dec 2024",
             role: "AI/ML Developer",
+            link: "https://ceur-ws.org/Vol-4054/T5-2.pdf",
             description:
                 "Developed personalized user profiles, data preprocessing, and enhanced model outputs with user preferences for the PIRFIRE 2024 Competition. Paper Accepted in the PIRFIRE 2024 Track. Technologies: Python, Pandas, Numpy, PyTorch, spaCy, NLTK, GPT-3, Zenodo, Jupyter.",
         },
@@ -117,25 +118,25 @@ const AboutPage = () => {
         },
     ];
 
-    const bookChapters = [
-        {
-            title: "Applications of Quantum Computing for Internet of Things (Under Review)",
-            bookName:
-                "Quantum Computing, Sensing and Communications for IoT - Springer",
-            period: "May 2025 - Present",
-            // role: "AI/ML Developer",
-            authors: [
-                [
-                    "Kandarp Gajjar",
-                    "Nancy Patel",
-                    "Krutika Patel",
-                    "Himani Trivedi",
-                ],
-            ],
-            description:
-                "Exploring the intersection of quantum computing and IoT, diving into the optimization of various problems in IoT using Quantum algorithms while focusing on applications in smart cities, healthcare, and environmental monitoring.",
-        },
-    ];
+    // const bookChapters = [
+    //     {
+    //         title: "Applications of Quantum Computing for Internet of Things (Under Review)",
+    //         bookName:
+    //             "Quantum Computing, Sensing and Communications for IoT - Springer",
+    //         period: "May 2025 - Present",
+    //         // role: "AI/ML Developer",
+    //         authors: [
+    //             [
+    //                 "Kandarp Gajjar",
+    //                 "Nancy Patel",
+    //                 "Krutika Patel",
+    //                 "Himani Trivedi",
+    //             ],
+    //         ],
+    //         description:
+    //             "Exploring the intersection of quantum computing and IoT, diving into the optimization of various problems in IoT using Quantum algorithms while focusing on applications in smart cities, healthcare, and environmental monitoring.",
+    //     },
+    // ];
 
     const education = [
         {
@@ -255,6 +256,7 @@ const AboutPage = () => {
                                         duration: 0.5,
                                         delay: index * 0.1,
                                     }}
+                                    onClick={() => window.open(item.link, '_blank')}
                                     viewport={{ once: true }}
                                     className="relative bg-card p-4 sm:p-6 rounded-xl border border-border hover:shadow-lg"
                                 >
@@ -377,8 +379,9 @@ const AboutPage = () => {
                                         duration: 0.5,
                                         delay: index * 0.1,
                                     }}
+                                    onClick={item.link ? () => window.open(item.link, '_blank') : undefined}
                                     viewport={{ once: true }}
-                                    className="bg-card p-4 sm:p-6 rounded-lg border border-border hover:shadow-lg transition-all"
+                                    className="bg-card p-4 sm:p-6 rounded-lg border border-border hover:shadow-lg transition-all cursor-pointer"
                                 >
                                     <h3 className="text-lg sm:text-xl font-bold mb-2">
                                         {research.title}
@@ -400,7 +403,7 @@ const AboutPage = () => {
                     </div>
 
                     {/* 6. Book Chapters */}
-                    <div className="mb-16 sm:mb-20 lg:mb-24">
+                    {/* <div className="mb-16 sm:mb-20 lg:mb-24">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-10 font-display flex items-center border-b pb-3 sm:pb-4">
                             <BookOpen className="mr-2 sm:mr-3 h-6 sm:h-7 w-6 sm:w-7" />
                             Book Chapters
@@ -445,7 +448,7 @@ const AboutPage = () => {
                                 </motion.div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* 7. Education */}
                     <div className="mx-auto mb-16 sm:mb-20 lg:mb-24 px-0 sm:px-4">
