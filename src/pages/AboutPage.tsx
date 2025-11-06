@@ -379,7 +379,7 @@ const AboutPage = () => {
                                         duration: 0.5,
                                         delay: index * 0.1,
                                     }}
-                                    onClick={item.link ? () => window.open(item.link, '_blank') : undefined}
+                                    onClick={research.link ? () => window.open(research.link, '_blank') : undefined}
                                     viewport={{ once: true }}
                                     className="bg-card p-4 sm:p-6 rounded-lg border border-border hover:shadow-lg transition-all cursor-pointer"
                                 >
