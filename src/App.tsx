@@ -1,14 +1,17 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import {
-    CursorProvider,
-    Cursor,
-    CursorFollow,
-} from "@/components/animate-ui/components/cursor";
+
+// Simple loading fallback for lazy-loaded components
+const PageLoader = () => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+    <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-primary"></div>
+  </div>
+);
 
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -17,56 +20,81 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 import MomentsPage from "./pages/Moments";
+import BlogsPage from "./pages/BlogsPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
+
+// Admin pages - lazy loaded for code splitting
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminProjects = lazy(() => import("./pages/admin/AdminProjects"));
+const AdminAchievements = lazy(() => import("./pages/admin/AdminAchievements"));
+const AdminGallery = lazy(() => import("./pages/admin/AdminGallery"));
+const AdminProfile = lazy(() => import("./pages/admin/AdminProfile"));
+const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
+const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
+const AdminBlogs = lazy(() => import("./pages/admin/AdminBlogs"));
+const ProjectForm = lazy(() => import("./pages/admin/ProjectForm"));
+const AchievementForm = lazy(() => import("./pages/admin/AchievementForm"));
+const GalleryForm = lazy(() => import("./pages/admin/GalleryForm"));
+const BlogForm = lazy(() => import("./pages/admin/BlogForm"));
+const DataMigration = lazy(() => import("./pages/admin/DataMigration"));
 
 const queryClient = new QueryClient();
 
 const App = () => (
-    <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
-            <TooltipProvider>
-                <CursorProvider>
-                    <Cursor>
-                        <svg
-                            className="size-6 text-primary"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 40 40"
-                        >
-                            <path
-                                fill="currentColor"
-                                d="M1.8 4.4 7 36.2c.3 1.8 2.6 2.3 3.6.8l3.9-5.7c1.7-2.5 4.5-4.1 7.5-4.3l6.9-.5c1.8-.1 2.5-2.4 1.1-3.5L5 2.5c-1.4-1.1-3.5 0-3.3 1.9Z"
-                            />
-                        </svg>
-                    </Cursor>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/moments" element={<MomentsPage />} />
+            <Route path="/blog" element={<BlogsPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
 
-                    {/* --- The Following Label --- */}
-                    <CursorFollow>
-                        <div className="bg-primary text-primary-foreground text-white px-2 py-1 rounded-lg text-sm shadow-lg">
-                            You
-                        </div>
-                    </CursorFollow>
-                    <Toaster />
-                    <Sonner />
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route
-                                path="/projects"
-                                element={<ProjectsPage />}
-                            />
-                            <Route
-                                path="/achievements"
-                                element={<AchievementsPage />}
-                            />
-                            <Route path="/moments" element={<MomentsPage />} />
-                            <Route path="/about" element={<AboutPage />} />
-                            <Route path="/contact" element={<ContactPage />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </BrowserRouter>
-                </CursorProvider>
-            </TooltipProvider>
-        </ThemeProvider>
-    </QueryClientProvider>
+            {/* Admin routes - lazy loaded */}
+            <Route path="/admin/login" element={
+              <Suspense fallback={<PageLoader />}>
+                <AdminLogin />
+              </Suspense>
+            } />
+            <Route path="/admin" element={
+              <Suspense fallback={<PageLoader />}>
+                <AdminLayout />
+              </Suspense>
+            }>
+              <Route index element={<Suspense fallback={<PageLoader />}><AdminDashboard /></Suspense>} />
+              <Route path="projects" element={<Suspense fallback={<PageLoader />}><AdminProjects /></Suspense>} />
+              <Route path="projects/new" element={<Suspense fallback={<PageLoader />}><ProjectForm /></Suspense>} />
+              <Route path="projects/:id" element={<Suspense fallback={<PageLoader />}><ProjectForm /></Suspense>} />
+              <Route path="achievements" element={<Suspense fallback={<PageLoader />}><AdminAchievements /></Suspense>} />
+              <Route path="achievements/new" element={<Suspense fallback={<PageLoader />}><AchievementForm /></Suspense>} />
+              <Route path="achievements/:id" element={<Suspense fallback={<PageLoader />}><AchievementForm /></Suspense>} />
+              <Route path="gallery" element={<Suspense fallback={<PageLoader />}><AdminGallery /></Suspense>} />
+              <Route path="gallery/new" element={<Suspense fallback={<PageLoader />}><GalleryForm /></Suspense>} />
+              <Route path="blogs" element={<Suspense fallback={<PageLoader />}><AdminBlogs /></Suspense>} />
+              <Route path="blogs/new" element={<Suspense fallback={<PageLoader />}><BlogForm /></Suspense>} />
+              <Route path="blogs/:id" element={<Suspense fallback={<PageLoader />}><BlogForm /></Suspense>} />
+              <Route path="profile" element={<Suspense fallback={<PageLoader />}><AdminProfile /></Suspense>} />
+              <Route path="messages" element={<Suspense fallback={<PageLoader />}><AdminMessages /></Suspense>} />
+              <Route path="settings" element={<Suspense fallback={<PageLoader />}><AdminSettings /></Suspense>} />
+              <Route path="migrate" element={<Suspense fallback={<PageLoader />}><DataMigration /></Suspense>} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
 );
 
 export default App;

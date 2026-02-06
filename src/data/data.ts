@@ -455,8 +455,6 @@ export const projects: Project[] = [
         },
         image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825814/robofest_el9i1w_qzkgqv.avif",
         tags: ["IoT", "Raspberry Pi", "Machine Learning", "Waste Management"],
-        // link: "/projects/greenvend",
-        // githubLink: "https://github.com/kandarpgajjar/greenvend",
         featured: false,
         category: ["iot", "ai-ml"],
         skills: ["Raspberry PI", "Sensors", "Linux", "Python", "PyTorch"],
@@ -481,7 +479,6 @@ export const projects: Project[] = [
         },
         image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825812/isro_hack_a9bcop_sdtc2j.avif",
         tags: ["Data Science", "Space Technology", "GIS", "Machine Learning"],
-        // link: "/projects/spectral-classification",
         githubLink: "https://github.com/slantie/isro-hackathon",
         featured: false,
         category: "data-science",
@@ -543,8 +540,6 @@ export const projects: Project[] = [
         },
         image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825818/pirfire_atavpn_ywfjab.avif",
         tags: ["AI/ML", "NLP", "Research", "Information Retrieval"],
-        // link: "/projects/personalized-info-retrieval",
-        // githubLink: "https://github.com/kandarpgajjar/personalized-info-retrieval",
         featured: false,
         category: ["ai-ml", "research"],
         skills: [
@@ -565,7 +560,6 @@ export const projects: Project[] = [
     {
         id: "ecosmart-dustbin",
         title: "EcoSmart Dustbin with Automated Waste Segregation System",
-        // event: "",
         description:
             "An innovative automated waste segregation system designed specifically for educational institutions.",
         longDescription:
@@ -577,8 +571,6 @@ export const projects: Project[] = [
         isOngoing: true,
         image: "https://res.cloudinary.com/dfkccowgw/image/upload/v1744825813/ecosmart_wniqbx_rfeak9.avif",
         tags: ["IoT", "AI/ML", "Waste Management", "Sustainability"],
-        // link: "/projects/ecosmart-dustbin",
-        // githubLink: "https://github.com/kandarpgajjar/ecosmart-dustbin",
         featured: false,
         category: ["iot", "ai-ml"],
         skills: [
