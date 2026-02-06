@@ -1,17 +1,9 @@
-import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-
-// Simple loading fallback for lazy-loaded components
-const PageLoader = () => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-    <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-primary"></div>
-  </div>
-);
 
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -23,22 +15,22 @@ import MomentsPage from "./pages/Moments";
 import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 
-// Admin pages - lazy loaded for code splitting
-const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
-const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
-const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
-const AdminProjects = lazy(() => import("./pages/admin/AdminProjects"));
-const AdminAchievements = lazy(() => import("./pages/admin/AdminAchievements"));
-const AdminGallery = lazy(() => import("./pages/admin/AdminGallery"));
-const AdminProfile = lazy(() => import("./pages/admin/AdminProfile"));
-const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
-const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
-const AdminBlogs = lazy(() => import("./pages/admin/AdminBlogs"));
-const ProjectForm = lazy(() => import("./pages/admin/ProjectForm"));
-const AchievementForm = lazy(() => import("./pages/admin/AchievementForm"));
-const GalleryForm = lazy(() => import("./pages/admin/GalleryForm"));
-const BlogForm = lazy(() => import("./pages/admin/BlogForm"));
-const DataMigration = lazy(() => import("./pages/admin/DataMigration"));
+// Admin pages - bundled together
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProjects from "./pages/admin/AdminProjects";
+import AdminAchievements from "./pages/admin/AdminAchievements";
+import AdminGallery from "./pages/admin/AdminGallery";
+import AdminProfile from "./pages/admin/AdminProfile";
+import AdminMessages from "./pages/admin/AdminMessages";
+import AdminSettings from "./pages/admin/AdminSettings";
+import AdminBlogs from "./pages/admin/AdminBlogs";
+import ProjectForm from "./pages/admin/ProjectForm";
+import AchievementForm from "./pages/admin/AchievementForm";
+import GalleryForm from "./pages/admin/GalleryForm";
+import BlogForm from "./pages/admin/BlogForm";
+import DataMigration from "./pages/admin/DataMigration";
 
 const queryClient = new QueryClient();
 
@@ -60,33 +52,25 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
 
-            {/* Admin routes - lazy loaded */}
-            <Route path="/admin/login" element={
-              <Suspense fallback={<PageLoader />}>
-                <AdminLogin />
-              </Suspense>
-            } />
-            <Route path="/admin" element={
-              <Suspense fallback={<PageLoader />}>
-                <AdminLayout />
-              </Suspense>
-            }>
-              <Route index element={<Suspense fallback={<PageLoader />}><AdminDashboard /></Suspense>} />
-              <Route path="projects" element={<Suspense fallback={<PageLoader />}><AdminProjects /></Suspense>} />
-              <Route path="projects/new" element={<Suspense fallback={<PageLoader />}><ProjectForm /></Suspense>} />
-              <Route path="projects/:id" element={<Suspense fallback={<PageLoader />}><ProjectForm /></Suspense>} />
-              <Route path="achievements" element={<Suspense fallback={<PageLoader />}><AdminAchievements /></Suspense>} />
-              <Route path="achievements/new" element={<Suspense fallback={<PageLoader />}><AchievementForm /></Suspense>} />
-              <Route path="achievements/:id" element={<Suspense fallback={<PageLoader />}><AchievementForm /></Suspense>} />
-              <Route path="gallery" element={<Suspense fallback={<PageLoader />}><AdminGallery /></Suspense>} />
-              <Route path="gallery/new" element={<Suspense fallback={<PageLoader />}><GalleryForm /></Suspense>} />
-              <Route path="blogs" element={<Suspense fallback={<PageLoader />}><AdminBlogs /></Suspense>} />
-              <Route path="blogs/new" element={<Suspense fallback={<PageLoader />}><BlogForm /></Suspense>} />
-              <Route path="blogs/:id" element={<Suspense fallback={<PageLoader />}><BlogForm /></Suspense>} />
-              <Route path="profile" element={<Suspense fallback={<PageLoader />}><AdminProfile /></Suspense>} />
-              <Route path="messages" element={<Suspense fallback={<PageLoader />}><AdminMessages /></Suspense>} />
-              <Route path="settings" element={<Suspense fallback={<PageLoader />}><AdminSettings /></Suspense>} />
-              <Route path="migrate" element={<Suspense fallback={<PageLoader />}><DataMigration /></Suspense>} />
+            {/* Admin routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="projects/new" element={<ProjectForm />} />
+              <Route path="projects/:id" element={<ProjectForm />} />
+              <Route path="achievements" element={<AdminAchievements />} />
+              <Route path="achievements/new" element={<AchievementForm />} />
+              <Route path="achievements/:id" element={<AchievementForm />} />
+              <Route path="gallery" element={<AdminGallery />} />
+              <Route path="gallery/new" element={<GalleryForm />} />
+              <Route path="blogs" element={<AdminBlogs />} />
+              <Route path="blogs/new" element={<BlogForm />} />
+              <Route path="blogs/:id" element={<BlogForm />} />
+              <Route path="profile" element={<AdminProfile />} />
+              <Route path="messages" element={<AdminMessages />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="migrate" element={<DataMigration />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

@@ -127,7 +127,7 @@ const ProjectsPage = () => {
             />
 
             {/* Project Content */}
-            <div className="mt-0">
+            <div className="mt-12">
               {loading ? (
                 <div className="flex flex-col gap-4 sm:gap-6 md:gap-8">
                   {[1, 2, 3].map((i) => (
