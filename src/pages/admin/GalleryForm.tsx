@@ -53,7 +53,7 @@ export default function GalleryForm() {
         },
         category,
       );
-      navigate("/admin/gallery");
+      navigate("/slantie/gallery");
     } catch (error) {
       console.error("Error saving image:", error);
     } finally {
@@ -67,7 +67,7 @@ export default function GalleryForm() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => navigate("/admin/gallery")}
+          onClick={() => navigate("/slantie/gallery")}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -189,7 +189,7 @@ export default function GalleryForm() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => navigate("/admin/gallery")}
+            onClick={() => navigate("/slantie/gallery")}
           >
             Cancel
           </Button>

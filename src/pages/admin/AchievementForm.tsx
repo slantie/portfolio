@@ -97,7 +97,7 @@ export default function AchievementForm() {
           formData as Omit<Achievement, "id" | "created_at" | "updated_at">,
         );
       }
-      navigate("/admin/achievements");
+      navigate("/slantie/achievements");
     } catch (error) {
       console.error("Error saving achievement:", error);
     } finally {
@@ -126,7 +126,7 @@ export default function AchievementForm() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => navigate("/admin/achievements")}
+          onClick={() => navigate("/slantie/achievements")}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -327,7 +327,7 @@ export default function AchievementForm() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => navigate("/admin/achievements")}
+            onClick={() => navigate("/slantie/achievements")}
           >
             Cancel
           </Button>

@@ -71,7 +71,7 @@ export default function AdminGallery() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/admin/gallery/new">
+          <Link to="/slantie/gallery/new">
             <Plus className="h-4 w-4 mr-2" />
             Upload Image
           </Link>

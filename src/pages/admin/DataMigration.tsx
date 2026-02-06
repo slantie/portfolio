@@ -507,14 +507,14 @@ export default function DataMigration() {
           <p>After migration, manage your data in:</p>
           <ul className="list-disc list-inside space-y-1 ml-2">
             <li>
-              <a href="/admin/profile" className="text-primary hover:underline">
+              <a href="/slantie/profile" className="text-primary hover:underline">
                 Profile Management
               </a>{" "}
               - Experience, Skills, Education, Certifications, Leadership
             </li>
             <li>
               <a
-                href="/admin/settings"
+                href="/slantie/settings"
                 className="text-primary hover:underline"
               >
                 Settings

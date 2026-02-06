@@ -28,15 +28,15 @@ import { cn } from "@/lib/utils";
 import { getContactMessages, getSetting } from "@/lib/api";
 
 const navItems = [
-  { label: "Dashboard", path: "/admin", icon: LayoutDashboard, exact: true },
-  { label: "Projects", path: "/admin/projects", icon: FolderKanban },
-  { label: "Achievements", path: "/admin/achievements", icon: Trophy },
-  { label: "Gallery", path: "/admin/gallery", icon: Image },
-  { label: "Blogs", path: "/admin/blogs", icon: FileText },
-  { label: "Profile", path: "/admin/profile", icon: User },
-  { label: "Messages", path: "/admin/messages", icon: Mail, showBadge: true },
-  { label: "Settings", path: "/admin/settings", icon: Settings },
-  { label: "Migrate Data", path: "/admin/migrate", icon: Database },
+  { label: "Dashboard", path: "/slantie", icon: LayoutDashboard, exact: true },
+  { label: "Projects", path: "/slantie/projects", icon: FolderKanban },
+  { label: "Achievements", path: "/slantie/achievements", icon: Trophy },
+  { label: "Gallery", path: "/slantie/gallery", icon: Image },
+  { label: "Blogs", path: "/slantie/blogs", icon: FileText },
+  { label: "Profile", path: "/slantie/profile", icon: User },
+  { label: "Messages", path: "/slantie/messages", icon: Mail, showBadge: true },
+  { label: "Settings", path: "/slantie/settings", icon: Settings },
+  { label: "Migrate Data", path: "/slantie/migrate", icon: Database },
 ];
 
 export default function AdminLayout() {
@@ -126,7 +126,7 @@ export default function AdminLayout() {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/slantie/login" replace />;
   }
 
   return (

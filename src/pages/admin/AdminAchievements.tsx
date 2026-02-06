@@ -89,7 +89,7 @@ export default function AdminAchievements() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/admin/achievements/new">
+          <Link to="/slantie/achievements/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Achievement
           </Link>
@@ -158,7 +158,7 @@ export default function AdminAchievements() {
                           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <Button asChild size="sm" variant="ghost">
                               <Link
-                                to={`/admin/achievements/${achievement.id}`}
+                                to={`/slantie/achievements/${achievement.id}`}
                               >
                                 <Pencil className="h-4 w-4" />
                               </Link>

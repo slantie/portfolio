@@ -26,7 +26,7 @@ export default function AdminLogin() {
 
     if (!supabase) {
       // Development mode - bypass auth
-      navigate("/admin");
+      navigate("/slantie");
       return;
     }
 
@@ -41,7 +41,7 @@ export default function AdminLogin() {
       return;
     }
 
-    navigate("/admin");
+    navigate("/slantie");
   }
 
   return (

@@ -129,7 +129,7 @@ export default function ProjectForm() {
           formData as Omit<Project, "id" | "created_at" | "updated_at">,
         );
       }
-      navigate("/admin/projects");
+      navigate("/slantie/projects");
     } catch (error) {
       console.error("Error saving project:", error);
     } finally {
@@ -158,7 +158,7 @@ export default function ProjectForm() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => navigate("/admin/projects")}
+          onClick={() => navigate("/slantie/projects")}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -530,7 +530,7 @@ export default function ProjectForm() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => navigate("/admin/projects")}
+            onClick={() => navigate("/slantie/projects")}
           >
             Cancel
           </Button>

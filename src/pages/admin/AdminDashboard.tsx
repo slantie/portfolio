@@ -131,22 +131,22 @@ export default function AdminDashboard() {
       label: "Projects",
       value: counts.projects,
       icon: FolderKanban,
-      href: "/admin/projects",
-      addHref: "/admin/projects/new",
+      href: "/slantie/projects",
+      addHref: "/slantie/projects/new",
     },
     {
       label: "Achievements",
       value: counts.achievements,
       icon: Trophy,
-      href: "/admin/achievements",
-      addHref: "/admin/achievements/new",
+      href: "/slantie/achievements",
+      addHref: "/slantie/achievements/new",
     },
     {
       label: "Gallery",
       value: counts.galleryImages,
       icon: Image,
-      href: "/admin/gallery",
-      addHref: "/admin/gallery/new",
+      href: "/slantie/gallery",
+      addHref: "/slantie/gallery/new",
     },
   ];
 
@@ -399,7 +399,7 @@ export default function AdminDashboard() {
               <Badge variant="destructive">{counts.unreadMessages} new</Badge>
             )}
           </CardTitle>
-          <Link to="/admin/messages">
+          <Link to="/slantie/messages">
             <Button variant="outline" size="sm">
               View All
               <ArrowUpRight className="h-4 w-4 ml-1" />
@@ -420,7 +420,7 @@ export default function AdminDashboard() {
               {recentMessages.map((message) => (
                 <Link
                   key={message.id}
-                  to="/admin/messages"
+                  to="/slantie/messages"
                   className={`block p-4 rounded-lg border transition-colors hover:shadow-sm ${
                     message.read
                       ? "bg-muted/30 hover:bg-muted/50"
@@ -463,7 +463,7 @@ export default function AdminDashboard() {
         <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Button asChild variant="outline" className="h-auto py-4">
             <Link
-              to="/admin/projects/new"
+              to="/slantie/projects/new"
               className="flex flex-col items-center gap-2"
             >
               <FolderKanban className="h-6 w-6" />
@@ -472,7 +472,7 @@ export default function AdminDashboard() {
           </Button>
           <Button asChild variant="outline" className="h-auto py-4">
             <Link
-              to="/admin/achievements/new"
+              to="/slantie/achievements/new"
               className="flex flex-col items-center gap-2"
             >
               <Trophy className="h-6 w-6" />
@@ -481,7 +481,7 @@ export default function AdminDashboard() {
           </Button>
           <Button asChild variant="outline" className="h-auto py-4">
             <Link
-              to="/admin/gallery/new"
+              to="/slantie/gallery/new"
               className="flex flex-col items-center gap-2"
             >
               <Image className="h-6 w-6" />
@@ -490,7 +490,7 @@ export default function AdminDashboard() {
           </Button>
           <Button asChild variant="outline" className="h-auto py-4">
             <Link
-              to="/admin/profile"
+              to="/slantie/profile"
               className="flex flex-col items-center gap-2"
             >
               <Users className="h-6 w-6" />

@@ -74,7 +74,7 @@ export default function AdminProjects() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/admin/projects/new">
+          <Link to="/slantie/projects/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Project
           </Link>
@@ -123,7 +123,7 @@ export default function AdminProjects() {
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                   <Button asChild size="sm" variant="secondary">
-                    <Link to={`/admin/projects/${project.id}`}>
+                    <Link to={`/slantie/projects/${project.id}`}>
                       <Pencil className="h-4 w-4" />
                     </Link>
                   </Button>

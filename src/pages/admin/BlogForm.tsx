@@ -268,7 +268,7 @@ export default function BlogForm() {
         await createBlog(formData);
         toast.success("Blog post created!");
       }
-      navigate("/admin/blogs");
+      navigate("/slantie/blogs");
     } catch (error) {
       console.error("Error saving blog:", error);
       toast.error("Failed to save blog post");
@@ -544,7 +544,7 @@ export default function BlogForm() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => navigate("/admin/blogs")}
+            onClick={() => navigate("/slantie/blogs")}
           >
             Cancel
           </Button>

@@ -158,7 +158,7 @@ export default function AdminBlogs() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/admin/blogs/new">
+          <Link to="/slantie/blogs/new">
             <Plus className="h-4 w-4 mr-2" />
             New Post
           </Link>
@@ -210,7 +210,7 @@ export default function AdminBlogs() {
                 : "Create your first blog post!"}
             </p>
             <Button asChild>
-              <Link to="/admin/blogs/new">
+              <Link to="/slantie/blogs/new">
                 <Plus className="h-4 w-4 mr-2" />
                 Create Post
               </Link>
@@ -231,7 +231,7 @@ export default function AdminBlogs() {
                 )}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                   <Button size="sm" variant="secondary" asChild>
-                    <Link to={`/admin/blogs/${blog.id}`}>
+                    <Link to={`/slantie/blogs/${blog.id}`}>
                       <Edit className="h-4 w-4" />
                     </Link>
                   </Button>
@@ -324,7 +324,7 @@ export default function AdminBlogs() {
                   <TableCell>
                     <div className="flex justify-end gap-1">
                       <Button size="icon" variant="ghost" asChild>
-                        <Link to={`/admin/blogs/${blog.id}`}>
+                        <Link to={`/slantie/blogs/${blog.id}`}>
                           <Edit className="h-4 w-4" />
                         </Link>
                       </Button>
