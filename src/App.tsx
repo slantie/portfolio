@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 
+import ProfessionalPortfolioPage from "./pages/ProfessionalPortfolioPage";
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import AchievementsPage from "./pages/AchievementsPage";
@@ -43,7 +44,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             {/* Public routes */}
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<ProfessionalPortfolioPage />} />
+            <Route path="/classic" element={<HomePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/moments" element={<MomentsPage />} />

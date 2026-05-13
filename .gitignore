@@ -23,3 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.claude/
+
+# Local DB utility scripts (contain service role key — never push)
+fix-db.mjs
+fix-achievements.mjs
+seed.mjs
+
+# Binary font files — loaded from Google Fonts CDN instead
+portfolio/professional/helix/fonts/

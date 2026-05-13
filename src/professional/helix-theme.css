@@ -1,0 +1,1205 @@
+/* =================================================================
+ * HELIX v2 — Universal Premium UI System
+ *
+ * ARCHITECTURE (semantic, layered, swap-anything):
+ *
+ *   <html data-theme="dark|light"
+ *         data-accent="indigo|cyan|emerald|violet|rose|graphite"
+ *         data-neutral="cool|warm">
+ *
+ *   Or use a preset theme:
+ *   <html data-theme="aurora">    ← dark + violet + cyan secondary
+ *   <html data-theme="graphite">  ← light + grayscale accent + warm
+ *
+ * LAYER 1: PRIMITIVES        — raw palettes (never used directly)
+ * LAYER 2: SEMANTIC          — bg-*, fg-*, accent-*, border-* (what UI consumes)
+ * LAYER 3: COMPONENT TOKENS  — extra-specific, opt-in
+ *
+ * RULES:
+ *   - One primary accent at a time. Accent families are mode switches,
+ *     NOT a multi-color palette.
+ *   - Never pure black. Never pure white. Both kill depth.
+ *   - Borders are alpha-on-fg, three strengths.
+ *   - Dark and light modes are first-class. Light is NOT just inverted dark.
+ * ================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
+/* =================================================================
+ * LAYER 1 · PRIMITIVES
+ * ================================================================= */
+
+:root {
+  /* -- Cool neutrals (default) -- slate-zinc, technical, AI-leaning */
+  --cool-0:   #ffffff;
+  --cool-25:  #fbfbfc;
+  --cool-50:  #f6f7f9;
+  --cool-100: #ebedf1;
+  --cool-200: #d6d9e0;
+  --cool-300: #a8acb6;
+  --cool-400: #767a85;
+  --cool-500: #555861;
+  --cool-600: #3e4047;
+  --cool-700: #292a30;
+  --cool-800: #1a1b20;
+  --cool-850: #141519;
+  --cool-900: #0d0e11;
+  --cool-950: #08090b;
+
+  /* -- Warm neutrals -- stone-amber tinted, editorial, human */
+  --warm-0:   #ffffff;
+  --warm-25:  #fcfbf9;
+  --warm-50:  #f8f6f1;
+  --warm-100: #ede9e0;
+  --warm-200: #d8d2c4;
+  --warm-300: #a9a297;
+  --warm-400: #7a7468;
+  --warm-500: #5a544b;
+  --warm-600: #423d35;
+  --warm-700: #2d2924;
+  --warm-800: #1e1b17;
+  --warm-850: #181612;
+  --warm-900: #11100d;
+  --warm-950: #0a0908;
+
+  /* ===== Accent palettes (only one is active at a time) ===== */
+
+  /* Indigo — default, electric & restrained */
+  --indigo-50:  #eef0ff; --indigo-100: #dde1ff; --indigo-200: #c2c8ff;
+  --indigo-300: #a0a8ff; --indigo-400: #8089ff; --indigo-500: #6e7bff;
+  --indigo-600: #5b66e8; --indigo-700: #4951c4; --indigo-800: #3a409a; --indigo-900: #2a2e6e;
+
+  /* Cyan — for AI / inference / structured products */
+  --cyan-50:  #ecfeff; --cyan-100: #cffafe; --cyan-200: #a5f3fc;
+  --cyan-300: #67e8f9; --cyan-400: #34d4ed; --cyan-500: #06b6d4;
+  --cyan-600: #0891b2; --cyan-700: #0e7490; --cyan-800: #155e75; --cyan-900: #164e63;
+
+  /* Emerald — for data / financial / health */
+  --emerald-50:  #ecfdf5; --emerald-100: #d1fae5; --emerald-200: #a7f3d0;
+  --emerald-300: #6ee7b7; --emerald-400: #34d399; --emerald-500: #10b981;
+  --emerald-600: #059669; --emerald-700: #047857; --emerald-800: #065f46; --emerald-900: #064e3b;
+
+  /* Violet — for editorial / creative / generative */
+  --violet-50:  #f5f3ff; --violet-100: #ede9fe; --violet-200: #ddd6fe;
+  --violet-300: #c4b5fd; --violet-400: #a78bfa; --violet-500: #8b5cf6;
+  --violet-600: #7c3aed; --violet-700: #6d28d9; --violet-800: #5b21b6; --violet-900: #4c1d95;
+
+  /* Rose — for human / lifestyle / consumer */
+  --rose-50:  #fff1f2; --rose-100: #ffe4e6; --rose-200: #fecdd3;
+  --rose-300: #fda4af; --rose-400: #fb7185; --rose-500: #f43f5e;
+  --rose-600: #e11d48; --rose-700: #be123c; --rose-800: #9f1239; --rose-900: #881337;
+
+  /* Graphite — accent-less, pure structural mono (uses neutrals) */
+  /* No own palette — pulls from active neutral scale */
+
+  /* ===== Status primitives — fixed across themes ===== */
+  --status-success-d: #34d399;
+  --status-success-l: #059669;
+  --status-warning-d: #f59e0b;
+  --status-warning-l: #d97706;
+  --status-danger-d:  #f87171;
+  --status-danger-l:  #dc2626;
+  --status-info-d:    #38bdf8;
+  --status-info-l:    #0284c7;
+}
+
+/* =================================================================
+ * LAYER 2 · NEUTRAL TEMPERATURE
+ *   data-neutral="cool"  → default
+ *   data-neutral="warm"  → stone-tinted
+ *
+ *   Maps the chosen primitive palette to --n-* so the rest of
+ *   the system reads from ONE neutral interface.
+ * ================================================================= */
+
+:root,
+[data-neutral="cool"] {
+  --n-0: var(--cool-0);     --n-25: var(--cool-25);   --n-50: var(--cool-50);
+  --n-100: var(--cool-100); --n-200: var(--cool-200); --n-300: var(--cool-300);
+  --n-400: var(--cool-400); --n-500: var(--cool-500); --n-600: var(--cool-600);
+  --n-700: var(--cool-700); --n-800: var(--cool-800); --n-850: var(--cool-850);
+  --n-900: var(--cool-900); --n-950: var(--cool-950);
+
+  /* RGB triplets — used in rgb()/alpha math */
+  --n-rgb-fg-dark:  20, 22, 26;
+  --n-rgb-fg-light: 244, 245, 247;
+}
+
+[data-neutral="warm"] {
+  --n-0: var(--warm-0);     --n-25: var(--warm-25);   --n-50: var(--warm-50);
+  --n-100: var(--warm-100); --n-200: var(--warm-200); --n-300: var(--warm-300);
+  --n-400: var(--warm-400); --n-500: var(--warm-500); --n-600: var(--warm-600);
+  --n-700: var(--warm-700); --n-800: var(--warm-800); --n-850: var(--warm-850);
+  --n-900: var(--warm-900); --n-950: var(--warm-950);
+
+  --n-rgb-fg-dark:  30, 27, 23;
+  --n-rgb-fg-light: 248, 246, 241;
+}
+
+/* =================================================================
+ * LAYER 2 · ACCENT MODE
+ *   data-accent="indigo|cyan|emerald|violet|rose|graphite"
+ *
+ *   Maps the chosen accent palette to --a-* so the rest of the
+ *   system reads from ONE accent interface.
+ * ================================================================= */
+
+:root,
+[data-accent="indigo"] {
+  --a-50: var(--indigo-50);   --a-100: var(--indigo-100); --a-200: var(--indigo-200);
+  --a-300: var(--indigo-300); --a-400: var(--indigo-400); --a-500: var(--indigo-500);
+  --a-600: var(--indigo-600); --a-700: var(--indigo-700); --a-800: var(--indigo-800); --a-900: var(--indigo-900);
+  --a-rgb: 110, 123, 255;
+}
+
+[data-accent="cyan"] {
+  --a-50: var(--cyan-50);   --a-100: var(--cyan-100); --a-200: var(--cyan-200);
+  --a-300: var(--cyan-300); --a-400: var(--cyan-400); --a-500: var(--cyan-500);
+  --a-600: var(--cyan-600); --a-700: var(--cyan-700); --a-800: var(--cyan-800); --a-900: var(--cyan-900);
+  --a-rgb: 6, 182, 212;
+}
+
+[data-accent="emerald"] {
+  --a-50: var(--emerald-50);   --a-100: var(--emerald-100); --a-200: var(--emerald-200);
+  --a-300: var(--emerald-300); --a-400: var(--emerald-400); --a-500: var(--emerald-500);
+  --a-600: var(--emerald-600); --a-700: var(--emerald-700); --a-800: var(--emerald-800); --a-900: var(--emerald-900);
+  --a-rgb: 16, 185, 129;
+}
+
+[data-accent="violet"] {
+  --a-50: var(--violet-50);   --a-100: var(--violet-100); --a-200: var(--violet-200);
+  --a-300: var(--violet-300); --a-400: var(--violet-400); --a-500: var(--violet-500);
+  --a-600: var(--violet-600); --a-700: var(--violet-700); --a-800: var(--violet-800); --a-900: var(--violet-900);
+  --a-rgb: 139, 92, 246;
+}
+
+[data-accent="rose"] {
+  --a-50: var(--rose-50);   --a-100: var(--rose-100); --a-200: var(--rose-200);
+  --a-300: var(--rose-300); --a-400: var(--rose-400); --a-500: var(--rose-500);
+  --a-600: var(--rose-600); --a-700: var(--rose-700); --a-800: var(--rose-800); --a-900: var(--rose-900);
+  --a-rgb: 244, 63, 94;
+}
+
+/* Graphite — accent is neutralized, sits on the n-scale */
+[data-accent="graphite"] {
+  --a-50: var(--n-50);   --a-100: var(--n-100); --a-200: var(--n-200);
+  --a-300: var(--n-300); --a-400: var(--n-400); --a-500: var(--n-500);
+  --a-600: var(--n-600); --a-700: var(--n-700); --a-800: var(--n-800); --a-900: var(--n-900);
+  --a-rgb: var(--n-rgb-fg-light);
+}
+
+/* =================================================================
+ * LAYER 2 · DARK MODE  (default base)
+ *
+ *   All semantic tokens — what components consume.
+ *   Surface ladder: canvas → surface → elevated → overlay
+ *   Foreground ladder: fg-1 (primary) → fg-5 (disabled)
+ *   Borders: subtle / default / strong (alpha-on-light)
+ *   Accent semantic: primary / hover / pressed / fg / surface / muted / border / emphasis
+ * ================================================================= */
+
+:root,
+[data-theme="dark"] {
+  /* Surfaces — 5 layers, depth via lightness lift */
+  --bg-canvas:   var(--n-950);                         /* #08090b */
+  --bg-surface:  var(--n-900);                         /* one step up */
+  --bg-elevated: var(--n-800);                         /* card */
+  --bg-overlay:  var(--n-700);                         /* popover, menu */
+  --bg-inset:    color-mix(in oklab, var(--n-950) 60%, #000); /* recessed */
+
+  /* Foreground — 5 ranks */
+  --fg-1: var(--n-50);                                 /* near-white headings */
+  --fg-2: color-mix(in oklab, var(--n-100) 92%, var(--n-300));
+  --fg-3: var(--n-300);                                /* meta */
+  --fg-4: var(--n-400);                                /* placeholder */
+  --fg-5: var(--n-600);                                /* disabled */
+  --fg-on-accent: #ffffff;
+
+  /* Borders — alpha-on-light, 3 strengths */
+  --border-subtle:  rgba(var(--n-rgb-fg-light), 0.06);
+  --border-default: rgba(var(--n-rgb-fg-light), 0.09);
+  --border-strong:  rgba(var(--n-rgb-fg-light), 0.14);
+  --border-focus:   var(--a-500);
+
+  /* Accent — full semantic ladder */
+  --accent-primary:  var(--a-500);
+  --accent-hover:    var(--a-400);
+  --accent-pressed:  var(--a-600);
+  --accent-fg:       #ffffff;
+  --accent-surface:  rgba(var(--a-rgb), 0.08);         /* very subtle bg tint */
+  --accent-muted:    rgba(var(--a-rgb), 0.16);         /* nav active, chip bg */
+  --accent-border:   rgba(var(--a-rgb), 0.34);
+  --accent-emphasis: var(--a-300);                     /* eyebrow links, low-fg accent text */
+  --accent-secondary: var(--a-300);                    /* second-tier accent slot (Aurora overrides) */
+
+  /* Status */
+  --success:    var(--status-success-d);
+  --success-bg: rgba(52, 211, 153, 0.10);
+  --success-fg: #6ee7b7;
+  --warning:    var(--status-warning-d);
+  --warning-bg: rgba(245, 158, 11, 0.10);
+  --warning-fg: #fbbf24;
+  --danger:     var(--status-danger-d);
+  --danger-bg:  rgba(248, 113, 113, 0.10);
+  --danger-fg:  #fca5a5;
+  --info:       var(--status-info-d);
+  --info-bg:    rgba(56, 189, 248, 0.10);
+  --info-fg:    #7dd3fc;
+
+  /* Syntax (neutral-leaning, with accent injection) */
+  --syntax-bg:      var(--n-950);
+  --syntax-comment: var(--n-400);
+  --syntax-keyword: #c084fc;
+  --syntax-string:  #86efac;
+  --syntax-fn:      #93c5fd;
+  --syntax-number:  #fcd34d;
+
+  --selection-bg: rgba(var(--a-rgb), 0.32);
+  --selection-fg: #ffffff;
+
+  /* Legacy alias — keep working */
+  --accent:           var(--accent-primary);
+  --accent-bg-subtle: var(--accent-surface);
+  --accent-bg-muted:  var(--accent-muted);
+  --accent-300:       var(--a-300);
+  --accent-400:       var(--a-400);
+  --accent-500:       var(--a-500);
+  --accent-600:       var(--a-600);
+
+  color-scheme: dark;
+}
+
+/* =================================================================
+ * LAYER 2 · LIGHT MODE
+ *
+ *   PHILOSOPHY:
+ *   - Canvas is NEVER pure white. It's a tonally-soft off-white.
+ *   - Surfaces use tonal separation (a hair darker / lighter), NOT
+ *     gray-on-gray which reads as cheap.
+ *   - Borders are lower contrast, softer, warmer-leaning when warm.
+ *   - Text is charcoal-tinted, never #000.
+ *   - Elevation uses soft, longer shadows (no harsh black drops).
+ * ================================================================= */
+
+[data-theme="light"] {
+  --bg-canvas:   var(--n-25);                          /* warm-ish off-white */
+  --bg-surface:  var(--n-50);                          /* slightly tinted card surround */
+  --bg-elevated: var(--n-0);                           /* card / panel — pops upward */
+  --bg-overlay:  var(--n-0);                           /* popover */
+  --bg-inset:    var(--n-100);                         /* recessed (terminals, code) */
+
+  --fg-1: var(--n-900);                                /* charcoal — not black */
+  --fg-2: var(--n-700);
+  --fg-3: var(--n-500);
+  --fg-4: var(--n-400);
+  --fg-5: var(--n-300);
+  --fg-on-accent: #ffffff;
+
+  --border-subtle:  rgba(var(--n-rgb-fg-dark), 0.06);
+  --border-default: rgba(var(--n-rgb-fg-dark), 0.10);
+  --border-strong:  rgba(var(--n-rgb-fg-dark), 0.16);
+  --border-focus:   var(--a-600);
+
+  --accent-primary:  var(--a-600);
+  --accent-hover:    var(--a-500);
+  --accent-pressed:  var(--a-700);
+  --accent-fg:       #ffffff;
+  --accent-surface:  rgba(var(--a-rgb), 0.06);
+  --accent-muted:    rgba(var(--a-rgb), 0.12);
+  --accent-border:   rgba(var(--a-rgb), 0.28);
+  --accent-emphasis: var(--a-700);
+  --accent-secondary: var(--a-700);
+
+  --success:    var(--status-success-l);
+  --success-bg: rgba(5, 150, 105, 0.08);
+  --success-fg: #047857;
+  --warning:    var(--status-warning-l);
+  --warning-bg: rgba(217, 119, 6, 0.08);
+  --warning-fg: #b45309;
+  --danger:     var(--status-danger-l);
+  --danger-bg:  rgba(220, 38, 38, 0.07);
+  --danger-fg:  #b91c1c;
+  --info:       var(--status-info-l);
+  --info-bg:    rgba(2, 132, 199, 0.07);
+  --info-fg:    #0369a1;
+
+  --syntax-bg:      var(--n-50);
+  --syntax-comment: var(--n-400);
+  --syntax-keyword: #7e22ce;
+  --syntax-string:  #15803d;
+  --syntax-fn:      #1d4ed8;
+  --syntax-number:  #b45309;
+
+  --selection-bg: rgba(var(--a-rgb), 0.22);
+  --selection-fg: #ffffff;
+
+  /* Legacy alias */
+  --accent:           var(--accent-primary);
+  --accent-bg-subtle: var(--accent-surface);
+  --accent-bg-muted:  var(--accent-muted);
+  --accent-300:       var(--a-400);
+  --accent-400:       var(--a-500);
+  --accent-500:       var(--a-600);
+  --accent-600:       var(--a-700);
+
+  color-scheme: light;
+}
+
+/* =================================================================
+ * LAYER 2 · PRESET THEMES
+ *
+ *   AURORA  — dark + violet primary + cyan secondary
+ *   GRAPHITE — light + grayscale accent + warm neutrals
+ * ================================================================= */
+
+[data-theme="aurora"] {
+  /* Base dark mode mappings */
+  --bg-canvas:   var(--n-950);
+  --bg-surface:  var(--n-900);
+  --bg-elevated: var(--n-800);
+  --bg-overlay:  var(--n-700);
+  --bg-inset:    color-mix(in oklab, var(--n-950) 60%, #000);
+
+  --fg-1: var(--n-50);
+  --fg-2: color-mix(in oklab, var(--n-100) 92%, var(--n-300));
+  --fg-3: var(--n-300);
+  --fg-4: var(--n-400);
+  --fg-5: var(--n-600);
+  --fg-on-accent: #ffffff;
+
+  --border-subtle:  rgba(var(--n-rgb-fg-light), 0.07);
+  --border-default: rgba(var(--n-rgb-fg-light), 0.10);
+  --border-strong:  rgba(var(--n-rgb-fg-light), 0.16);
+  --border-focus:   var(--violet-400);
+
+  /* Violet primary, cyan secondary — duotone accent */
+  --a-500: var(--violet-500);
+  --a-rgb: 139, 92, 246;
+
+  --accent-primary:   var(--violet-500);
+  --accent-hover:     var(--violet-400);
+  --accent-pressed:   var(--violet-600);
+  --accent-fg:        #ffffff;
+  --accent-surface:   rgba(139, 92, 246, 0.10);
+  --accent-muted:     rgba(139, 92, 246, 0.18);
+  --accent-border:    rgba(139, 92, 246, 0.34);
+  --accent-emphasis:  var(--violet-300);
+  --accent-secondary: var(--cyan-400);
+  --accent-gradient:  linear-gradient(135deg, var(--violet-500) 0%, var(--cyan-400) 100%);
+
+  --success:    var(--status-success-d); --success-bg: rgba(52, 211, 153, 0.10); --success-fg: #6ee7b7;
+  --warning:    var(--status-warning-d); --warning-bg: rgba(245, 158, 11, 0.10); --warning-fg: #fbbf24;
+  --danger:     var(--status-danger-d);  --danger-bg:  rgba(248, 113, 113, 0.10); --danger-fg:  #fca5a5;
+  --info:       var(--cyan-400);         --info-bg:    rgba(52, 211, 237, 0.10);  --info-fg:    var(--cyan-300);
+
+  --syntax-bg: var(--n-950); --syntax-comment: var(--n-400);
+  --syntax-keyword: var(--violet-400); --syntax-string: #86efac;
+  --syntax-fn: var(--cyan-400); --syntax-number: #fcd34d;
+
+  --selection-bg: rgba(139, 92, 246, 0.32);
+  --selection-fg: #ffffff;
+
+  --accent: var(--accent-primary); --accent-bg-subtle: var(--accent-surface); --accent-bg-muted: var(--accent-muted);
+  --accent-300: var(--violet-300); --accent-400: var(--violet-400); --accent-500: var(--violet-500); --accent-600: var(--violet-600);
+
+  color-scheme: dark;
+}
+
+[data-theme="graphite"] {
+  /* Light + warm + grayscale accent (no color anywhere except status) */
+  --n-0: var(--warm-0);     --n-25: var(--warm-25);   --n-50: var(--warm-50);
+  --n-100: var(--warm-100); --n-200: var(--warm-200); --n-300: var(--warm-300);
+  --n-400: var(--warm-400); --n-500: var(--warm-500); --n-600: var(--warm-600);
+  --n-700: var(--warm-700); --n-800: var(--warm-800); --n-900: var(--warm-900); --n-950: var(--warm-950);
+  --n-rgb-fg-dark: 30, 27, 23;
+
+  --bg-canvas:   var(--warm-25);
+  --bg-surface:  var(--warm-50);
+  --bg-elevated: var(--warm-0);
+  --bg-overlay:  var(--warm-0);
+  --bg-inset:    var(--warm-100);
+
+  --fg-1: var(--warm-900);
+  --fg-2: var(--warm-700);
+  --fg-3: var(--warm-500);
+  --fg-4: var(--warm-400);
+  --fg-5: var(--warm-300);
+  --fg-on-accent: var(--warm-25);
+
+  --border-subtle:  rgba(30, 27, 23, 0.06);
+  --border-default: rgba(30, 27, 23, 0.10);
+  --border-strong:  rgba(30, 27, 23, 0.18);
+  --border-focus:   var(--warm-700);
+
+  /* Grayscale accent — the primary "color" is dark warm-charcoal */
+  --a-rgb: 30, 27, 23;
+  --accent-primary:   var(--warm-900);
+  --accent-hover:     var(--warm-800);
+  --accent-pressed:   var(--warm-950);
+  --accent-fg:        var(--warm-25);
+  --accent-surface:   rgba(30, 27, 23, 0.04);
+  --accent-muted:     rgba(30, 27, 23, 0.09);
+  --accent-border:    rgba(30, 27, 23, 0.22);
+  --accent-emphasis:  var(--warm-900);
+  --accent-secondary: var(--warm-700);
+
+  --success: var(--status-success-l); --success-bg: rgba(5, 150, 105, 0.07); --success-fg: #047857;
+  --warning: var(--status-warning-l); --warning-bg: rgba(217, 119, 6, 0.07); --warning-fg: #b45309;
+  --danger:  var(--status-danger-l);  --danger-bg:  rgba(220, 38, 38, 0.06); --danger-fg:  #b91c1c;
+  --info:    var(--status-info-l);    --info-bg:    rgba(2, 132, 199, 0.06); --info-fg:    #0369a1;
+
+  --syntax-bg: var(--warm-50); --syntax-comment: var(--warm-400);
+  --syntax-keyword: var(--warm-900); --syntax-string: #15803d;
+  --syntax-fn: var(--warm-700); --syntax-number: #b45309;
+
+  --selection-bg: rgba(30, 27, 23, 0.18);
+  --selection-fg: var(--warm-25);
+
+  --accent: var(--accent-primary); --accent-bg-subtle: var(--accent-surface); --accent-bg-muted: var(--accent-muted);
+  --accent-300: var(--warm-500); --accent-400: var(--warm-700); --accent-500: var(--warm-900); --accent-600: var(--warm-950);
+
+  color-scheme: light;
+}
+
+/* =================================================================
+ * 3. TYPOGRAPHY
+ * ================================================================= */
+
+:root {
+  --font-sans:    'Geist', ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --font-display: 'Source Serif 4', 'Source Serif Pro', Georgia, 'Iowan Old Style', serif;
+  --font-mono:    'Geist Mono', ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-2xs:  11px; --text-xs:   12px; --text-sm:   13px; --text-base: 14px;
+  --text-md:   15px; --text-lg:   17px; --text-xl:   20px; --text-2xl:  24px;
+  --text-3xl:  30px; --text-4xl:  38px; --text-5xl:  48px; --text-6xl:  64px; --text-7xl:  80px;
+
+  --leading-tight: 1.10; --leading-snug: 1.22; --leading-normal: 1.40;
+  --leading-relaxed: 1.55; --leading-loose: 1.70;
+
+  --tracking-tighter: -0.025em; --tracking-tight: -0.015em; --tracking-snug: -0.008em;
+  --tracking-normal: 0em; --tracking-wide: 0.02em; --tracking-wider: 0.06em; --tracking-widest: 0.14em;
+
+  --weight-light: 300; --weight-regular: 400; --weight-medium: 500;
+  --weight-semibold: 600; --weight-bold: 700;
+}
+
+/* =================================================================
+ * 4. SPACING
+ * ================================================================= */
+
+:root {
+  --space-0: 0px; --space-px: 1px; --space-1: 4px; --space-2: 8px;
+  --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-7: 28px; --space-8: 32px; --space-10: 40px; --space-12: 48px;
+  --space-16: 64px; --space-20: 80px; --space-24: 96px; --space-32: 128px;
+
+  --container-xs: 480px; --container-sm: 640px; --container-md: 768px;
+  --container-lg: 1024px; --container-xl: 1280px; --container-2xl: 1440px;
+}
+
+/* =================================================================
+ * 4b. DENSITY MODES
+ *   data-density toggles control sizing for the entire interface.
+ *   Components consume these tokens, never raw --space-N directly,
+ *   so a single attribute on <html> or any container rescales every
+ *   row, input, button, table cell, sidebar, navbar.
+ *
+ *   comfortable — default, marketing & reading interfaces
+ *   compact     — product UI, dashboards, IDEs (most SaaS lives here)
+ *   dense       — data-heavy tables, terminals, power-user tools
+ * ================================================================= */
+
+:root,
+[data-density="comfortable"] {
+  --d-row-h:        40px;
+  --d-row-h-sm:     32px;
+  --d-control-h:    36px;
+  --d-control-h-sm: 28px;
+  --d-control-h-lg: 44px;
+  --d-pad-x:        14px;
+  --d-pad-y:        10px;
+  --d-pad-x-sm:     10px;
+  --d-pad-y-sm:     6px;
+  --d-gap:          12px;
+  --d-gap-sm:       8px;
+  --d-section-y:    24px;
+  --d-nav-h:        56px;
+  --d-side-w:       260px;
+  --d-table-row:    48px;
+  --d-table-pad-x:  16px;
+  --d-text:         var(--text-base);
+  --d-text-sm:      var(--text-sm);
+  --d-radius:       var(--radius-md);
+}
+
+[data-density="compact"] {
+  --d-row-h:        32px;
+  --d-row-h-sm:     26px;
+  --d-control-h:    30px;
+  --d-control-h-sm: 24px;
+  --d-control-h-lg: 38px;
+  --d-pad-x:        10px;
+  --d-pad-y:        6px;
+  --d-pad-x-sm:     8px;
+  --d-pad-y-sm:     4px;
+  --d-gap:          8px;
+  --d-gap-sm:       6px;
+  --d-section-y:    16px;
+  --d-nav-h:        44px;
+  --d-side-w:       232px;
+  --d-table-row:    36px;
+  --d-table-pad-x:  12px;
+  --d-text:         var(--text-sm);
+  --d-text-sm:      var(--text-xs);
+  --d-radius:       var(--radius-sm);
+}
+
+[data-density="dense"] {
+  --d-row-h:        26px;
+  --d-row-h-sm:     22px;
+  --d-control-h:    24px;
+  --d-control-h-sm: 20px;
+  --d-control-h-lg: 30px;
+  --d-pad-x:        8px;
+  --d-pad-y:        3px;
+  --d-pad-x-sm:     6px;
+  --d-pad-y-sm:     2px;
+  --d-gap:          6px;
+  --d-gap-sm:       4px;
+  --d-section-y:    12px;
+  --d-nav-h:        36px;
+  --d-side-w:       208px;
+  --d-table-row:    28px;
+  --d-table-pad-x:  10px;
+  --d-text:         var(--text-xs);
+  --d-text-sm:      var(--text-2xs);
+  --d-radius:       var(--radius-xs);
+}
+
+/* =================================================================
+ * 4c. EXTENDED SURFACE HIERARCHY
+ *   For dense layouts (tables, AI chat, side panels, popovers)
+ *   the four-step elevation isn't enough. These add interaction
+ *   states and a granular "subtle/muted/floating/inverse" axis.
+ *
+ *   Mapped per theme below in the theme blocks via --bg-* refs.
+ * ================================================================= */
+
+:root,
+[data-theme="dark"] {
+  --bg-surface-hover:   color-mix(in oklab, var(--bg-surface) 92%, white);
+  --bg-surface-active:  color-mix(in oklab, var(--bg-surface) 84%, white);
+  --bg-surface-muted:   color-mix(in oklab, var(--bg-canvas) 70%, var(--bg-surface));
+  --bg-surface-subtle:  color-mix(in oklab, var(--bg-canvas) 50%, var(--bg-surface));
+  --bg-floating:        var(--bg-elevated);
+  --bg-inverse:         var(--n-50);
+  --fg-on-inverse:      var(--n-900);
+  --bg-tint:            color-mix(in oklab, var(--bg-surface) 80%, var(--accent-primary));
+}
+
+[data-theme="aurora"] {
+  --bg-surface-hover:   color-mix(in oklab, var(--bg-surface) 90%, white);
+  --bg-surface-active:  color-mix(in oklab, var(--bg-surface) 82%, white);
+  --bg-surface-muted:   color-mix(in oklab, var(--bg-canvas) 65%, var(--bg-surface));
+  --bg-surface-subtle:  color-mix(in oklab, var(--bg-canvas) 45%, var(--bg-surface));
+  --bg-floating:        var(--bg-elevated);
+  --bg-inverse:         var(--n-50);
+  --fg-on-inverse:      var(--n-900);
+  --bg-tint:            color-mix(in oklab, var(--bg-surface) 78%, var(--accent-primary));
+}
+
+[data-theme="light"] {
+  --bg-surface-hover:   color-mix(in oklab, var(--bg-surface) 94%, black);
+  --bg-surface-active:  color-mix(in oklab, var(--bg-surface) 88%, black);
+  --bg-surface-muted:   color-mix(in oklab, var(--bg-canvas) 50%, var(--bg-inset));
+  --bg-surface-subtle:  color-mix(in oklab, var(--bg-canvas) 70%, var(--bg-surface));
+  --bg-floating:        var(--bg-elevated);
+  --bg-inverse:         var(--n-900);
+  --fg-on-inverse:      var(--n-25);
+  --bg-tint:            color-mix(in oklab, var(--bg-surface) 88%, var(--accent-primary));
+}
+
+[data-theme="graphite"] {
+  --bg-surface-hover:   color-mix(in oklab, var(--bg-surface) 94%, black);
+  --bg-surface-active:  color-mix(in oklab, var(--bg-surface) 86%, black);
+  --bg-surface-muted:   color-mix(in oklab, var(--bg-canvas) 55%, var(--bg-inset));
+  --bg-surface-subtle:  color-mix(in oklab, var(--bg-canvas) 75%, var(--bg-surface));
+  --bg-floating:        var(--bg-elevated);
+  --bg-inverse:         var(--warm-900);
+  --fg-on-inverse:      var(--warm-25);
+  --bg-tint:            color-mix(in oklab, var(--bg-surface) 92%, black);
+}
+
+/* =================================================================
+ * 4d. DATA VISUALIZATION
+ *   Chart palette is NOT the accent. It is its own scale, tuned for:
+ *     - distinguishability at small sizes
+ *     - accessible adjacency (no red/green pairs)
+ *     - consistent perceived luminance
+ *
+ *   Categorical (8 steps)  — series, segments, legends
+ *   Sequential (5 steps)   — heatmaps, ramps, intensity
+ *   Diverging  (5 steps)   — negative ← zero → positive
+ *   Semantic               — positive / negative / neutral metrics
+ * ================================================================= */
+
+:root,
+[data-theme="dark"],
+[data-theme="aurora"] {
+  /* Categorical — Helix series palette (dark) */
+  --viz-1:  #6366f1;  /* indigo  */
+  --viz-2:  #22d3ee;  /* cyan    */
+  --viz-3:  #34d399;  /* emerald */
+  --viz-4:  #fbbf24;  /* amber   */
+  --viz-5:  #f472b6;  /* rose    */
+  --viz-6:  #a78bfa;  /* violet  */
+  --viz-7:  #fb923c;  /* orange  */
+  --viz-8:  #64748b;  /* slate   */
+
+  /* Sequential — single-hue ramp, low → high */
+  --viz-seq-1: rgba(99, 102, 241, 0.20);
+  --viz-seq-2: rgba(99, 102, 241, 0.40);
+  --viz-seq-3: rgba(99, 102, 241, 0.60);
+  --viz-seq-4: rgba(99, 102, 241, 0.80);
+  --viz-seq-5: rgba(99, 102, 241, 1.00);
+
+  /* Diverging — negative ← zero → positive */
+  --viz-div-neg-2: #f87171;
+  --viz-div-neg-1: rgba(248, 113, 113, 0.50);
+  --viz-div-zero:  rgba(148, 163, 184, 0.30);
+  --viz-div-pos-1: rgba(52, 211, 153, 0.50);
+  --viz-div-pos-2: #34d399;
+
+  /* Semantic metric colors (delta indicators) */
+  --metric-positive: #34d399;
+  --metric-negative: #f87171;
+  --metric-neutral:  var(--fg-3);
+
+  /* Chart chrome */
+  --chart-grid:     rgba(255, 255, 255, 0.05);
+  --chart-axis:     rgba(255, 255, 255, 0.12);
+  --chart-axis-fg:  var(--fg-3);
+  --chart-tooltip-bg: var(--bg-floating);
+}
+
+[data-theme="light"],
+[data-theme="graphite"] {
+  --viz-1:  #4f46e5;
+  --viz-2:  #0891b2;
+  --viz-3:  #059669;
+  --viz-4:  #d97706;
+  --viz-5:  #db2777;
+  --viz-6:  #7c3aed;
+  --viz-7:  #ea580c;
+  --viz-8:  #475569;
+
+  --viz-seq-1: rgba(79, 70, 229, 0.10);
+  --viz-seq-2: rgba(79, 70, 229, 0.25);
+  --viz-seq-3: rgba(79, 70, 229, 0.45);
+  --viz-seq-4: rgba(79, 70, 229, 0.70);
+  --viz-seq-5: rgba(79, 70, 229, 1.00);
+
+  --viz-div-neg-2: #dc2626;
+  --viz-div-neg-1: rgba(220, 38, 38, 0.30);
+  --viz-div-zero:  rgba(100, 116, 139, 0.20);
+  --viz-div-pos-1: rgba(5, 150, 105, 0.30);
+  --viz-div-pos-2: #059669;
+
+  --metric-positive: #047857;
+  --metric-negative: #b91c1c;
+  --metric-neutral:  var(--fg-3);
+
+  --chart-grid:     rgba(15, 23, 42, 0.05);
+  --chart-axis:     rgba(15, 23, 42, 0.14);
+  --chart-axis-fg:  var(--fg-3);
+  --chart-tooltip-bg: var(--bg-floating);
+}
+
+/* =================================================================
+ * 5. RADII
+ * ================================================================= */
+
+:root {
+  --radius-xs: 3px; --radius-sm: 5px; --radius-md: 8px;
+  --radius-lg: 12px; --radius-xl: 16px; --radius-2xl: 20px; --radius-full: 9999px;
+}
+
+/* =================================================================
+ * 6. ELEVATION
+ *   Dark: near-black, low alpha, with inset highlight
+ *   Light: soft, longer, no harsh drop
+ * ================================================================= */
+
+:root,
+[data-theme="dark"],
+[data-theme="aurora"] {
+  --shadow-xs: 0 1px 0 0 rgba(0, 0, 0, 0.32);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.40), 0 1px 0 0 rgba(255,255,255,0.02) inset;
+  --shadow-md:
+    0 4px 8px -2px rgba(0, 0, 0, 0.40),
+    0 2px 4px -2px rgba(0, 0, 0, 0.30),
+    0 1px 0 0 rgba(255,255,255,0.03) inset;
+  --shadow-lg:
+    0 12px 24px -6px rgba(0, 0, 0, 0.50),
+    0 4px 8px -4px rgba(0, 0, 0, 0.40),
+    0 1px 0 0 rgba(255,255,255,0.04) inset;
+  --shadow-xl:
+    0 24px 48px -12px rgba(0, 0, 0, 0.60),
+    0 8px 16px -8px rgba(0, 0, 0, 0.40),
+    0 1px 0 0 rgba(255,255,255,0.05) inset;
+
+  --shadow-inset-top:  inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --shadow-focus-ring: 0 0 0 3px rgba(var(--a-rgb), 0.28);
+}
+
+[data-theme="light"],
+[data-theme="graphite"] {
+  --shadow-xs: 0 1px 0 0 rgba(var(--n-rgb-fg-dark), 0.04);
+  --shadow-sm:
+    0 1px 2px 0 rgba(var(--n-rgb-fg-dark), 0.06),
+    0 1px 0 0 rgba(var(--n-rgb-fg-dark), 0.03);
+  --shadow-md:
+    0 4px 12px -2px rgba(var(--n-rgb-fg-dark), 0.07),
+    0 2px 4px -2px rgba(var(--n-rgb-fg-dark), 0.04);
+  --shadow-lg:
+    0 12px 28px -6px rgba(var(--n-rgb-fg-dark), 0.09),
+    0 4px 8px -4px rgba(var(--n-rgb-fg-dark), 0.05);
+  --shadow-xl:
+    0 24px 56px -12px rgba(var(--n-rgb-fg-dark), 0.13),
+    0 8px 16px -8px rgba(var(--n-rgb-fg-dark), 0.07);
+
+  --shadow-inset-top:  inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-focus-ring: 0 0 0 3px rgba(var(--a-rgb), 0.22);
+}
+
+/* =================================================================
+ * 7. MOTION
+ * ================================================================= */
+
+:root {
+  --dur-instant: 80ms;  --dur-fast: 140ms;  --dur-base: 220ms;
+  --dur-slow: 320ms;    --dur-slower: 480ms;
+
+  --ease-standard:   cubic-bezier(0.32, 0.72, 0.24, 1);
+  --ease-emphasized: cubic-bezier(0.22, 0.86, 0.20, 1.0);
+  --ease-linear:     linear;
+  --ease-in:         cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:     cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ----- Motion taxonomy: by intent, not by element ----- */
+  /* Immediate — direct feedback for the gesture you just made */
+  --motion-immediate-dur:  var(--dur-instant);
+  --motion-immediate-ease: cubic-bezier(0.4, 0, 0.6, 1);
+
+  /* Responsive — UI updating itself: hover, focus, tabs, select */
+  --motion-responsive-dur:  var(--dur-fast);
+  --motion-responsive-ease: var(--ease-standard);
+
+  /* Spatial — something arriving or leaving the layout */
+  --motion-spatial-dur:  var(--dur-base);
+  --motion-spatial-ease: var(--ease-emphasized);
+
+  /* Cognitive — page/route/dialog scope changes */
+  --motion-cognitive-dur:  var(--dur-slow);
+  --motion-cognitive-ease: var(--ease-emphasized);
+
+  /* Asymmetry: exits are faster and use ease-in */
+  --motion-exit-dur:  var(--dur-fast);
+  --motion-exit-ease: var(--ease-in);
+}
+
+/* =================================================================
+ * 7b. BEHAVIORAL / INTERACTION TOKENS
+ *   Not what things look like — what gestures *feel* like.
+ *
+ *   Six axes of interaction grammar:
+ *     intent       — primary | secondary | destructive | ambient
+ *     confidence   — committed | tentative | exploratory
+ *     urgency      — calm     | normal    | urgent
+ *     attention    — recede   | hold      | draw
+ *     persistence  — flash    | linger    | sticky
+ *     weight       — feather  | medium    | substantial
+ *
+ *   These map to atomic delta tokens below. Components consume the
+ *   deltas, never raw color/size. Hover behavior is the same vocabulary
+ *   on a card, a row, a chip, a tab, a tree node.
+ * ================================================================= */
+
+:root {
+  /* --- Hover deltas: how much the surface "wakes up" --- */
+  --hover-subtle-bg:      color-mix(in oklab, var(--bg-surface) 94%, var(--fg-1));
+  --hover-emphasized-bg:  color-mix(in oklab, var(--bg-surface) 86%, var(--fg-1));
+  --hover-tint-bg:        color-mix(in oklab, var(--bg-surface) 90%, var(--accent-primary));
+  --hover-border-tighten: color-mix(in oklab, var(--border-default) 60%, var(--fg-1));
+  --hover-fg-sharpen:     var(--fg-1);
+  --hover-lift:           translateY(-0.5px);
+
+  /* --- Press: compression, never bounce. Asymmetric (fast in, slower out). --- */
+  --press-compression:  scale(0.992);
+  --press-bg:           var(--bg-surface-active);
+  --press-shadow:       none;
+  --press-in-dur:       var(--motion-immediate-dur);
+  --press-out-dur:      var(--motion-responsive-dur);
+
+  /* --- Focus clarity: ring + optional tint --- */
+  --focus-ring:         0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--border-focus);
+  --focus-ring-tight:   0 0 0 2px var(--border-focus);
+  --focus-bg:           var(--accent-surface);
+
+  /* --- Surface breathing: neighbors recede when one becomes active --- */
+  --recede-opacity:     0.62;
+  --recede-blur:        0px;
+  --hold-opacity:       1;
+  --draw-opacity:       1;
+  --draw-emphasis-fg:   var(--fg-1);
+
+  /* --- Feedback flashes: success / error / copied --- */
+  --flash-success-bg:   var(--success-bg);
+  --flash-success-fg:   var(--success-fg);
+  --flash-error-bg:     var(--danger-bg);
+  --flash-error-fg:     var(--danger-fg);
+  --flash-dur:          var(--dur-slower);
+
+  /* --- Loading rhythm: shimmer slow enough to feel calm, not anxious --- */
+  --shimmer-dur:        1600ms;
+  --shimmer-ease:       linear;
+  --shimmer-from:       var(--bg-surface-muted);
+  --shimmer-to:         var(--bg-surface-hover);
+
+  /* --- AI streaming cadence: never visibly per-token --- */
+  --stream-chunk-dur:   var(--dur-fast);
+  --stream-chunk-ease:  var(--ease-out);
+  --stream-caret-blink: 900ms;
+
+  /* --- Weight: how "heavy" a commit feels --- */
+  --weight-feather-dur:     var(--motion-immediate-dur);
+  --weight-medium-dur:      var(--motion-responsive-dur);
+  --weight-substantial-dur: var(--motion-spatial-dur);
+}
+
+/* Behavioral utility classes — components opt in by intent, not by hand-rolled CSS. */
+[data-intent] {
+  transition:
+    background-color var(--motion-responsive-dur) var(--motion-responsive-ease),
+    color            var(--motion-responsive-dur) var(--motion-responsive-ease),
+    border-color     var(--motion-responsive-dur) var(--motion-responsive-ease),
+    box-shadow       var(--motion-responsive-dur) var(--motion-responsive-ease),
+    transform        var(--motion-responsive-dur) var(--motion-responsive-ease);
+}
+[data-intent="primary"]:hover     { background: var(--accent-hover); transform: var(--hover-lift); }
+[data-intent="secondary"]:hover   { background: var(--hover-subtle-bg); border-color: var(--hover-border-tighten); }
+[data-intent="ambient"]:hover     { background: var(--hover-subtle-bg); }
+[data-intent="destructive"]:hover { background: var(--danger); color: white; }
+
+[data-intent]:active { transform: var(--press-compression); transition-duration: var(--press-in-dur); }
+[data-intent]:focus-visible { outline: 0; box-shadow: var(--focus-ring-tight); }
+
+[data-attention="recede"] { opacity: var(--recede-opacity); transition: opacity var(--motion-responsive-dur) var(--motion-responsive-ease); }
+[data-attention="draw"]   { opacity: var(--draw-opacity);  color: var(--draw-emphasis-fg); }
+
+/* Surface breathing: group hover makes non-hovered siblings recede */
+[data-breathing] > * { transition: opacity var(--motion-responsive-dur) var(--motion-responsive-ease); }
+[data-breathing]:hover > *:not(:hover) { opacity: var(--recede-opacity); }
+
+/* =================================================================
+ * 7c. ENVIRONMENTAL INTELLIGENCE  (v5 — Focused Serenity)
+ *   The interface participates as a whole. Hover doesn't just light
+ *   up one element; it subtly reshapes what's adjacent. Focus doesn't
+ *   just ring; it clarifies its region and softens others.
+ * ================================================================= */
+
+:root {
+  /* Topology-aware breathing — neighbors recede LESS than distant elements */
+  --recede-near:    0.82;  /* immediate neighbor */
+  --recede-mid:     0.68;  /* same group, not adjacent */
+  --recede-far:     0.50;  /* unrelated region */
+  --recede-ease:    var(--ease-out);
+
+  /* Interaction memory — actions leave a fading trace */
+  --memory-dur:        720ms;
+  --memory-ease:       cubic-bezier(0.16, 0.68, 0.32, 1);
+  --memory-bg:         var(--accent-surface);
+  --memory-ring:       0 0 0 1px var(--accent-border);
+
+  /* Perceived weight — propagation duration scales with element mass */
+  --mass-feather-prop:   60ms;
+  --mass-light-prop:     100ms;
+  --mass-medium-prop:    160ms;
+  --mass-heavy-prop:     240ms;
+  --mass-massive-prop:   360ms;
+
+  /* Adaptive calmness — system softens itself during cognitive load */
+  --calm-hover-bg:       color-mix(in oklab, var(--bg-surface) 96%, var(--fg-1));
+  --calm-recede:         0.78;
+  --calm-dur:            var(--motion-cognitive-dur);
+  --calm-stream-chunk:   var(--dur-base);
+
+  /* Focus ecology — focused region sharpens; everything else softens */
+  --ecology-active-fg:   var(--fg-1);
+  --ecology-passive-fg:  var(--fg-3);
+  --ecology-passive-bg:  color-mix(in oklab, var(--bg-canvas) 50%, var(--bg-surface-muted));
+  --ecology-prop-dur:    var(--motion-spatial-dur);
+
+  /* Semantic streaming — pauses at punctuation, not per-token */
+  --stream-comma-pause:   80ms;
+  --stream-period-pause:  220ms;
+  --stream-para-pause:    360ms;
+  --stream-confidence-low: 0.72;
+  --stream-confidence-high: 1;
+}
+
+/* Topology-aware recede — set [data-locality] on children */
+[data-breathing]:hover > [data-locality="near"]:not(:hover)  { opacity: var(--recede-near); }
+[data-breathing]:hover > [data-locality="mid"]:not(:hover)   { opacity: var(--recede-mid); }
+[data-breathing]:hover > [data-locality="far"]:not(:hover)   { opacity: var(--recede-far); }
+
+/* Interaction memory: add [data-remembered="true"] briefly after commit */
+[data-remembered="true"] {
+  box-shadow: var(--memory-ring);
+  background-color: var(--memory-bg);
+  transition: background-color var(--memory-dur) var(--memory-ease),
+              box-shadow var(--memory-dur) var(--memory-ease);
+}
+
+/* Adaptive calmness — applied to a container while in cognitive load
+   (modal open, AI generating, onboarding step). Children become quieter. */
+[data-calm="true"] [data-intent]:hover { background: var(--calm-hover-bg); transform: none; }
+[data-calm="true"] [data-breathing]:hover > *:not(:hover) { opacity: var(--calm-recede); }
+[data-calm="true"] * { transition-duration: var(--calm-dur) !important; }
+
+/* Focus ecology — set [data-ecology] on the container, [data-region="active"]
+   on the focused region. Other regions soften. */
+[data-ecology] [data-region]                       { transition: opacity var(--ecology-prop-dur) var(--motion-spatial-ease), color var(--ecology-prop-dur) var(--motion-spatial-ease); }
+[data-ecology]:has([data-region="active"]) [data-region]:not([data-region="active"]) {
+  color: var(--ecology-passive-fg);
+  opacity: 0.7;
+}
+[data-ecology] [data-region="active"] { color: var(--ecology-active-fg); }
+
+/* Reduced-motion respects all of the above */
+@media (prefers-reduced-motion: reduce) {
+  [data-breathing]:hover > *:not(:hover),
+  [data-calm="true"] [data-breathing]:hover > *:not(:hover),
+  [data-ecology]:has([data-region="active"]) [data-region]:not([data-region="active"]) { opacity: 1 !important; }
+}
+
+/* =================================================================
+ * 7d. INVISIBLE CONFIDENCE  (v6 — Restraint Architecture)
+ *   The goal is no longer behavior. It is the *right* behavior in
+ *   the *right* place, and nothing anywhere else. Subtraction tokens.
+ * ================================================================= */
+
+:root {
+  /* Hierarchy of absence — region presence dial.
+     "Active" participates fully. Peripheral participates less.
+     Reading is near-static. Background is inert. */
+  --presence-active:       1;      /* workspace, focused panel */
+  --presence-peripheral:   0.55;   /* metadata, side rails */
+  --presence-reading:      0.2;    /* long-form, articles, AI output regions */
+  --presence-background:   0;      /* chrome, frames, dividers */
+
+  /* Idle / Engaged — the system breath cycle.
+     After idle threshold, contrast relaxes; on re-engagement it sharpens. */
+  --idle-threshold:        90s;    /* informational; JS sets [data-engagement] */
+  --idle-fg-shift:         0.92;   /* foreground softens to 92% of its color */
+  --idle-border-shift:     0.7;    /* borders relax to 70% strength */
+  --idle-trans-dur:        var(--motion-cognitive-dur);
+
+  /* Calibrated friction — destructive / consequential actions feel heavier */
+  --friction-press-dur:    180ms;  /* vs --press-out-dur ~140ms */
+  --friction-press-ease:   cubic-bezier(0.32, 0, 0.4, 1);
+  --friction-commit-hold:  240ms;  /* visible "settling" before state change */
+  --friction-scale:        0.985;  /* less compression than primary press */
+
+  /* Temporal asymmetry — release is always softer than entry */
+  --asym-enter-dur:        120ms;
+  --asym-exit-dur:         200ms;
+  --asym-enter-ease:       var(--ease-out);
+  --asym-exit-ease:        cubic-bezier(0.4, 0, 0.7, 0.4);
+
+  /* Emotional contrast — three accent tonalities for moments */
+  --moment-success-fg:     var(--success);
+  --moment-success-ring:   0 0 0 1px color-mix(in oklab, var(--success) 40%, transparent);
+  --moment-thought-fg:     var(--fg-2);            /* AI cognitive inhale — quieter, not louder */
+  --moment-thought-pulse:  color-mix(in oklab, var(--accent-border) 40%, transparent);
+  --moment-error-fg:       var(--danger);
+  --moment-error-ring:     0 0 0 1px color-mix(in oklab, var(--danger) 35%, transparent);
+
+  /* Suppression arbitration — when set on an ancestor, secondary effects pause */
+  --suppress-breathing:    0;      /* 1 disables breathing recede */
+  --suppress-memory:       0;      /* 1 disables 720ms memory glow */
+  --suppress-ecology:      0;      /* 1 flattens focus ecology */
+}
+
+/* === Quiet surfaces === Opt-out of all environmental orchestration.
+   Use for: reading regions, long AI outputs, dense tables, documentation. */
+[data-quiet],
+[data-quiet] [data-breathing],
+[data-quiet] [data-ecology] {
+  /* Breathing off */
+}
+[data-quiet] [data-breathing]:hover > *:not(:hover) { opacity: 1 !important; }
+[data-quiet] [data-remembered="true"] { box-shadow: none; background-color: transparent; }
+[data-quiet] [data-ecology]:has([data-region="active"]) [data-region]:not([data-region="active"]) { opacity: 1 !important; color: inherit !important; }
+[data-quiet] [data-intent]:hover { background: transparent; transform: none; }
+
+/* === Hierarchy of absence === Regions advertise their presence tier.
+   The eye learns to skip low-presence regions without thinking. */
+[data-presence="peripheral"] { color: var(--fg-3); }
+[data-presence="peripheral"] [data-breathing]:hover > *:not(:hover) { opacity: 0.85; }  /* reduced participation */
+[data-presence="reading"]    { color: var(--fg-1); }
+[data-presence="reading"]    [data-breathing]:hover > *:not(:hover),
+[data-presence="reading"]    *:hover { transition-duration: 320ms !important; }       /* slow, contemplative */
+[data-presence="reading"]    [data-remembered="true"] { box-shadow: none; }            /* no memory glow in reading */
+[data-presence="background"] { color: var(--fg-4); pointer-events: none; }              /* truly inert */
+
+/* === Suppression arbitration === Container-level pause of secondary behaviors.
+   Apply [data-suppress="ambient"] during streaming, modal, onboarding, dense edit. */
+[data-suppress="ambient"] [data-breathing]:hover > *:not(:hover) { opacity: 1; }
+[data-suppress="ambient"] [data-remembered="true"]                { box-shadow: none; background: transparent; transition: none; }
+[data-suppress="ambient"] [data-ecology] [data-region]:not([data-region="active"]) { opacity: 1; color: inherit; }
+[data-suppress="all"]     *                                       { animation: none !important; transition-property: color, background-color, opacity !important; }
+
+/* === Idle / engaged === JS sets [data-engagement="idle"|"active"] on <html>.
+   In idle, foreground softens, borders relax. Re-engagement is instant on input. */
+:root[data-engagement="idle"] {
+  --fg-1: color-mix(in oklab, var(--fg-2) 50%, var(--fg-1));
+  --border-2: color-mix(in oklab, var(--border-1) 50%, var(--border-2));
+}
+:root[data-engagement="idle"] body { transition: color var(--idle-trans-dur) var(--ease-in-out); }
+
+/* === Calibrated friction === Heavier press for consequential intents. */
+[data-intent="destructive"]:active,
+[data-friction="true"]:active {
+  transform: scale(var(--friction-scale));
+  transition: transform var(--friction-press-dur) var(--friction-press-ease);
+}
+[data-friction="commit"][data-committing="true"] {
+  /* Visible settling before state change — apply before async work. */
+  opacity: 0.92;
+  transition: opacity var(--friction-commit-hold) var(--ease-in-out);
+}
+
+/* === Emotional moments === Three short-lived accent overlays. */
+[data-moment="success"] { box-shadow: var(--moment-success-ring); color: var(--moment-success-fg); transition: box-shadow var(--memory-dur) var(--memory-ease); }
+[data-moment="thought"] { box-shadow: 0 0 0 1px var(--moment-thought-pulse); color: var(--moment-thought-fg); transition: box-shadow 600ms var(--ease-in-out); }
+[data-moment="error"]   { box-shadow: var(--moment-error-ring);   color: var(--moment-error-fg);   transition: box-shadow var(--memory-dur) var(--memory-ease); }
+
+/* Reduced motion respects all v6 layers */
+@media (prefers-reduced-motion: reduce) {
+  [data-friction="true"]:active,
+  [data-intent="destructive"]:active { transform: none !important; transition: none !important; }
+  [data-moment]                       { transition: none !important; }
+}
+
+/* =================================================================
+ * 8. BASE STYLES
+ * ================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg-canvas);
+  color: var(--fg-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-snug);
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--dur-base) var(--ease-standard),
+              color var(--dur-base) var(--ease-standard);
+}
+
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+h1, .h1 {
+  font-family: var(--font-display); font-size: var(--text-4xl);
+  line-height: var(--leading-tight); letter-spacing: -0.022em;
+  font-weight: 500; color: var(--fg-1); margin: 0;
+}
+h2, .h2 {
+  font-family: var(--font-display); font-size: var(--text-3xl);
+  line-height: var(--leading-tight); letter-spacing: -0.018em;
+  font-weight: 500; color: var(--fg-1); margin: 0;
+}
+h3, .h3 {
+  font-size: var(--text-2xl); line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight); font-weight: var(--weight-semibold);
+  color: var(--fg-1); margin: 0;
+}
+h4, .h4 {
+  font-size: var(--text-xl); line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-snug); font-weight: var(--weight-semibold);
+  color: var(--fg-1); margin: 0;
+}
+h5, .h5 {
+  font-size: var(--text-lg); line-height: var(--leading-snug);
+  font-weight: var(--weight-semibold); color: var(--fg-1); margin: 0;
+}
+h6, .h6 {
+  font-size: var(--text-base); line-height: var(--leading-snug);
+  font-weight: var(--weight-semibold); color: var(--fg-1); margin: 0;
+}
+
+p, .body {
+  font-size: var(--text-md); line-height: var(--leading-relaxed);
+  color: var(--fg-2); margin: 0;
+}
+.lead {
+  font-size: var(--text-lg); line-height: var(--leading-relaxed);
+  color: var(--fg-2); letter-spacing: var(--tracking-snug);
+}
+.meta { font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--fg-3); }
+.eyebrow {
+  font-size: var(--text-xs); line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-widest); text-transform: uppercase;
+  color: var(--fg-3); font-weight: var(--weight-medium);
+}
+.display {
+  font-family: var(--font-display); font-size: var(--text-6xl);
+  line-height: 1.04; letter-spacing: -0.028em;
+  font-weight: 500; color: var(--fg-1);
+}
+
+code, kbd, samp, .mono {
+  font-family: var(--font-mono); font-size: 0.92em;
+  font-feature-settings: 'ss01', 'ss02';
+}
+code {
+  padding: 0.12em 0.36em; background: var(--bg-inset);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-xs);
+  color: var(--fg-1);
+}
+pre {
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  line-height: var(--leading-normal); background: var(--syntax-bg);
+  border: 1px solid var(--border-default); border-radius: var(--radius-md);
+  padding: var(--space-4); overflow: auto; color: var(--fg-2);
+}
+
+a {
+  color: var(--accent-primary); text-decoration: none;
+  text-underline-offset: 3px; text-decoration-thickness: 1px;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+hr { border: 0; height: 1px; background: var(--border-subtle); }
+
+:focus-visible {
+  outline: 2px solid var(--border-focus); outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
