@@ -82,6 +82,19 @@ const Ico = {
       <line x1="16" y1="17" x2="8" y2="17" />
     </svg>
   ),
+  scholar: () => (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      width="13"
+      height="13"
+    >
+      <path d="M3 10l9-5 9 5-9 5-9-5z" />
+      <path d="M7 12.5V17c2.7 2 7.3 2 10 0v-4.5" />
+    </svg>
+  ),
 };
 
 const SKILL_ICON_KEYS: Record<string, string> = {
@@ -94,6 +107,7 @@ const SKILL_ICON_KEYS: Record<string, string> = {
   CSS: "css",
   React: "react",
   Node: "nodejs",
+  "Node.js": "nodejs",
   FastAPI: "fastapi",
   Flask: "flask",
   Tailwind: "tailwind",
@@ -111,7 +125,10 @@ const SKILL_ICON_KEYS: Record<string, string> = {
   "Raspberry Pi": "raspberrypi",
   Linux: "linux",
   AWS: "aws",
+  GCP: "gcp",
+  Azure: "azure",
   Docker: "docker",
+  Kubernetes: "kubernetes",
   Postgres: "postgres",
   MySQL: "mysql",
   MongoDB: "mongodb",
@@ -154,11 +171,11 @@ function transformProject(p: any) {
       p.achievements && p.achievements.length > 0
         ? p.achievements[0]
         : undefined,
-    href: p.live_link || p.link || undefined,
+    href: p.live_link || p.github_link || p.link || undefined,
   };
 }
 
-async function loadPortfolioData() {
+export async function loadPortfolioData() {
   const sb = getSbClient();
   if (!sb) return null;
 
@@ -204,6 +221,7 @@ async function loadPortfolioData() {
       github: sm.github_url || null,
       linkedin: sm.linkedin_url || null,
       instagram: sm.instagram_url || null,
+      scholar: sm.scholar_url || null,
       resume: sm.resume_url || null,
     };
 
@@ -211,23 +229,31 @@ async function loadPortfolioData() {
     const stats = [
       { n: sm.stat_hackathons || "", k: "hackathons" },
       { n: sm.stat_projects || "", k: "projects" },
-      { n: sm.stat_publications || "", k: "publication" },
+      {
+        n: sm.stat_publications || "",
+        k: sm.stat_publications === "1" ? "publication" : "publications",
+      },
     ];
 
     // Experience
     const expData = expRes.data || [];
-    const experience =
+    const allExperience =
       expData.length > 0
         ? expData.map((e: any) => ({
+            id: e.id,
             when: e.period || "",
             role: e.title || "",
             org: e.company || "",
             detail: e.description || "",
-            tag: (e.period || "").toLowerCase().includes("now")
+            tag: /(now|present)/i.test(e.period || "")
               ? "Ongoing"
               : undefined,
           }))
         : [];
+    const isLeadership = (item: any) =>
+      /chairperson\s+—\s+ieee|xenesis/i.test(item.role);
+    const experience = allExperience.filter((item: any) => !isLeadership(item));
+    const leadership = allExperience.filter(isLeadership);
 
     // Projects
     const allProj = projRes.data || [];
@@ -279,7 +305,7 @@ async function loadPortfolioData() {
       "ai-ml": "ML / DL",
       tools: "Tools",
       cloud: "Platforms",
-      // other: "Domains",
+      other: "Domains",
     };
     const CAT_ORDER = [
       "programming",
@@ -287,7 +313,7 @@ async function loadPortfolioData() {
       "ai-ml",
       "tools",
       "cloud",
-      // 'other',
+      "other",
     ];
     const skillsData = skillsRes.data || [];
     const skillsGrouped: Record<string, string[]> = {};
@@ -320,6 +346,7 @@ async function loadPortfolioData() {
       bio,
       stats,
       experience,
+      leadership,
       highlights,
       moreProjects,
       research,
@@ -413,6 +440,21 @@ function Aside({ bio, stats }: { bio: any; stats: any[] }) {
               </a>
             </li>
           )}
+          {bio.scholar && (
+            <li className="meta-item">
+              <a
+                href={bio.scholar}
+                target="_blank"
+                rel="noreferrer"
+                className="meta-link"
+              >
+                <span className="meta-icon">
+                  <Ico.scholar />
+                </span>
+                <span className="meta-val">Google Scholar</span>
+              </a>
+            </li>
+          )}
           {bio.resume && (
             <li className="meta-item">
               <a
@@ -484,8 +526,8 @@ function ProjectsSection({
 }) {
   const [expanded, setExpanded] = React.useState(false);
   return (
-    <section className="block" data-screen-label="02 Projects">
-      <SectionHead n={2} label="Projects" />
+    <section className="block" data-screen-label="03 Projects">
+      <SectionHead n={3} label="Projects" />
       <ul className="proj-list">
         {highlights.map((p, i) => (
           <ProjectCard p={p} i={i} key={p.title + i} />
@@ -519,6 +561,7 @@ function ProjectsSection({
 
 function Main({
   experience,
+  leadership,
   highlights,
   moreProjects,
   research,
@@ -528,6 +571,7 @@ function Main({
   wrapRef,
 }: {
   experience: any[];
+  leadership: any[];
   highlights: any[];
   moreProjects: any[];
   research: any[];
@@ -538,8 +582,8 @@ function Main({
 }) {
   return (
     <main className="main">
-      <section className="block" data-screen-label="01 Experience">
-        <SectionHead n={1} label="Experience" />
+      <section className="block" data-screen-label="01 Professional Experience">
+        <SectionHead n={1} label="Professional Experience" />
         <ul className="xp-list">
           {experience.map((x) => (
             <li className="xp" key={x.role + x.when}>
@@ -557,10 +601,28 @@ function Main({
         </ul>
       </section>
 
+      {leadership.length > 0 && (
+        <section className="block" data-screen-label="02 Leadership">
+          <SectionHead n={2} label="Leadership" />
+          <ul className="xp-list">
+            {leadership.map((x) => (
+              <li className="xp" key={x.role + x.when}>
+                <div className="xp-when">{x.when}</div>
+                <div className="xp-body">
+                  <div className="xp-role">{x.role}</div>
+                  <div className="xp-org">{x.org}</div>
+                  <p className="xp-detail">{x.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <ProjectsSection highlights={highlights} moreProjects={moreProjects} />
 
-      <section className="block" data-screen-label="03 Research">
-        <SectionHead n={3} label="Research & Publications" />
+      <section className="block" data-screen-label="04 Research">
+        <SectionHead n={4} label="Research & Publications" />
         <ul className="xp-list">
           {research.map((r) => (
             <li className="xp" key={r.title}>
@@ -578,8 +640,8 @@ function Main({
         </ul>
       </section>
 
-      <section className="block" data-screen-label="04 Education">
-        <SectionHead n={4} label="Education" />
+      <section className="block" data-screen-label="05 Education">
+        <SectionHead n={5} label="Education" />
         <ul className="edu-list">
           {education.map((e) => (
             <li className="edu" key={e.degree}>
@@ -594,8 +656,8 @@ function Main({
         </ul>
       </section>
 
-      <section className="block" data-screen-label="05 Skills">
-        <SectionHead n={5} label="Stack" />
+      <section className="block" data-screen-label="06 Skills">
+        <SectionHead n={6} label="Stack" />
         <dl className="skills">
           {skills.map((g) => (
             <div className="skill-row" key={g.label}>
@@ -608,8 +670,8 @@ function Main({
         </dl>
       </section>
 
-      <section className="block" data-screen-label="06 Achievements">
-        <SectionHead n={6} label="Achievements & certifications" />
+      <section className="block" data-screen-label="07 Achievements">
+        <SectionHead n={7} label="Achievements & certifications" />
         {Object.entries(achievements)
           .sort((a, b) => Number(b[0]) - Number(a[0]))
           .map(([year, items]) => (
@@ -719,6 +781,7 @@ export default function PortfolioApp() {
         <Aside bio={portfolio.bio} stats={portfolio.stats} />
         <Main
           experience={portfolio.experience}
+          leadership={portfolio.leadership}
           highlights={portfolio.highlights}
           moreProjects={portfolio.moreProjects}
           research={portfolio.research}
