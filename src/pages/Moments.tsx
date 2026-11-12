@@ -13,9 +13,15 @@ import { Calendar, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getOptimalFormatUrl } from "@/lib/cloudinary";
 import SEO from "@/components/seo";
+import "./moments.css";
+
+function stableHash(value: string) {
+  return Array.from(value).reduce((hash, character) => {
+    return (hash * 31 + character.charCodeAt(0)) | 0;
+  }, 7);
+}
 
 const MomentsPage = () => {
-  const [columnCount, setColumnCount] = useState(3);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
@@ -83,25 +89,6 @@ const MomentsPage = () => {
     });
   }, [galleryImages]);
 
-  // Generate random height factors for each image - only once
-  const imageHeightFactors = useMemo(() => {
-    return sortedGalleryImages.map(() => 0.8 + Math.random() * 0.7);
-  }, [sortedGalleryImages]);
-
-  // Update column count based on window size
-  useEffect(() => {
-    const updateColumnCount = () => {
-      if (window.innerWidth < 640) setColumnCount(1);
-      else if (window.innerWidth < 1024) setColumnCount(2);
-      else if (window.innerWidth < 1280) setColumnCount(3);
-      else setColumnCount(4);
-    };
-
-    updateColumnCount();
-    window.addEventListener("resize", updateColumnCount);
-    return () => window.removeEventListener("resize", updateColumnCount);
-  }, []);
-
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (selectedImage) {
@@ -138,66 +125,37 @@ const MomentsPage = () => {
       });
   }, [imagesByYear]);
 
-  // Distribute images in a masonry layout
-  const distributeImages = (
-    images: Array<GalleryImage & { heightFactorIndex: number }>,
-  ) => {
-    const columns: Array<Array<GalleryImage & { heightFactorIndex: number }>> =
-      Array.from({ length: columnCount }, () => []);
-
-    images.forEach((image) => {
-      const columnHeights = columns.map((col) =>
-        col.reduce(
-          (height, img) => height + imageHeightFactors[img.heightFactorIndex],
-          0,
-        ),
-      );
-      const shortestColumnIndex = columnHeights.indexOf(
-        Math.min(...columnHeights),
-      );
-      columns[shortestColumnIndex].push(image);
-    });
-
-    return columns;
-  };
-
   // MasonryGalleryItem component
   const MasonryGalleryItem = ({
     image,
     index,
   }: {
-    image: GalleryImage & {
-      heightFactorIndex: number;
-    };
+    image: GalleryImage;
     index: number;
   }) => {
-    const isTallImage = /Sunset at Udaipur|You start doing random things when your solution is built in half the time, thanks to Claude/i.test(
-      image.caption,
-    );
+    const hash = Math.abs(stableHash(image.id ?? image.url));
+    const rotation = ((hash % 9) - 4) * 0.55;
 
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.05 }}
-        className="mb-6 overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 "
+        transition={{ duration: 0.5, delay: Math.min(index * 0.035, 0.5) }}
+        className="moments-polaroid-card"
+        style={{ "--polaroid-rotation": `${rotation}deg` } as React.CSSProperties}
         onClick={() => setSelectedImage(image)}
       >
-        <div className="relative group">
-          <div className={`relative overflow-hidden ${isTallImage ? "aspect-[4/5]" : ""}`}>
+        <div className="moments-polaroid-inner">
+          <div className="moments-polaroid-photo">
             <img
               src={getOptimalFormatUrl(image.url, { width: 600 })}
               alt={image.caption}
               loading="lazy"
               decoding="async"
-              className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isTallImage ? "h-full" : "h-auto"}`}
+              className="block h-auto w-full"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
-
-          <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-            <p className="font-medium text-sm text-center">{image.caption}</p>
-          </div>
+          <p className="moments-polaroid-caption">{image.caption}</p>
         </div>
       </motion.div>
     );
@@ -315,7 +273,7 @@ const MomentsPage = () => {
     <>
       <SEO title="Moments" />
       <Layout>
-        <section className="relative pt-28 sm:pt-36 md:pt-44 lg:pt-52">
+        <section className="moments-stage relative pt-28 pb-16 sm:pt-36 md:pt-44 lg:pt-52">
           <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
             <motion.div
               ref={containerRef}
@@ -334,32 +292,19 @@ const MomentsPage = () => {
             </motion.div>
 
             {sortedYears.map((year) => (
-              <div key={year} className="mb-10 sm:mb-12 md:mb-16">
-                <div className="flex items-center mb-6 sm:mb-8">
-                  <div className="h-px bg-border flex-grow mr-4 sm:mr-6"></div>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                    {year}
-                  </h2>
-                  <div className="h-px bg-border flex-grow ml-4 sm:ml-6"></div>
+              <div key={year} className="moments-year-group">
+                <div className="moments-year-label">
+                  <span>{year}</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-                  {distributeImages(imagesByYear[year]).map(
-                    (column, columnIndex) => (
-                      <div
-                        key={`column-${columnIndex}-${year}`}
-                        className="flex flex-col"
-                      >
-                        {column.map((image, index) => (
-                          <MasonryGalleryItem
-                            key={`${year}-${columnIndex}-${index}`}
-                            image={image}
-                            index={index}
-                          />
-                        ))}
-                      </div>
-                    ),
-                  )}
+                <div className="moments-polaroid-grid">
+                  {imagesByYear[year].map((image, index) => (
+                    <MasonryGalleryItem
+                      key={`${year}-${image.id ?? image.url}`}
+                      image={image}
+                      index={index}
+                    />
+                  ))}
                 </div>
               </div>
             ))}

@@ -10,13 +10,10 @@ import { PortfolioStudyPage } from "./pages/PortfolioStudies";
 import SignalPortfolioPage from "./pages/SignalPortfolioPage";
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
-import AchievementsPage from "./pages/AchievementsPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 import MomentsPage from "./pages/Moments";
-import BlogsPage from "./pages/BlogsPage";
-import BlogDetailPage from "./pages/BlogDetailPage";
 
 // Admin pages - bundled together
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -55,10 +52,7 @@ const App = () => (
             <Route path="/test-4" element={<SignalPortfolioPage />} />
             <Route path="/classic" element={<HomePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/moments" element={<MomentsPage />} />
-            <Route path="/blog" element={<BlogsPage />} />
-            <Route path="/blog/:slug" element={<BlogDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
 

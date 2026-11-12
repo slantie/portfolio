@@ -1,0 +1,135 @@
+.moments-stage {
+  /* The default portfolio canvas is dark, so the cards read as clean paper. */
+  --polaroid-paper: #fffdf8;
+  --polaroid-ink: #302b24;
+  --polaroid-border: rgba(50, 42, 32, 0.12);
+  --polaroid-shadow: 0 14px 28px rgba(54, 42, 27, 0.14), 0 2px 5px rgba(54, 42, 27, 0.08);
+  background: transparent;
+}
+
+.moments-polaroid-grid {
+  column-count: 1;
+  column-gap: 1.25rem;
+}
+
+.moments-polaroid-card {
+  --polaroid-rotation: 0deg;
+  break-inside: avoid;
+  display: block;
+  margin: 0 0 1.25rem;
+  padding: 0.65rem 0.65rem 0.9rem;
+  border: 1px solid var(--polaroid-border);
+  background: var(--polaroid-paper);
+  box-shadow: var(--polaroid-shadow);
+  cursor: pointer;
+  transform: rotate(var(--polaroid-rotation));
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.moments-polaroid-card:hover {
+  z-index: 2;
+  transform: translateY(-7px) rotate(0deg) scale(1.015);
+  box-shadow: 0 22px 38px rgba(54, 42, 27, 0.2), 0 4px 8px rgba(54, 42, 27, 0.1);
+}
+
+.moments-polaroid-inner {
+  overflow: hidden;
+  background: var(--polaroid-paper);
+}
+
+.moments-polaroid-photo {
+  overflow: hidden;
+  background: var(--polaroid-paper);
+}
+
+.moments-polaroid-photo img {
+  border-radius: 1rem;
+}
+
+.moments-polaroid-caption {
+  margin: 0;
+  padding: 0.72rem 0.35rem 0.05rem;
+  color: var(--polaroid-ink);
+  font-family: "Nazm Serif", Georgia, serif;
+  font-size: 1.02rem;
+  font-weight: 650;
+  letter-spacing: 0.025em;
+  line-height: 1.15;
+  text-align: center;
+}
+
+/* In a light canvas, use charcoal paper so the polaroids still feel like
+   intentional objects rather than disappearing into the page. */
+@media (prefers-color-scheme: light) {
+  .moments-stage {
+    --polaroid-paper: #292a2d;
+    --polaroid-ink: #fffdf8;
+    --polaroid-border: rgba(255, 255, 255, 0.12);
+    --polaroid-shadow: 0 14px 28px rgba(25, 25, 25, 0.2), 0 2px 5px rgba(25, 25, 25, 0.14);
+  }
+}
+
+/* Explicit app themes take precedence over the device preference. */
+:where(html[data-theme="light"], body[data-theme="light"], html.light, body.light) .moments-stage {
+  --polaroid-paper: #292a2d;
+  --polaroid-ink: #fffdf8;
+  --polaroid-border: rgba(255, 255, 255, 0.12);
+  --polaroid-shadow: 0 14px 28px rgba(25, 25, 25, 0.2), 0 2px 5px rgba(25, 25, 25, 0.14);
+}
+
+:where(html[data-theme="dark"], body[data-theme="dark"], html.dark, body.dark) .moments-stage {
+  --polaroid-paper: #fffdf8;
+  --polaroid-ink: #302b24;
+  --polaroid-border: rgba(50, 42, 32, 0.12);
+  --polaroid-shadow: 0 14px 28px rgba(54, 42, 27, 0.14), 0 2px 5px rgba(54, 42, 27, 0.08);
+}
+
+.moments-year-group {
+  margin-bottom: 4rem;
+}
+
+.moments-year-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.6rem;
+  color: inherit;
+  font-family: "Nazm Serif", Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.7rem);
+  font-weight: 650;
+  letter-spacing: 0.035em;
+}
+
+.moments-year-label::before,
+.moments-year-label::after {
+  height: 1px;
+  flex: 1;
+  background: currentColor;
+  opacity: 0.2;
+  content: "";
+}
+
+@media (min-width: 640px) {
+  .moments-polaroid-grid {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .moments-polaroid-grid {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1280px) {
+  .moments-polaroid-grid {
+    column-count: 4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moments-polaroid-card {
+    transform: none;
+    transition: none;
+  }
+}
