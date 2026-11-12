@@ -9,12 +9,10 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft,
   Save,
   Plus,
   X,
   Eye,
-  Sparkles,
   FileText,
 } from "lucide-react";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -23,6 +21,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import type { Blog } from "@/types";
 import { BLOG_TAGS } from "@/types";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 
 // Markdown parser for preview
 function parseMarkdown(markdown: string): string {
@@ -279,7 +278,7 @@ export default function BlogForm() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="sortd-page space-y-7">
         <div className="h-8 bg-muted rounded w-48 animate-pulse" />
         <Card className="animate-pulse">
           <CardContent className="py-6 space-y-4">
@@ -293,34 +292,15 @@ export default function BlogForm() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <div className="flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
-            {isEditing ? (
-              <FileText className="h-6 w-6" />
-            ) : (
-              <Sparkles className="h-6 w-6" />
-            )}
-            {isEditing ? "Edit Blog Post" : "New Blog Post"}
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            {isEditing
-              ? "Update your thoughts"
-              : "Share something awesome, Slantie!"}
-          </p>
-        </div>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader eyebrow="Portfolio / Writing" title={isEditing ? "Edit post" : "New post"} description={isEditing ? "Refine your ideas without losing the original thread." : "Write something worth returning to."} onBack={() => navigate(-1)} />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Tabs
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as "edit" | "preview")}
         >
-          <TabsList className="mb-4">
+          <TabsList className="mb-4 w-full justify-start sm:w-auto">
             <TabsTrigger value="edit" className="gap-2">
               <FileText className="h-4 w-4" />
               Edit
@@ -521,7 +501,7 @@ export default function BlogForm() {
                     />
                   )}
                   <div
-                    className="prose prose-lg dark:prose-invert max-w-none"
+                    className="sortd-prose prose prose-lg max-w-none"
                     dangerouslySetInnerHTML={{
                       __html: parseMarkdown(formData.content || ""),
                     }}

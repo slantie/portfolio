@@ -1,0 +1,126 @@
+{
+  "profile": {
+    "name": "Avery Morgan",
+    "headline": "Product-minded software engineer",
+    "location": "Northbridge, Exampleland",
+    "bio": "I build thoughtful web products, data tools, and small experiments that make complex workflows easier to use.",
+    "avatar": "https://images.example.test/avatars/avery-morgan.jpg",
+    "links": {
+      "email": "mailto:hello@example.test",
+      "website": "https://avery.example.test",
+      "github": "https://github.com/example-user",
+      "linkedin": "https://www.linkedin.com/in/example-user"
+    },
+    "stats": {
+      "projects": 8,
+      "publications": 2,
+      "events": 5
+    }
+  },
+  "experience": [
+    {
+      "id": "exp_001",
+      "title": "Software Engineer",
+      "organization": "Northstar Labs",
+      "period": "2024 — Present",
+      "description": "Built internal data products and accessible workflow tools for research teams.",
+      "kind": "professional",
+      "sortOrder": 1
+    },
+    {
+      "id": "exp_002",
+      "title": "Community Lead",
+      "organization": "Open Systems Collective",
+      "period": "2023 — 2024",
+      "description": "Organized workshops and mentored contributors across a volunteer engineering community.",
+      "kind": "leadership",
+      "sortOrder": 2
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj_001",
+      "title": "Atlas Notes",
+      "description": "A calm research-notes workspace with fast search and linked references.",
+      "longDescription": "A fictional product case study demonstrating information architecture, keyboard-first navigation, and local-first editing.",
+      "event": "Independent project",
+      "startMonth": "March",
+      "startYear": 2025,
+      "ongoing": true,
+      "image": "https://images.example.test/projects/atlas-notes.jpg",
+      "tags": ["Product design", "Search", "React"],
+      "links": {
+        "website": "https://atlas-notes.example.test",
+        "repository": "https://github.com/example-user/atlas-notes"
+      },
+      "featured": true,
+      "category": ["web-development", "academic"],
+      "skills": ["TypeScript", "React", "SQLite"],
+      "achievements": ["Selected for a fictional demo day"],
+      "teamSize": 2,
+      "role": "Product engineer"
+    },
+    {
+      "id": "proj_002",
+      "title": "Signal Garden",
+      "description": "A visual dashboard for exploring anonymized sensor patterns.",
+      "event": "Example Data Challenge",
+      "startMonth": "October",
+      "startYear": 2024,
+      "endMonth": "December",
+      "endYear": 2024,
+      "ongoing": false,
+      "image": "https://images.example.test/projects/signal-garden.jpg",
+      "tags": ["Data visualization", "Prototyping"],
+      "links": {
+        "repository": "https://github.com/example-user/signal-garden"
+      },
+      "featured": false,
+      "category": ["data-science"],
+      "skills": ["Python", "Pandas", "D3.js"],
+      "teamSize": 3,
+      "role": "Data engineer"
+    }
+  ],
+  "skills": [
+    { "id": "skill_001", "name": "TypeScript", "category": "programming", "sortOrder": 1 },
+    { "id": "skill_002", "name": "React", "category": "frameworks", "sortOrder": 2 },
+    { "id": "skill_003", "name": "Python", "category": "programming", "sortOrder": 3 },
+    { "id": "skill_004", "name": "PostgreSQL", "category": "data", "sortOrder": 4 }
+  ],
+  "education": [
+    {
+      "id": "edu_001",
+      "degree": "MSc Human-Centered Computing",
+      "institution": "Example Institute of Technology",
+      "period": "2022 — 2024",
+      "description": "Focus on usable systems, information visualization, and applied software engineering.",
+      "location": "Northbridge",
+      "sortOrder": 1
+    }
+  ],
+  "achievements": [
+    {
+      "id": "ach_001",
+      "type": "publication",
+      "title": "Designing Trustworthy Research Dashboards",
+      "organization": "Example Computing Review",
+      "description": "A fictional publication about transparent interfaces for exploratory data work.",
+      "date": { "month": "June", "year": 2024 },
+      "image": "https://images.example.test/achievements/publication.jpg",
+      "link": "https://example.test/publications/trustworthy-dashboards",
+      "tags": ["Research", "Design systems"]
+    },
+    {
+      "id": "ach_002",
+      "type": "award",
+      "title": "Best Prototype",
+      "organization": "Example Product Sprint",
+      "description": "Recognized for a clear, accessible prototype and concise technical communication.",
+      "date": { "month": "November", "year": 2023 },
+      "image": "https://images.example.test/achievements/best-prototype.jpg",
+      "link": null,
+      "tags": ["Award"]
+    }
+  ]
+}

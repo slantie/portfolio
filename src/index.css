@@ -1,5 +1,5 @@
 /* stylelint-disable at-rule-no-unknown */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;450;500;550;600;650;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -111,6 +111,166 @@
   .animation-delay-1000 {
     animation-delay: 1000ms;
   }
+}
+
+/* The public portfolio keeps its own art direction. The private admin uses
+   Sortd's calm neutral design language, isolated so neither surface leaks
+   into the other. */
+.sortd-admin,
+body:has(.sortd-admin) {
+  /* This scope deliberately owns its colour system. The public portfolio has
+     a permanent dark root, so admin colours must never rely on `dark:`
+     utilities or on the document-level theme. */
+  color-scheme: light;
+  --background: 0 0% 99%;
+  --foreground: 0 0% 14%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 18%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 18%;
+  --primary: 0 0% 13%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 28%;
+  --muted: 0 0% 96.5%;
+  --muted-foreground: 0 0% 42%;
+  --accent: 0 0% 94%;
+  --accent-foreground: 0 0% 28%;
+  --destructive: 10 70% 45%;
+  --destructive-foreground: 0 0% 99%;
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --ring: 0 0% 40%;
+  --radius: .625rem;
+  --sortd-success: 152 58% 35%;
+  --sortd-success-surface: 151 46% 94%;
+  --sortd-warning: 35 91% 35%;
+  --sortd-warning-surface: 42 100% 95%;
+  --sortd-info: 204 76% 39%;
+  --sortd-info-surface: 204 80% 95%;
+}
+.sortd-admin.dark,
+body:has(.sortd-admin.dark) {
+  color-scheme: dark;
+  --background: 0 0% 12%; --foreground: 0 0% 94%; --card: 0 0% 17%;
+  --card-foreground: 0 0% 94%; --popover: 0 0% 17%; --popover-foreground: 0 0% 94%;
+  --primary: 0 0% 93%; --primary-foreground: 0 0% 14%; --secondary: 0 0% 23%;
+  --secondary-foreground: 0 0% 92%; --muted: 0 0% 23%; --muted-foreground: 0 0% 68%;
+  --accent: 0 0% 28%; --accent-foreground: 0 0% 92%; --border: 0 0% 100% / 8%;
+  --input: 0 0% 100% / 12%; --ring: 0 0% 75%;
+  --sortd-success: 151 62% 65%;
+  --sortd-success-surface: 151 28% 17%;
+  --sortd-warning: 43 96% 67%;
+  --sortd-warning-surface: 43 35% 17%;
+  --sortd-info: 202 86% 69%;
+  --sortd-info-surface: 202 31% 17%;
+}
+
+.sortd-admin,
+.sortd-admin :where(input, textarea, select) {
+  color: hsl(var(--foreground));
+}
+
+/* Admin typography is intentionally quiet and dense: a single contemporary
+   sans family, clear text colours, and a compact, predictable hierarchy. */
+.sortd-admin {
+  --sortd-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sortd-font);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+.sortd-admin :where(h1, h2, h3, h4, h5, h6, button, input, textarea, select) {
+  font-family: var(--sortd-font);
+}
+.sortd-admin :where(h1, h2, h3, h4, h5, h6) {
+  color: hsl(var(--foreground));
+  font-weight: 650;
+  letter-spacing: -.025em;
+}
+.sortd-admin :where(p, span, label, small, td, th) { color: inherit; }
+
+.sortd-admin :where(input, textarea)::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: .78;
+}
+
+.sortd-admin .sortd-status-success { color: hsl(var(--sortd-success)); background-color: hsl(var(--sortd-success-surface)); }
+.sortd-admin .sortd-status-warning { color: hsl(var(--sortd-warning)); background-color: hsl(var(--sortd-warning-surface)); }
+.sortd-admin .sortd-status-info { color: hsl(var(--sortd-info)); background-color: hsl(var(--sortd-info-surface)); }
+
+.sortd-admin .sortd-prose { color: hsl(var(--foreground)); }
+.sortd-admin .sortd-prose :where(h1, h2, h3, h4, strong, code) { color: hsl(var(--foreground)); }
+.sortd-admin .sortd-prose :where(p, li, blockquote) { color: hsl(var(--muted-foreground)); }
+
+/* Private portfolio-management pages use the same quiet hierarchy as the
+   workspace: a page is a canvas, cards are deliberate groupings, and actions
+   are compact rather than visually noisy. Data attributes keep this entirely
+   isolated from the public portfolio. */
+.sortd-admin [data-slot="card"] {
+  border-radius: .75rem;
+  border-color: hsl(var(--border));
+  box-shadow: 0 1px 2px hsl(0 0% 0% / .025), 0 10px 28px hsl(0 0% 0% / .018);
+  overflow: clip;
+}
+.sortd-admin [data-slot="card"]:has([data-slot="card-header"]) {
+  background-image: linear-gradient(to bottom, hsl(var(--card)), hsl(var(--card)));
+}
+.sortd-admin [data-slot="card-header"] {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid hsl(var(--border) / .7);
+}
+.sortd-admin [data-slot="card-title"] {
+  font-size: .9375rem;
+  line-height: 1.35;
+  letter-spacing: -.012em;
+}
+.sortd-admin [data-slot="card-content"] { padding: 1.25rem; }
+.sortd-admin [data-slot="card-header"] + [data-slot="card-content"] { padding-top: 1.15rem; }
+.sortd-admin [data-slot="input"],
+.sortd-admin [data-slot="textarea"],
+.sortd-admin [data-slot="select-trigger"] {
+  min-height: 2.5rem;
+  border-radius: .5rem;
+  border-color: hsl(var(--border));
+  background: hsl(var(--background));
+  box-shadow: none;
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.sortd-admin [data-slot="input"]:hover,
+.sortd-admin [data-slot="textarea"]:hover,
+.sortd-admin [data-slot="select-trigger"]:hover { border-color: hsl(var(--foreground) / .18); }
+.sortd-admin [data-slot="input"]:focus,
+.sortd-admin [data-slot="textarea"]:focus,
+.sortd-admin [data-slot="select-trigger"]:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / .12);
+}
+.sortd-admin .sortd-page { max-width: 1440px; margin-inline: auto; }
+.sortd-admin .sortd-page--fluid { max-width: none; }
+.sortd-admin .sortd-page-header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 1.25rem; }
+.sortd-admin .sortd-page-title { margin-top: .25rem; font-size: 1.75rem; line-height: 2rem; font-weight: 600; }
+.sortd-admin .sortd-page-description { margin-top: .5rem; max-width: 42rem; font-size: .875rem; line-height: 1.5rem; color: hsl(var(--muted-foreground)); }
+.sortd-admin .sortd-surface { overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: .75rem; background: hsl(var(--card)); }
+.sortd-admin .sortd-empty-state { padding: 2.5rem 1rem; text-align: center; }
+.sortd-admin .sortd-segmented { display: inline-flex; align-items: center; gap: .125rem; border-radius: .5rem; background: hsl(var(--muted)); padding: .1875rem; }
+.sortd-admin .sortd-segmented-item { border-radius: .3125rem; padding: .3125rem .625rem; font-size: .75rem; font-weight: 500; color: hsl(var(--muted-foreground)); transition: color .16s ease, background-color .16s ease; }
+.sortd-admin .sortd-segmented-item:hover { color: hsl(var(--foreground)); }
+.sortd-admin .sortd-segmented-item.is-active { background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: 0 1px 2px hsl(0 0% 0% / .06); }
+.sortd-admin .sortd-page-heading { letter-spacing: -.04em; }
+.sortd-admin .sortd-page-kicker { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.sortd-admin .sortd-empty { border: 1px dashed hsl(var(--border)); background: hsl(var(--muted) / .45); }
+.sortd-admin .sortd-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; border-bottom: 1px solid hsl(var(--border)); background: hsl(var(--card)); padding: .625rem; }
+.sortd-admin .sortd-item { border-color: hsl(var(--border) / .8); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+.sortd-admin .sortd-item:hover { border-color: hsl(var(--foreground) / .16); box-shadow: 0 8px 22px hsl(0 0% 0% / .05); }
+.sortd-admin [data-slot="button"] { border-radius: .5rem; font-size: .8125rem; font-weight: 550; letter-spacing: -.005em; }
+.sortd-admin [data-slot="badge"] { border-radius: .375rem; font-size: .6875rem; font-weight: 600; letter-spacing: .01em; }
+.sortd-admin [data-slot="select-content"],
+.sortd-admin [data-slot="dialog-content"] { border-radius: .75rem; border-color: hsl(var(--border)); box-shadow: 0 18px 48px hsl(0 0% 0% / .14); }
+.sortd-admin.dark [data-slot="card"] { box-shadow: 0 1px 2px hsl(0 0% 0% / .2), 0 12px 32px hsl(0 0% 0% / .15); }
+@media (max-width: 640px) {
+  .sortd-admin .sortd-page-header { align-items: flex-start; flex-direction: column; }
+  .sortd-admin .sortd-toolbar { align-items: stretch; flex-direction: column; }
 }
 
 /* For webkit browsers */

@@ -10,6 +10,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import type { Project } from "@/types";
 import { PROJECT_CATEGORY_LABELS } from "@/types";
 import { optimizeCloudinaryUrl } from "@/lib/utils";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -65,23 +66,10 @@ export default function AdminProjects() {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Projects</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage your portfolio projects
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/slantie/projects/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Project
-          </Link>
-        </Button>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Projects" description="A clear inventory of the work you want people to remember." actions={<Button asChild><Link to="/slantie/projects/new"><Plus className="h-4 w-4" />Add project</Link></Button>} />
 
-      <div className="relative">
+      <div className="sortd-toolbar relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search projects..."
@@ -104,8 +92,8 @@ export default function AdminProjects() {
           ))}
         </div>
       ) : filteredProjects.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+        <Card className="sortd-empty">
+          <CardContent className="py-14 text-center text-muted-foreground">
             {search
               ? "No projects found matching your search."
               : "No projects yet. Add your first project!"}
@@ -114,46 +102,18 @@ export default function AdminProjects() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project) => (
-            <Card key={project.id} className="overflow-hidden group">
+            <Card key={project.id} className="sortd-item overflow-hidden shadow-none">
               <div className="relative h-40">
                 <img
                   src={optimizeCloudinaryUrl(project.image, 400)}
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <Button asChild size="sm" variant="secondary">
-                    <Link to={`/slantie/projects/${project.id}`}>
-                      <Pencil className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                  {isSupabaseConfigured && (
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => setDeleteId(project.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
-                  {project.live_link && (
-                    <Button asChild size="sm" variant="secondary">
-                      <a
-                        title="View Live Project"
-                        href={project.live_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  )}
-                </div>
                 {project.featured && (
                   <Badge className="absolute top-2 right-2">Featured</Badge>
                 )}
               </div>
-              <CardContent className="pt-4">
+              <CardContent className="p-4">
                 <h3 className="font-semibold line-clamp-1">{project.title}</h3>
                 <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
                   {project.description}
@@ -169,6 +129,11 @@ export default function AdminProjects() {
                         {PROJECT_CATEGORY_LABELS[cat] || cat}
                       </Badge>
                     ))}
+                </div>
+                <div className="mt-4 flex items-center gap-2 border-t border-border pt-3">
+                  <Button asChild variant="outline" size="sm" className="h-8 flex-1"><Link to={`/slantie/projects/${project.id}`}><Pencil className="size-3.5" />Edit</Link></Button>
+                  {project.live_link && <Button asChild variant="ghost" size="icon" className="size-8"><a title="View live project" href={project.live_link} target="_blank" rel="noopener noreferrer"><ExternalLink className="size-3.5" /><span className="sr-only">View live project</span></a></Button>}
+                  {isSupabaseConfigured && <Button type="button" variant="ghost" size="icon" className="size-8 text-muted-foreground hover:text-destructive" onClick={() => setDeleteId(project.id)}><Trash2 className="size-3.5" /><span className="sr-only">Delete {project.title}</span></Button>}
                 </div>
               </CardContent>
             </Card>

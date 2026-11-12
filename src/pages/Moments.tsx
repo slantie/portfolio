@@ -33,8 +33,15 @@ const MomentsPage = () => {
     async function fetchGallery() {
       setLoading(true);
       try {
-        const data = await getGalleryImages("main");
-        setGalleryImages(data);
+        const [homeImages, mainImages, momentsImages] = await Promise.all([
+          getGalleryImages("home"),
+          getGalleryImages("main"),
+          getGalleryImages("moments"),
+        ]);
+        const uniqueImages = new Map(
+          [...homeImages, ...mainImages, ...momentsImages].map((image) => [image.id ?? image.url, image]),
+        );
+        setGalleryImages(Array.from(uniqueImages.values()));
       } catch (error) {
         console.error("Error fetching gallery:", error);
       } finally {
@@ -112,22 +119,23 @@ const MomentsPage = () => {
   const imagesByYear = useMemo(() => {
     return sortedGalleryImages.reduce(
       (acc, image, index) => {
-        if (image.date) {
-          const year = image.date.year;
-          if (!acc[year]) acc[year] = [];
-          acc[year].push({ ...image, heightFactorIndex: index });
-        }
+        const year = image.date ? String(image.date.year) : "Unsorted";
+        if (!acc[year]) acc[year] = [];
+        acc[year].push({ ...image, heightFactorIndex: index });
         return acc;
       },
-      {} as Record<number, Array<GalleryImage & { heightFactorIndex: number }>>,
+      {} as Record<string, Array<GalleryImage & { heightFactorIndex: number }>>,
     );
   }, [sortedGalleryImages]);
 
   // Sort years in descending order
   const sortedYears = useMemo(() => {
     return Object.keys(imagesByYear)
-      .map(Number)
-      .sort((a, b) => b - a);
+      .sort((a, b) => {
+        if (a === "Unsorted") return 1;
+        if (b === "Unsorted") return -1;
+        return Number(b) - Number(a);
+      });
   }, [imagesByYear]);
 
   // Distribute images in a masonry layout
@@ -163,6 +171,10 @@ const MomentsPage = () => {
     };
     index: number;
   }) => {
+    const isTallImage = /Sunset at Udaipur|You start doing random things when your solution is built in half the time, thanks to Claude/i.test(
+      image.caption,
+    );
+
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -172,13 +184,13 @@ const MomentsPage = () => {
         onClick={() => setSelectedImage(image)}
       >
         <div className="relative group">
-          <div className="relative overflow-hidden">
+          <div className={`relative overflow-hidden ${isTallImage ? "aspect-[4/5]" : ""}`}>
             <img
               src={getOptimalFormatUrl(image.url, { width: 600 })}
               alt={image.caption}
               loading="lazy"
               decoding="async"
-              className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+              className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isTallImage ? "h-full" : "h-auto"}`}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>

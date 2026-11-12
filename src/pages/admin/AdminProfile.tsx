@@ -54,6 +54,7 @@ import {
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { SKILL_CATEGORY_LABELS, type SkillCategory } from "@/types";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -439,18 +440,16 @@ export default function AdminProfile() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Profile Management</h1>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Profile" description="Keep your experience, skills, education, and leadership record current." />
 
       <Tabs defaultValue="experience" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="experience">Experience</TabsTrigger>
-          <TabsTrigger value="skills">Skills</TabsTrigger>
-          <TabsTrigger value="education">Education</TabsTrigger>
-          <TabsTrigger value="certifications">Certifications</TabsTrigger>
-          <TabsTrigger value="leadership">Leadership</TabsTrigger>
+        <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto p-1">
+          <TabsTrigger className="shrink-0" value="experience">Experience</TabsTrigger>
+          <TabsTrigger className="shrink-0" value="skills">Skills</TabsTrigger>
+          <TabsTrigger className="shrink-0" value="education">Education</TabsTrigger>
+          <TabsTrigger className="shrink-0" value="certifications">Certifications</TabsTrigger>
+          <TabsTrigger className="shrink-0" value="leadership">Leadership</TabsTrigger>
         </TabsList>
 
         {/* Experience Tab */}

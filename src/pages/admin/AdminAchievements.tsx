@@ -10,6 +10,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import type { Achievement } from "@/types";
 import { ACHIEVEMENT_CATEGORY_LABELS } from "@/types";
 import { optimizeCloudinaryUrl } from "@/lib/utils";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -80,23 +81,10 @@ export default function AdminAchievements() {
     .sort((a, b) => b - a);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Achievements</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage your awards and certificates
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/slantie/achievements/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Achievement
-          </Link>
-        </Button>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Achievements" description="Awards, milestones, and proof of the work behind your portfolio." actions={<Button asChild><Link to="/slantie/achievements/new"><Plus className="h-4 w-4" />Add achievement</Link></Button>} />
 
-      <div className="relative">
+      <div className="sortd-toolbar relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search achievements..."
@@ -121,8 +109,8 @@ export default function AdminAchievements() {
           ))}
         </div>
       ) : filteredAchievements.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+        <Card className="sortd-empty">
+          <CardContent className="py-14 text-center text-muted-foreground">
             {search
               ? "No achievements found matching your search."
               : "No achievements yet. Add your first achievement!"}
@@ -132,11 +120,11 @@ export default function AdminAchievements() {
         <div className="space-y-8">
           {sortedYears.map((year) => (
             <div key={year}>
-              <h2 className="text-xl font-bold mb-4">{year}</h2>
+              <h2 className="mb-3 text-sm font-semibold text-muted-foreground">{year}</h2>
               <div className="space-y-3">
                 {achievementsByYear[year].map((achievement) => (
-                  <Card key={achievement.id} className="group">
-                    <CardContent className="py-4 flex gap-4">
+                  <Card key={achievement.id} className="sortd-item shadow-none">
+                    <CardContent className="flex gap-4 p-4">
                       <div className="w-20 h-20 rounded overflow-hidden flex-shrink-0">
                         <img
                           src={optimizeCloudinaryUrl(achievement.image, 160)}
@@ -155,21 +143,24 @@ export default function AdminAchievements() {
                               {achievement.date.month} {achievement.date.year}
                             </p>
                           </div>
-                          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button asChild size="sm" variant="ghost">
+                          <div className="flex shrink-0 gap-1">
+                            <Button asChild size="icon" variant="ghost" className="size-8">
                               <Link
                                 to={`/slantie/achievements/${achievement.id}`}
                               >
                                 <Pencil className="h-4 w-4" />
+                                <span className="sr-only">Edit {achievement.title}</span>
                               </Link>
                             </Button>
                             {isSupabaseConfigured && (
                               <Button
-                                size="sm"
+                                size="icon"
                                 variant="ghost"
+                                className="size-8 text-muted-foreground hover:text-destructive"
                                 onClick={() => setDeleteId(achievement.id)}
                               >
-                                <Trash2 className="h-4 w-4 text-destructive" />
+                                <Trash2 className="h-4 w-4" />
+                                <span className="sr-only">Delete {achievement.title}</span>
                               </Button>
                             )}
                           </div>

@@ -32,6 +32,7 @@ import {
 } from "@/lib/api";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 
 const SETTING_GROUPS = [
   {
@@ -254,18 +255,8 @@ export default function AdminSettings() {
 
   if (!isSupabaseConfigured) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Settings className="h-6 w-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">Settings</h1>
-            <p className="text-sm text-muted-foreground">
-              Configure your portfolio
-            </p>
-          </div>
-        </div>
+      <div className="sortd-page space-y-7">
+        <AdminPageHeader title="Settings" description="Fine-tune the public details of your portfolio." />
         <Card className="border-yellow-500/50 bg-yellow-500/5">
           <CardContent className="pt-6">
             <div className="text-center py-8">
@@ -285,26 +276,8 @@ export default function AdminSettings() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Settings className="h-6 w-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold">Settings</h1>
-            <p className="text-sm text-muted-foreground">
-              Configure your portfolio content
-            </p>
-          </div>
-        </div>
-        {hasDirtyFields && (
-          <Button onClick={handleSaveAll} className="shrink-0">
-            <Save className="h-4 w-4 mr-2" />
-            Save All ({dirtyCount})
-          </Button>
-        )}
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Settings" description="Fine-tune the public details of your portfolio." actions={hasDirtyFields ? <Button onClick={handleSaveAll}><Save className="h-4 w-4" />Save changes <span className="text-primary-foreground/70">({dirtyCount})</span></Button> : undefined} />
 
       {loading ? (
         <Card>
@@ -316,12 +289,12 @@ export default function AdminSettings() {
         </Card>
       ) : (
         <Tabs defaultValue="hero" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 h-auto gap-1 p-1">
+          <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto p-1">
             {SETTING_GROUPS.map((group) => (
               <TabsTrigger
                 key={group.title.toLowerCase().replace(" ", "-")}
                 value={group.title.toLowerCase().replace(" ", "-")}
-                className="flex items-center gap-2 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="flex shrink-0 items-center gap-2 py-2"
               >
                 {getGroupIcon(group.icon)}
                 <span className="hidden sm:inline">{group.title}</span>

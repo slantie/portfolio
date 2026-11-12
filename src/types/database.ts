@@ -458,6 +458,96 @@ export interface Database {
           updated_at?: string;
         };
       };
+      workspace_tasks: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          notes: string | null;
+          status: "TODO" | "DOING" | "DONE";
+          priority: "LOW" | "MEDIUM" | "HIGH";
+          tags: string[];
+          due_at: string | null;
+          email_enabled: boolean;
+          due_email_sent_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          title: string;
+          notes?: string | null;
+          status?: "TODO" | "DOING" | "DONE";
+          priority?: "LOW" | "MEDIUM" | "HIGH";
+          tags?: string[];
+          due_at?: string | null;
+          email_enabled?: boolean;
+          due_email_sent_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          title?: string;
+          notes?: string | null;
+          status?: "TODO" | "DOING" | "DONE";
+          priority?: "LOW" | "MEDIUM" | "HIGH";
+          tags?: string[];
+          due_at?: string | null;
+          email_enabled?: boolean;
+          due_email_sent_at?: string | null;
+          updated_at?: string;
+        };
+      };
+      workspace_reminders: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          notes: string | null;
+          remind_at: string;
+          email_enabled: boolean;
+          sent_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          title: string;
+          notes?: string | null;
+          remind_at: string;
+          email_enabled?: boolean;
+          sent_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          title?: string;
+          notes?: string | null;
+          remind_at?: string;
+          email_enabled?: boolean;
+          sent_at?: string | null;
+        };
+      };
+      workspace_courses: {
+        Row: { id: string; user_id: string; code: string; title: string; instructor: string | null; color: string; created_at: string; };
+        Insert: { id?: string; user_id?: string; code: string; title: string; instructor?: string | null; color?: string; created_at?: string; };
+        Update: { code?: string; title?: string; instructor?: string | null; color?: string; };
+      };
+      workspace_topics: {
+        Row: { id: string; user_id: string; course_id: string; text: string; unit: string | null; sort_order: number; covered: boolean; covered_at: string | null; done: boolean; done_at: string | null; created_at: string; };
+        Insert: { id?: string; user_id?: string; course_id: string; text: string; unit?: string | null; sort_order?: number; covered?: boolean; covered_at?: string | null; done?: boolean; done_at?: string | null; created_at?: string; };
+        Update: { text?: string; unit?: string | null; sort_order?: number; covered?: boolean; covered_at?: string | null; done?: boolean; done_at?: string | null; };
+      };
+      workspace_materials: {
+        Row: { id: string; user_id: string; course_id: string; title: string; kind: "PROFESSOR" | "SENIOR" | "PERSONAL" | "REFERENCE"; original_name: string | null; content_type: string | null; size_bytes: number | null; storage_path: string | null; raw_text: string | null; created_at: string; updated_at: string; };
+        Insert: { id?: string; user_id?: string; course_id: string; title: string; kind?: "PROFESSOR" | "SENIOR" | "PERSONAL" | "REFERENCE"; original_name?: string | null; content_type?: string | null; size_bytes?: number | null; storage_path?: string | null; raw_text?: string | null; created_at?: string; updated_at?: string; };
+        Update: { course_id?: string; title?: string; kind?: "PROFESSOR" | "SENIOR" | "PERSONAL" | "REFERENCE"; raw_text?: string | null; updated_at?: string; };
+      };
+      workspace_files: {
+        Row: { id: string; user_id: string; title: string; original_name: string; content_type: string | null; size_bytes: number | null; storage_path: string; created_at: string; updated_at: string; };
+        Insert: { id?: string; user_id?: string; title: string; original_name: string; content_type?: string | null; size_bytes?: number | null; storage_path: string; created_at?: string; updated_at?: string; };
+        Update: { title?: string; updated_at?: string; };
+      };
     };
     Views: {
       [_ in never]: never;

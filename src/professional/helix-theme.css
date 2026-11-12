@@ -25,6 +25,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
+@font-face {
+  font-family: "Nazm Serif";
+  src: url("/fonts/st-nazm-variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+}
+
 /* =================================================================
  * LAYER 1 · PRIMITIVES
  * ================================================================= */
@@ -467,7 +475,7 @@
 
 :root {
   --font-sans:    'Geist', ui-sans-serif, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
-  --font-display: 'Source Serif 4', 'Source Serif Pro', Georgia, 'Iowan Old Style', serif;
+  --font-display: 'Nazm Serif', 'Source Serif 4', 'Source Serif Pro', Georgia, 'Iowan Old Style', serif;
   --font-mono:    'Geist Mono', ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
 
   --text-2xs:  11px; --text-xs:   12px; --text-sm:   13px; --text-base: 14px;

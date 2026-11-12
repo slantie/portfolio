@@ -4,6 +4,7 @@
  */
 
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { getProjectGithubFallback } from "@/lib/project-links";
 import type { ProjectRow, AchievementRow, GalleryImageRow } from "@/types/database";
 import type { Project, Achievement, GalleryImage, ProjectCategory, AchievementType } from "@/types";
 import {
@@ -35,7 +36,8 @@ function transformProject(row: ProjectRow): Project {
     images: row.images ?? undefined,
     tags: row.tags,
     link: row.link ?? undefined,
-    github_link: row.github_link ?? undefined,
+    github_link:
+      row.github_link ?? getProjectGithubFallback(row.title) ?? undefined,
     live_link: row.live_link ?? undefined,
     featured: row.featured,
     is_featured: row.is_featured,
@@ -249,7 +251,7 @@ export async function getAchievementsByType(type: AchievementType): Promise<Achi
 
 // ============ Gallery API ============
 
-export async function getGalleryImages(category: "home" | "main" = "home"): Promise<GalleryImage[]> {
+export async function getGalleryImages(category: "home" | "main" | "moments" = "home"): Promise<GalleryImage[]> {
   if (!isSupabaseConfigured || !supabase) {
     const images = category === "home" ? staticGalleryImages : staticMainGalleryImages;
     return images.map((img, i) => ({
@@ -1710,4 +1712,3 @@ export async function deleteBlog(id: string): Promise<boolean> {
     return false;
   }
 }
-

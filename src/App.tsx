@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 
 import ProfessionalPortfolioPage from "./pages/ProfessionalPortfolioPage";
+import { PortfolioStudyPage } from "./pages/PortfolioStudies";
+import SignalPortfolioPage from "./pages/SignalPortfolioPage";
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import AchievementsPage from "./pages/AchievementsPage";
@@ -32,6 +34,8 @@ import AchievementForm from "./pages/admin/AchievementForm";
 import GalleryForm from "./pages/admin/GalleryForm";
 import BlogForm from "./pages/admin/BlogForm";
 import DataMigration from "./pages/admin/DataMigration";
+import WorkspacePage from "./pages/admin/WorkspacePage";
+import AcademicWorkspacePage from "./pages/admin/AcademicWorkspacePage";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +49,10 @@ const App = () => (
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<ProfessionalPortfolioPage />} />
+            <Route path="/test-1" element={<PortfolioStudyPage study={1} />} />
+            <Route path="/test-2" element={<PortfolioStudyPage study={2} />} />
+            <Route path="/test-3" element={<PortfolioStudyPage study={3} />} />
+            <Route path="/test-4" element={<SignalPortfolioPage />} />
             <Route path="/classic" element={<HomePage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
@@ -73,6 +81,12 @@ const App = () => (
               <Route path="messages" element={<AdminMessages />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="migrate" element={<DataMigration />} />
+              <Route path="workspace" element={<WorkspacePage />} />
+              <Route path="workspace/calendar" element={<AcademicWorkspacePage mode="calendar" />} />
+              <Route path="workspace/coursework" element={<AcademicWorkspacePage mode="coursework" />} />
+              <Route path="workspace/materials" element={<AcademicWorkspacePage mode="materials" />} />
+              <Route path="workspace/files" element={<AcademicWorkspacePage mode="files" />} />
+              <Route path="workspace/leetcode" element={<AcademicWorkspacePage mode="leetcode" />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

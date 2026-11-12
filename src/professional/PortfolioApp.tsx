@@ -2,6 +2,7 @@
 
 import React from "react";
 import { createClient } from "@supabase/supabase-js";
+import { getProjectGithubFallback } from "@/lib/project-links";
 import "./helix-theme.css";
 import "./portfolio.css";
 import { useTweaks, TweaksPanel } from "./TweaksPanel";
@@ -130,6 +131,7 @@ const SKILL_ICON_KEYS: Record<string, string> = {
   Docker: "docker",
   Kubernetes: "kubernetes",
   Postgres: "postgres",
+  PostgreSQL: "postgres",
   MySQL: "mysql",
   MongoDB: "mongodb",
 };
@@ -141,13 +143,16 @@ function SkillIcons({
   items: string[];
   wrapRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const iconKeys = items.map((s) => SKILL_ICON_KEYS[s]).filter(Boolean);
-  const textOnly = items.filter((s) => !SKILL_ICON_KEYS[s]);
+  const uniqueItems = Array.from(new Set(items));
+  const iconKeys = Array.from(
+    new Set(uniqueItems.map((item) => SKILL_ICON_KEYS[item]).filter(Boolean)),
+  );
+  const textOnly = uniqueItems.filter((item) => !SKILL_ICON_KEYS[item]);
   const theme = wrapRef.current?.dataset.theme === "light" ? "light" : "dark";
-  const iconUrl =
-    iconKeys.length > 0
-      ? `https://skillicons.dev/icons?i=${iconKeys.join(",")}&theme=${theme}&perline=10`
-      : null;
+  const iconUrl = iconKeys.length
+    ? `https://skillicons.dev/icons?i=${iconKeys.join(",")}&theme=${theme}&perline=10`
+    : null;
+
   return (
     <div className="skill-icons">
       {iconUrl && <img src={iconUrl} alt={iconKeys.join(", ")} />}
@@ -161,17 +166,23 @@ function SkillIcons({
 // ─── data loading from supabase ───────────────────────────────────────────────
 
 function transformProject(p: any) {
+  const githubFallback = getProjectGithubFallback(p.title || "");
+  const defaultBadge =
+    p.achievements && p.achievements.length > 0
+      ? p.achievements[0]
+      : undefined;
+
   return {
     year: String(p.start_year || ""),
     title: p.title || "",
     org: [p.event, p.role].filter(Boolean).join(" · "),
-    detail: p.long_description || p.description || "",
+    detail: p.description || p.long_description || "",
     stack: p.tags || [],
-    badge:
-      p.achievements && p.achievements.length > 0
-        ? p.achievements[0]
-        : undefined,
-    href: p.live_link || p.github_link || p.link || undefined,
+    image: p.image || null,
+    badge: /reflectify/i.test(p.title || "")
+      ? "Deployed · CE Dept."
+      : defaultBadge,
+    href: p.live_link || p.github_link || p.link || githubFallback,
   };
 }
 
@@ -257,10 +268,28 @@ export async function loadPortfolioData() {
 
     // Projects
     const allProj = projRes.data || [];
-    const rawHighlights = allProj.filter(
-      (p: any) => p.featured || p.is_featured,
-    );
-    const rawMore = allProj.filter((p: any) => !p.featured && !p.is_featured);
+    const preferredProjectOrder = [
+      "Drishtiksha",
+      "Entropy",
+      "Learnova",
+      "Reflectify",
+    ];
+    const preferredProjects = preferredProjectOrder
+      .map((name) =>
+        allProj.find((project: any) =>
+          String(project.title || "").includes(name),
+        ),
+      )
+      .filter(Boolean);
+    const preferredIds = new Set(preferredProjects.map((project: any) => project.id));
+    const rawHighlights =
+      preferredProjects.length > 0
+        ? preferredProjects
+        : allProj.filter((p: any) => p.featured || p.is_featured);
+    const rawMore =
+      preferredProjects.length > 0
+        ? allProj.filter((project: any) => !preferredIds.has(project.id))
+        : allProj.filter((p: any) => !p.featured && !p.is_featured);
     const highlights =
       rawHighlights.length > 0 ? rawHighlights.map(transformProject) : [];
     const moreProjects =
@@ -276,6 +305,7 @@ export async function loadPortfolioData() {
             venue: a.organization || "",
             when: String(a.date_year || ""),
             detail: a.description || "",
+            href: a.link || undefined,
             status:
               a.tags && a.tags.length > 0
                 ? a.tags[0]
@@ -305,7 +335,6 @@ export async function loadPortfolioData() {
       "ai-ml": "ML / DL",
       tools: "Tools",
       cloud: "Platforms",
-      other: "Domains",
     };
     const CAT_ORDER = [
       "programming",
@@ -313,12 +342,27 @@ export async function loadPortfolioData() {
       "ai-ml",
       "tools",
       "cloud",
-      "other",
     ];
+    const hiddenSkills = new Set([
+      "Azure",
+      "Django",
+      "GitHub Actions",
+      "Grafana",
+      "K8",
+      "K8s",
+      "Kubernetes",
+      "Prometheus",
+      "Redis",
+    ].map((skill) => skill.toLowerCase()));
     const skillsData = skillsRes.data || [];
     const skillsGrouped: Record<string, string[]> = {};
     skillsData.forEach((s: any) => {
       const cat = s.category || "other";
+      if (
+        cat === "other" ||
+        hiddenSkills.has(String(s.name || "").toLowerCase())
+      )
+        return;
       if (!skillsGrouped[cat]) skillsGrouped[cat] = [];
       skillsGrouped[cat].push(s.name);
     });
@@ -372,6 +416,10 @@ function SectionHead({ n, label }: { n: number; label: string }) {
 }
 
 function Aside({ bio, stats }: { bio: any; stats: any[] }) {
+  const professionalRole = /M\.Tech\. ICT Student/i.test(bio.role || "")
+    ? "Applied ML Researcher · Software Engineer · Technical Leader"
+    : String(bio.role || "").replace(/\s*\|\s*/g, " · ");
+
   return (
     <aside className="aside">
       <div className="aside-inner">
@@ -379,7 +427,7 @@ function Aside({ bio, stats }: { bio: any; stats: any[] }) {
           <img src={bio.photo} alt={bio.name} className="profile-pic" />
         )}
         <h1 className="name">{bio.name}</h1>
-        <p className="role">{bio.role}</p>
+        <p className="role">{professionalRole}</p>
         <p className="blurb">{bio.blurb}</p>
 
         <dl className="stats">
@@ -479,8 +527,26 @@ function Aside({ bio, stats }: { bio: any; stats: any[] }) {
 }
 
 function ProjectCard({ p, i }: { p: any; i: number }) {
+  const projectImage = p.image ? (
+    <img src={p.image} alt={`${p.title} preview`} loading="lazy" />
+  ) : null;
+
   return (
     <li className="proj" key={p.title + i}>
+      {projectImage && p.href ? (
+        <a
+          className="proj-media"
+          href={p.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Preview ${p.title}`}
+        >
+          {projectImage}
+          <span aria-hidden="true">↗</span>
+        </a>
+      ) : projectImage ? (
+        <div className="proj-media">{projectImage}</div>
+      ) : null}
       <div className="proj-meta">
         <span className="proj-year">{p.year}</span>
         {p.badge ? <span className="proj-badge">{p.badge}</span> : null}
@@ -580,13 +646,31 @@ function Main({
   achievements: Record<string, string[]>;
   wrapRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const universityEducation = education.filter(
+    (item) => !/class\s*(10|12)/i.test(item.degree || ""),
+  );
+  const achievementPattern =
+    /AWS Certified Machine Learning|InnovAItion|Odoo\s*×\s*GVP|GATE (DA|CSE) 2026|CodeVita|EcoSmart.*Grant|State Level Poster|Smart India Hackathon|Bharatiya Antariksh|SSIP 2023 Winner|Best Emerging Student Branch/i;
+  const achievementEntries = Object.entries(achievements)
+    .sort((a, b) => Number(b[0]) - Number(a[0]))
+    .map(([year, items]) => ({
+      year,
+      items: items.filter((item) => achievementPattern.test(item)),
+    }))
+    .filter(({ items }) => items.length > 0);
+  const latestAchievementYear = achievementEntries[0]?.year;
+
   return (
     <main className="main">
       <section className="block" data-screen-label="01 Professional Experience">
         <SectionHead n={1} label="Professional Experience" />
         <ul className="xp-list">
           {experience.map((x) => (
-            <li className="xp" key={x.role + x.when}>
+            <li
+              className="xp"
+              data-active={x.tag ? "true" : undefined}
+              key={x.role + x.when}
+            >
               <div className="xp-when">
                 {x.when}
                 {x.tag ? <span className="xp-tag">{x.tag}</span> : null}
@@ -631,7 +715,20 @@ function Main({
                 <span className="xp-tag">{r.status}</span>
               </div>
               <div className="xp-body">
-                <div className="xp-role">{r.title}</div>
+                {r.href ? (
+                  <a
+                    className="xp-role xp-role-link"
+                    href={r.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Read ${r.title}`}
+                  >
+                    <span>{r.title}</span>
+                    <span className="xp-role-arrow" aria-hidden="true">↗</span>
+                  </a>
+                ) : (
+                  <div className="xp-role">{r.title}</div>
+                )}
                 <div className="xp-org">{r.venue}</div>
                 <p className="xp-detail">{r.detail}</p>
               </div>
@@ -643,7 +740,7 @@ function Main({
       <section className="block" data-screen-label="05 Education">
         <SectionHead n={5} label="Education" />
         <ul className="edu-list">
-          {education.map((e) => (
+          {universityEducation.map((e) => (
             <li className="edu" key={e.degree}>
               <div className="edu-when">{e.when}</div>
               <div>
@@ -672,17 +769,21 @@ function Main({
 
       <section className="block" data-screen-label="07 Achievements">
         <SectionHead n={7} label="Achievements & certifications" />
-        {Object.entries(achievements)
-          .sort((a, b) => Number(b[0]) - Number(a[0]))
-          .map(([year, items]) => (
-            <div className="ach-year" key={year}>
-              <div className="ach-y">{year}</div>
+        {achievementEntries.map(({ year, items }) => (
+            <details className="ach-year" key={year} open={year === latestAchievementYear}>
+              <summary className="ach-summary">
+                <span className="ach-y">{year}</span>
+                <span className="ach-count">
+                  {items.length} selected {items.length === 1 ? "milestone" : "milestones"}
+                  <span className="ach-chevron" aria-hidden="true">↓</span>
+                </span>
+              </summary>
               <ul className="ach-list">
                 {items.map((it) => (
                   <li key={it}>{it}</li>
                 ))}
               </ul>
-            </div>
+            </details>
           ))}
       </section>
 
@@ -715,10 +816,29 @@ function Main({
   );
 }
 
+function PortfolioFooter({ bio }: { bio: any }) {
+  return (
+    <footer className="portfolio-footer">
+      <div>
+        <span>© 2026 {bio.name}</span>
+        <span className="portfolio-footer-dot">·</span>
+        <span>Last updated 2026</span>
+      </div>
+      <nav aria-label="Portfolio links">
+        <a href={`mailto:${bio.email}`}>Email</a>
+        {bio.github && <a href={bio.github} target="_blank" rel="noreferrer">GitHub</a>}
+        {bio.linkedin && <a href={bio.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>}
+        {bio.resume && <a href={bio.resume} target="_blank" rel="noreferrer">Résumé</a>}
+      </nav>
+    </footer>
+  );
+}
+
 export default function PortfolioApp() {
   const wrapRef = React.useRef<HTMLDivElement>(null);
   const [portfolio, setPortfolio] = React.useState<any>(null);
   const [t, setTweak] = useTweaks();
+  const showTweaks = new URLSearchParams(window.location.search).has("tweaks");
 
   React.useEffect(() => {
     loadPortfolioData().then((data) => {
@@ -792,7 +912,9 @@ export default function PortfolioApp() {
         />
       </div>
 
-      <TweaksPanel tweaks={t} setTweak={setTweak} />
+      <PortfolioFooter bio={portfolio.bio} />
+
+      {showTweaks && <TweaksPanel tweaks={t} setTweak={setTweak} />}
     </div>
   );
 }

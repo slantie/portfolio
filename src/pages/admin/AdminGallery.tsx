@@ -8,6 +8,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import type { GalleryImage } from "@/types";
 import { optimizeCloudinaryUrl } from "@/lib/utils";
 import { ResponsiveTabs, TabItem } from "@/components/ui/underline-tabs";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,7 @@ import {
 const galleryTabs: TabItem[] = [
   { value: "home", label: "Home Gallery" },
   { value: "main", label: "Main Gallery" },
+  { value: "moments", label: "Moments" },
 ];
 
 export default function AdminGallery() {
@@ -38,7 +40,7 @@ export default function AdminGallery() {
   async function fetchImages() {
     setLoading(true);
     try {
-      const data = await getGalleryImages(activeTab as "home" | "main");
+      const data = await getGalleryImages(activeTab as "home" | "main" | "moments");
       setImages(data);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -62,21 +64,8 @@ export default function AdminGallery() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Gallery</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage your portfolio images
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/slantie/gallery/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Upload Image
-          </Link>
-        </Button>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Gallery" description="A deliberate collection of images across your public portfolio." actions={<Button asChild><Link to="/slantie/gallery/new"><Plus className="h-4 w-4" />Upload image</Link></Button>} />
 
       <ResponsiveTabs
         tabs={galleryTabs}
@@ -94,38 +83,23 @@ export default function AdminGallery() {
           ))}
         </div>
       ) : images.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+        <Card className="sortd-empty">
+          <CardContent className="py-14 text-center text-muted-foreground">
             No images in this gallery yet. Upload your first image!
           </CardContent>
         </Card>
       ) : (
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {images.map((image) => (
-            <div key={image.id} className="relative group aspect-square">
+            <div key={image.id} className="sortd-item relative aspect-square overflow-hidden rounded-xl border bg-card">
               <img
                 src={optimizeCloudinaryUrl(image.url, 400)}
                 alt={image.caption}
-                className="w-full h-full object-cover rounded"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded flex flex-col items-center justify-center p-2">
-                <p className="text-white text-sm text-center line-clamp-2 mb-3">
-                  {image.caption}
-                </p>
-                {image.date && (
-                  <p className="text-white/70 text-xs mb-3">
-                    {image.date.month} {image.date.year}
-                  </p>
-                )}
-                {isSupabaseConfigured && (
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => setDeleteId(image.id!)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-black/75 via-black/40 to-transparent p-3 pt-10 text-white">
+                <div className="min-w-0"><p className="truncate text-sm font-medium">{image.caption}</p>{image.date && <p className="mt-0.5 text-xs text-white/75">{image.date.month} {image.date.year}</p>}</div>
+                {isSupabaseConfigured && <Button type="button" size="icon" variant="secondary" className="size-8 shrink-0 bg-white/90 text-black hover:bg-white" onClick={() => setDeleteId(image.id!)}><Trash2 className="size-3.5" /><span className="sr-only">Delete {image.caption}</span></Button>}
               </div>
             </div>
           ))}

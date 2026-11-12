@@ -36,6 +36,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 
 export default function AdminMessages() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
@@ -131,38 +132,11 @@ export default function AdminMessages() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Mail className="h-6 w-6 text-primary" />
-            </div>
-            Inbox
-            {unreadCount > 0 && (
-              <Badge variant="destructive" className="text-sm">
-                {unreadCount} new
-              </Badge>
-            )}
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm sm:text-base">
-            Messages from your contact form, slantie!
-          </p>
-        </div>
-        {unreadCount > 0 && (
-          <Button
-            variant="outline"
-            onClick={handleMarkAllAsRead}
-            className="shrink-0"
-          >
-            <CheckCheck className="h-4 w-4 mr-2" />
-            Mark All Read
-          </Button>
-        )}
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Inbox" description={unreadCount ? `${unreadCount} unread conversation${unreadCount === 1 ? "" : "s"} from your portfolio.` : "Messages from people who found their way to your portfolio."} actions={unreadCount > 0 ? <Button variant="outline" onClick={handleMarkAllAsRead}><CheckCheck className="h-4 w-4" />Mark all read</Button> : undefined} />
 
       {messages.length === 0 ? (
-        <Card>
+        <Card className="shadow-none">
           <CardContent className="flex flex-col items-center justify-center py-16">
             <Inbox className="h-16 w-16 text-muted-foreground mb-4" />
             <h3 className="text-xl font-semibold mb-2">No messages yet</h3>
@@ -173,9 +147,9 @@ export default function AdminMessages() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)]">
           {/* Message List */}
-          <Card className="lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
+          <Card className="shadow-none lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
             <CardHeader>
               <CardTitle>All Messages ({messages.length})</CardTitle>
             </CardHeader>
@@ -234,7 +208,7 @@ export default function AdminMessages() {
           </Card>
 
           {/* Message Detail */}
-          <Card className="lg:sticky lg:top-4 lg:h-fit">
+          <Card className="shadow-none lg:sticky lg:top-4 lg:h-fit">
             {selectedMessage ? (
               <>
                 <CardHeader className="pb-4">

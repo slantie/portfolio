@@ -4,12 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, ImagePlus, Save } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { createGalleryImage } from "@/lib/api";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import type { GalleryImage } from "@/types";
 import { MONTHS_ORDER } from "@/types";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   Select,
   SelectContent,
@@ -24,6 +25,7 @@ const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
 export default function GalleryForm() {
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<GalleryImage>>({
     url: "",
     caption: "",
@@ -44,8 +46,9 @@ export default function GalleryForm() {
     }
 
     setSaving(true);
+    setSaveError(null);
     try {
-      await createGalleryImage(
+      const saved = await createGalleryImage(
         {
           url: formData.url!,
           caption: formData.caption!,
@@ -53,29 +56,25 @@ export default function GalleryForm() {
         },
         category,
       );
+      if (!saved) {
+        throw new Error(
+          "The image uploaded, but its gallery record could not be saved. Please try again while Supabase is online.",
+        );
+      }
       navigate("/slantie/gallery");
     } catch (error) {
       console.error("Error saving image:", error);
+      setSaveError(error instanceof Error ? error.message : "Could not save this image to the gallery.");
     } finally {
       setSaving(false);
     }
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate("/slantie/gallery")}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
-        <h1 className="text-3xl font-bold">Upload Image</h1>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader eyebrow="Portfolio / Gallery" title="Upload image" description="Add a considered visual to the right public gallery." onBack={() => navigate("/slantie/gallery")} />
 
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
         <Card>
           <CardHeader>
             <CardTitle>Image Details</CardTitle>
@@ -194,6 +193,8 @@ export default function GalleryForm() {
             Cancel
           </Button>
         </div>
+
+        {saveError && <p className="text-sm text-destructive">{saveError}</p>}
 
         {!isSupabaseConfigured && (
           <p className="text-sm text-muted-foreground">

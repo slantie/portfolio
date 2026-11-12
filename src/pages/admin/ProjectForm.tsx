@@ -7,12 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Save, Plus, X } from "lucide-react";
+import { Save, Plus, X } from "lucide-react";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { getProjectById, createProject, updateProject } from "@/lib/api";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import type { Project, ProjectCategory } from "@/types";
 import { PROJECT_CATEGORY_LABELS, MONTHS_ORDER } from "@/types";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   Select,
   SelectContent,
@@ -139,7 +140,7 @@ export default function ProjectForm() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="sortd-page space-y-7">
         <div className="h-8 bg-muted rounded w-48 animate-pulse" />
         <Card className="animate-pulse">
           <CardContent className="py-6 space-y-4">
@@ -153,20 +154,8 @@ export default function ProjectForm() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate("/slantie/projects")}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
-        <h1 className="text-3xl font-bold">
-          {isEditing ? "Edit Project" : "New Project"}
-        </h1>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader eyebrow="Portfolio / Projects" title={isEditing ? "Edit project" : "New project"} description="Keep the story, links, and details of this project in one focused place." onBack={() => navigate("/slantie/projects")} />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>

@@ -38,6 +38,7 @@ import {
 import { getBlogs, deleteBlog, updateBlog } from "@/lib/api";
 import type { Blog } from "@/types";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 
 export default function AdminBlogs() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -124,7 +125,7 @@ export default function AdminBlogs() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="sortd-page space-y-7">
         <div className="flex items-center justify-between">
           <div className="h-8 bg-muted rounded w-48 animate-pulse" />
           <div className="h-10 bg-muted rounded w-32 animate-pulse" />
@@ -145,28 +146,11 @@ export default function AdminBlogs() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
-            <FileText className="h-6 w-6" />
-            Blog Posts
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            {blogs.length} post{blogs.length !== 1 ? "s" : ""} total
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/slantie/blogs/new">
-            <Plus className="h-4 w-4 mr-2" />
-            New Post
-          </Link>
-        </Button>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader title="Writing" description={`${blogs.length} post${blogs.length !== 1 ? "s" : ""} in your portfolio library.`} actions={<Button asChild><Link to="/slantie/blogs/new"><Plus className="h-4 w-4" />New post</Link></Button>} />
 
       {/* Filters */}
-      <Card>
+      <Card className="sortd-toolbar">
         <CardContent className="py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
@@ -200,7 +184,7 @@ export default function AdminBlogs() {
 
       {/* Content */}
       {filteredBlogs.length === 0 ? (
-        <Card>
+        <Card className="sortd-empty">
           <CardContent className="py-16 text-center">
             <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">No posts found</h3>
@@ -220,7 +204,7 @@ export default function AdminBlogs() {
       ) : viewMode === "grid" ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredBlogs.map((blog) => (
-            <Card key={blog.id} className="overflow-hidden group">
+            <Card key={blog.id} className="sortd-item overflow-hidden shadow-none">
               <div className="relative aspect-video bg-muted">
                 {blog.cover_image && (
                   <img
@@ -229,18 +213,6 @@ export default function AdminBlogs() {
                     className="w-full h-full object-cover"
                   />
                 )}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <Button size="sm" variant="secondary" asChild>
-                    <Link to={`/slantie/blogs/${blog.id}`}>
-                      <Edit className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="sm" variant="secondary" asChild>
-                    <Link to={`/blog/${blog.slug}`} target="_blank">
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
                 {blog.featured && (
                   <Badge className="absolute top-2 left-2 gap-1">
                     <Sparkles className="h-3 w-3" />
@@ -266,6 +238,11 @@ export default function AdminBlogs() {
                       {blog.published ? "Live" : "Draft"}
                     </span>
                   </div>
+                </div>
+                <div className="mt-3 flex items-center gap-2 border-t border-border pt-3">
+                  <Button asChild variant="outline" size="sm" className="h-8 flex-1"><Link to={`/slantie/blogs/${blog.id}`}><Edit className="size-3.5" />Edit post</Link></Button>
+                  <Button asChild variant="ghost" size="icon" className="size-8"><Link to={`/blog/${blog.slug}`} target="_blank"><ExternalLink className="size-3.5" /><span className="sr-only">Open {blog.title}</span></Link></Button>
+                  <Button type="button" variant="ghost" size="icon" className="size-8 text-muted-foreground hover:text-destructive" onClick={() => setDeleteId(blog.id)}><Trash2 className="size-3.5" /><span className="sr-only">Delete {blog.title}</span></Button>
                 </div>
               </CardContent>
             </Card>

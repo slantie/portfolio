@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Save, Plus, X } from "lucide-react";
+import { Save, Plus, X } from "lucide-react";
 import {
   getAchievements,
   createAchievement,
@@ -14,6 +14,7 @@ import {
 import { isSupabaseConfigured } from "@/lib/supabase";
 import type { Achievement, AchievementType } from "@/types";
 import { ACHIEVEMENT_CATEGORY_LABELS, MONTHS_ORDER } from "@/types";
+import { AdminPageHeader } from "@/components/admin/admin-page";
 import {
   Select,
   SelectContent,
@@ -107,7 +108,7 @@ export default function AchievementForm() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="sortd-page space-y-7">
         <div className="h-8 bg-muted rounded w-48 animate-pulse" />
         <Card className="animate-pulse">
           <CardContent className="py-6 space-y-4">
@@ -121,20 +122,8 @@ export default function AchievementForm() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate("/slantie/achievements")}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
-        <h1 className="text-3xl font-bold">
-          {isEditing ? "Edit Achievement" : "New Achievement"}
-        </h1>
-      </div>
+    <div className="sortd-page space-y-7">
+      <AdminPageHeader eyebrow="Portfolio / Achievements" title={isEditing ? "Edit achievement" : "New achievement"} description="Record the work and context behind an important milestone." onBack={() => navigate("/slantie/achievements")} />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>

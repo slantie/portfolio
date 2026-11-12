@@ -1,6 +1,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export interface TabItem {
   value: string;
@@ -71,40 +72,7 @@ export function UnderlineTabsDropdown({
   placeholder = "Select category",
   className,
 }: UnderlineTabsDropdownProps) {
-  return (
-    <div className={cn("relative w-full", className)}>
-      <label htmlFor="tabs-select" className="sr-only">
-        {placeholder}
-      </label>
-      <select
-        id="tabs-select"
-        value={activeTab}
-        onChange={(e) => onTabChange(e.target.value)}
-        className="w-full appearance-none bg-card border border-border rounded-sm px-4 py-3 text-sm font-medium text-foreground focus:outline-none focus:border-foreground/50"
-      >
-        {tabs.map((tab) => (
-          <option key={tab.value} value={tab.value}>
-            {tab.label}
-          </option>
-        ))}
-      </select>
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-        <svg
-          className="w-4 h-4 text-muted-foreground"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </div>
-    </div>
-  );
+  return <Select value={activeTab} onValueChange={onTabChange}><SelectTrigger aria-label={placeholder} className={cn("w-full bg-card", className)}><SelectValue placeholder={placeholder} /></SelectTrigger><SelectContent>{tabs.map((tab) => <SelectItem key={tab.value} value={tab.value}>{tab.label}</SelectItem>)}</SelectContent></Select>;
 }
 
 // Combined responsive tabs component
